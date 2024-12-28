@@ -40,7 +40,7 @@ export default function DataTable({ data, columns }) {
     });
 
 return (
-    <div className="w-full bg-violet-950/10 border text-violet-100 rounded-lg p-3 shadow-lg">
+    <div className="w-full bg-teal-950/10 border text-teal-100 rounded-lg p-3 shadow-lg">
         {/* Global Search */}
         <div className="mb-4">
             <Input
@@ -53,11 +53,11 @@ return (
         </div>
 
         {/* Table Wrapper */}
-        <div className="hidden md:block relative rounded-md border border-violet-800/20">
+        <div className="hidden md:block relative rounded-md border border-teal-800/20">
             <ScrollArea className=" h-[calc(100vh-300px)] rounded-md">
                 <div className="min-w-full inline-block align-middle">
                     <table className="min-w-full divide-y">
-                        <thead className="bg-violet-950/90 sticky top-0 z-10">
+                        <thead className="bg-teal-950/90 sticky top-0 z-10">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => {
@@ -71,7 +71,7 @@ return (
                                                         ? header.column.toggleSorting()
                                                         : undefined
                                                 }
-                                                className="px-4 py-3 text-left text-xs font-semibold text-violet-200 uppercase tracking-wider cursor-pointer"
+                                                className="px-4 py-3 text-left text-xs font-semibold text-teal-200 uppercase tracking-wider cursor-pointer"
                                                 style={{ width }}
                                             >
                                                 <div className="flex items-center gap-2">
@@ -104,16 +104,16 @@ return (
                                 </tr>
                             ))}
                         </thead>
-                        <tbody className="divide-y bg-violet-950/10">
+                        <tbody className="divide-y bg-black/40">
                             {table.getRowModel().rows.map((row) => (
-                                <tr key={row.id} className="hover:bg-violet-800/10">
+                                <tr key={row.id} className="hover:bg-teal-800/10">
                                     {row.getVisibleCells().map((cell) => {
                                         // Get cell width from meta if provided
                                         const width = cell.column.columnDef.meta?.width || 'auto';
                                         return (
                                             <td
                                                 key={cell.id}
-                                                className="px-4 py-4 text-violet-200"
+                                                className="px-4 py-4 text-teal-200"
                                                 style={{ width }}
                                             >
                                                 <div className="truncate">
@@ -136,12 +136,12 @@ return (
                 {table.getRowModel().rows.map((row) => (
                     <div
                         key={row.id}
-                        className="mb-4 p-4 bg-violet-800/20 rounded-lg border border-violet-700"
+                        className="mb-4 p-4 bg-teal-800/20 rounded-lg border border-teal-700"
                     >
                         {row.getVisibleCells().map((cell) => (
                             <div
                                 key={cell.id}
-                                className="flex justify-between text-violet-200 mb-2 gap-4"
+                                className="flex justify-between text-teal-200 mb-2 gap-4"
                             >
                                 <span className="font-semibold truncate">
                                     {flexRender(cell.column.columnDef.header, cell.getContext())}

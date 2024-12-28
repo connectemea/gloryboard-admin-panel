@@ -88,7 +88,7 @@ const DashboardLayout = ({ children }) => {
                 <a
                     href={item.url}
                     className={`flex items-center hover:bg-white/10 space-x-2 px-4 py-2 rounded-lg ${
-                        location.pathname === item.url ? 'bg-violet-500' : 'text-white'
+                        location.pathname === item.url ? 'bg-teal-600' : 'text-white'
                     }`}
                 >
                     <item.icon />

@@ -68,12 +68,12 @@ function Login() {
     className="flex items-center flex-col justify-center h-screen relative login-background"
   >
     <div className="relative w-full max-w-sm" >
-      <img 
+      {/* <img 
         className="lg:absolute -top-16 floating-logo -right-16 z-10 animate-in slide-in-from-right-1/2 slide-in-from-top-1/2 duration-500 opacity-80"  
         src="/pet.png" 
         alt="logo" 
         width={140} 
-      />
+      /> */}
       <form
         onSubmit={formik.handleSubmit}
         className="border p-8 rounded shadow-md w-full"
