@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+body {
+  margin: 0;
+}
+.login-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000000; transition: background 0.3s ease-in-out; }
+
+
+:root  {
+  --background: 170.6 50% 10%;
+  --foreground: 170.6 5% 90%;
+  --card: 170.6 50% 10%;
+  --card-foreground: 170.6 5% 90%;
+  --popover: 170.6 50% 5%;
+  --popover-foreground: 170.6 5% 90%;
+  --primary: 170.6 76.9% 64.3%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 170.6 30% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 132.6 30% 25%;
+  --muted-foreground: 170.6 5% 60%;
+  --accent: 132.6 30% 25%;
+  --accent-foreground: 170.6 5% 90%;
+  --destructive: 0 100% 30%;
+  --destructive-foreground: 170.6 5% 90%;
+  --border: 170.6 30% 26%;
+  --input: 170.6 30% 26%;
+  --ring: 170.6 76.9% 64.3%;
+  --radius: 0.5rem;
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Apply styles globally */
+* {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #180d39 transparent; /* For Firefox */
+}
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+  height: 8px; /* Set the height of the horizontal scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background for the track */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark thumb */
+  border-radius: 10px; /* Rounded scrollbar */
+  border: 2px solid transparent; /* Padding effect */
+  background-clip: content-box; /* Avoid thumb border overflowing */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker on hover */
+}

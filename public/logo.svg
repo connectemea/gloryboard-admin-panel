@@ -1,0 +1,25 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+	<title>New Project</title>
+	<defs>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m583.73 114l326.84 326.83c39.05 39.06 39.05 102.37 0 141.42l-326.84 326.84c-39.05 39.05-102.37 39.05-141.42 0l-326.84-326.84c-39.05-39.05-39.05-102.36 0-141.42l326.84-326.83c39.05-39.06 102.37-39.06 141.42 0z"/>
+		</clipPath>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(699.936,0,0,707.398,-136,568.924)">
+			<stop offset="0" stop-color="#000000"/>
+			<stop offset="1" stop-color="#ffffff"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: #6225c5 } 
+		.s1 { opacity: .2;fill: url(#g1) } 
+		.s2 { fill: #ffffff } 
+	</style>
+	<g id="Folder 1">
+		<g clip-path="url(#cp1)">
+			<path id="Shape 1" class="s0" d="m583.7 114l326.9 326.8c39 39.1 39 102.4 0 141.5l-326.9 326.8c-39 39-102.3 39-141.4 0l-326.8-326.8c-39.1-39.1-39.1-102.4 0-141.5l326.8-326.8c39.1-39.1 102.4-39.1 141.4 0z"/>
+			<path id="Shape 2" class="s1" d="m214 922.6c-193.6 0-350-158.1-350-353.7 0-195.6 156.4-353.7 350-353.7 193.5 0 349.9 158.1 349.9 353.7 0 195.6-156.4 353.7-349.9 353.7z"/>
+		</g>
+		<path id="V" class="s2" d="m565.8 439.4h-46.5l-93.5 229-94-229h-46.5l123.1 300.9h34.3z"/>
+		<path id="V copy" class="s2" d="m460.1 584.4l46.5-0.4 91.6-229.7 95.9 228.1 46.5-0.4-125.7-299.7-34.3 0.2z"/>
+	</g>
+</svg>

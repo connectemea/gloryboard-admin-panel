@@ -1,0 +1,143 @@
+import React, { useContext } from 'react'
+import { useFormik } from 'formik'
+import { DialogHeader, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Pencil, Plus } from 'lucide-react'
+import { useModel } from '@/hooks/useModel'
+import { departmentOptions, genderOptions, yearOptions } from '@/constants/options'
+import { participantValidationSchema, validationSchema } from '@/constants/validationSchemas'
+import { initalValue, participantInitalValue } from '@/constants/initalValue'
+import SelectInput from '../common/SelectInput'
+import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations'
+import { DepartmentOptionsContext } from '@/context/departmentContext'
+import { AuthContext } from '@/context/authContext'
+import extractDepartment from '@/utils/extractDepartment'
+
+function ParticipantModal({ editMode = false, initialData = {} }) {
+
+    const { mutate: createUser } = useCreateUser();
+    const { mutate: updateUser } = useUpdateUser();
+    const { isOpen, openModal, closeModal } = useModel()
+
+    const { auth } = useContext(AuthContext);
+    const { data } = useContext(DepartmentOptionsContext);
+
+    // Initial form values
+    const formik = useFormik({
+        initialValues: editMode ? { ...participantInitalValue, ...initialData, year_of_study: String(initialData.year_of_study) } : participantInitalValue,
+        validationSchema: participantValidationSchema,
+        validateOnBlur: false,
+        onSubmit: (values) => {
+            console.log(editMode ? 'Updated Data:' : 'New Data:', values)
+            editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
+            handleCloseDialog()
+        },
+    })
+
+    const handleCloseDialog = () => {
+        formik.resetForm();
+        closeModal();
+    }
+
+    return (
+        <Dialog open={isOpen} onOpenChange={(open) => (open ? openModal() : handleCloseDialog())}>
+            <DialogTrigger asChild>
+                {!editMode ? (
+                    <Button>
+                        <Plus className="mr-1" /> Add
+                    </Button>
+                ) : (
+                    <Button variant="outline" className="w-8 h-8" size="icon">
+                        <Pencil />
+                    </Button>
+                )}
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>{editMode ? 'Edit Record' : 'Add New Participant'}</DialogTitle>
+                    <DialogDescription>
+                        {editMode ? 'Update the details of the record.' : 'Please fill out the form to create a new participant.'}
+                    </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={formik.handleSubmit} className="space-y-2">
+                    {/* Name input field */}
+                    <Input
+                        name="name"
+                        label="Name"
+                        placeholder="Enter name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                        <div className="text-red-500 text-sm">{formik.errors.name}</div>
+                    )}
+
+                    {/* Department select input */}
+                    <SelectInput
+                        label="Department"
+                        name="department"
+                        value={formik.values.department}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        options={auth.user.user_type === 'admin' ? extractDepartment.getDepartmentListAll(data) :  extractDepartment.getDepartmentListForRep(data, auth)}
+                    />
+                    {formik.touched.department && formik.errors.department && (
+                        <div className="text-red-500 text-sm">{formik.errors.department}</div>
+                    )}
+
+                    {/* Year select input */}
+                    <SelectInput
+                        label="Year"
+                        name="year_of_study"
+                        value={formik.values.year_of_study.toString()}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        options={yearOptions}
+                    />
+                    {formik.touched.year_of_study && formik.errors.year_of_study&& (
+                        <div className="text-red-500 text-sm">{formik.errors.year_of_study}</div>
+                    )}
+
+                    <SelectInput
+                        label="Gender"
+                        name="gender"
+                        value={formik.values.gender}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        options={genderOptions}
+                    />
+                    {formik.touched.gender && formik.errors.gender && (
+                        <div className="text-red-500 text-sm">{formik.errors.gender}</div>
+                    )}
+
+
+                    <Input
+                        name="number"
+                        label="Phone No"
+                        placeholder="Enter phone no"
+                        value={formik.values.number}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.number && formik.errors.number && (
+                        <div className="text-red-500 text-sm">{formik.errors.number}</div>
+                    )}
+
+
+                    <div className="!mt-4 flex justify-end">
+                        <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
+                            {editMode ? 'Update' : 'Submit'}
+                        </Button>
+                        <Button type="button" variant="ghost" onClick={handleCloseDialog}>
+                            Cancel
+                        </Button>
+                    </div>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+export default ParticipantModal
