@@ -7,7 +7,7 @@ export const useCreateEventReg = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (newEventReg) => axiosInstance.post('/admin/event-registration', newEventReg),
+        mutationFn: (newEventReg) => axiosInstance.post('/org/event-registration', newEventReg),
         onMutate: () => {
             toastId = toast.loading("Creating event reg ...");
         },
@@ -30,7 +30,7 @@ export const useDeleteEventReg = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (id) => axiosInstance.delete(`/admin/event-registration/delete/${id}`),
+        mutationFn: (id) => axiosInstance.delete(`/org/event-registration/delete/${id}`),
     
         onMutate: () => {
             toastId = toast.loading("Deleting event reg ...");
@@ -54,7 +54,7 @@ export const useUpdateEventReg = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) => axiosInstance.patch(`/admin/event-registration/update/${data._id}`, data),
+        mutationFn: (data) => axiosInstance.patch(`/org/event-registration/update/${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating event ref ...");
         },
