@@ -5,6 +5,7 @@ import { useGetParticipants } from "@/services/queries/participantQueries";
 import DeleteModal from "@/components/common/DeleteModal";
 import { useDeleteUser } from "@/services/mutation/userMutations";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import { Avatar } from "@/components/ui/avatar";
 
 function Participants() {
 
@@ -22,14 +23,20 @@ function Participants() {
 
   const columns = [
     {
+      accessorKey: "image",
+      header: "Picture",
+      cell: (info) => <Avatar><img src={info.getValue()} className="w-full h-full" alt="" /></Avatar>,
+      enableSorting: false,
+    },
+    {
       accessorKey: "name",
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
-    { accessorKey: "department", header: "Department", enableSorting: false, },
-    { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
-    { accessorKey: "number", header: "Phone", enableSorting: false, },
-    { accessorKey: "total_score", header: "Total Score" },
+    // { accessorKey: "department", header: "Department", enableSorting: false, },
+    // { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
+    { accessorKey: "phoneNumber", header: "Phone", enableSorting: false, },
+    // { accessorKey: "total_score", header: "Total Score" },
     {
       accessorKey: "actions",
       header: "Actions",

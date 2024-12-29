@@ -62,12 +62,12 @@ export const participantValidationSchema = (editMode) =>
     Yup.object({
         name: Yup.string().required("Name is required"),
         gender: Yup.string().required("Gender is required"),
+        course: Yup.string().required("Course is required"),
         number: Yup.string()
             .matches(/^[0-9]+$/, "Phone number must only contain digits")
             .min(10, "Phone number must be at least 10 digits")
             .max(15, "Phone number must be no more than 15 digits")
             .required("Phone No is required"),
-        department: Yup.string().required("Department is required"),
         sem: Yup.string().required("Semster is required"),
         year_of_study: Yup.string().required("Year is required"),
         dob: Yup.date()

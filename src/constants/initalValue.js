@@ -31,7 +31,6 @@ export const participantInitalValue = {
     name: "",
     number: "",
     gender: "",
-    department: "",
     year_of_study: "",
     sem: "",
     dob: "",

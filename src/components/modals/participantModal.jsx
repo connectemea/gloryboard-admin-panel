@@ -64,9 +64,9 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values);
-            console.log(croppedImage);
 
             // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
+            editMode ? null : createUser({ ...values, user_type: 'member', image: croppedImage });
             handleCloseDialog();
         },
     });
@@ -103,6 +103,18 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     />
                     {formik.touched.name && formik.errors.name && (
                         <div className="text-red-500 text-sm">{formik.errors.name}</div>
+                    )}
+
+                <Input
+                        name="course"
+                        label="Course Name"
+                        placeholder="Enter Course Name"
+                        value={formik.values.course}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.course && formik.errors.course && (
+                        <div className="text-red-500 text-sm">{formik.errors.course}</div>
                     )}
 
                     {/* <SelectInput
