@@ -2,13 +2,13 @@ import DeleteModal from "@/components/common/DeleteModal";
 import DataTable from "@/components/DataTable";
 import CollegeModal from "@/components/modals/collegeModal";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
-import { useDeleteUser } from "@/services/mutation/userMutations";
+import { useDeleteCollege  } from '@/services/mutation/collegeMutations'
 import { useGetUsers } from "@/services/queries/userQueries";
 import React from "react";
 
 function College() {
     const { data, isLoading, error } = useGetUsers();
-    const { mutate: deleteUser } = useDeleteUser();
+    const { mutate: deleteUser } = useDeleteCollege();
 
     if (isLoading) {
         return <TableSkeleton />;

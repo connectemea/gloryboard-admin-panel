@@ -7,7 +7,7 @@ export const useCreateCollege = (setSubmitted) => {
     let toastId; // Variable to store the toast ID for updating later
 
     return useMutation({
-        mutationFn: (newUser) => axiosInstance.post('/admin/register', newUser),
+        mutationFn: (newUser) => axiosInstance.post('/admin/orgs/register', newUser),
         onMutate: () => {
             toastId = toast.loading("Creating user...");
         },
@@ -32,7 +32,7 @@ export const useDeleteCollege = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (id) => axiosInstance.get(`/users/delete?id=${id}`),
+        mutationFn: (id) => axiosInstance.delete(`/admin/orgs/delete/${id}`),
     
         onMutate: () => {
             toastId = toast.loading("Deleting user...");
@@ -56,7 +56,7 @@ export const useUpdateCollege = (setSubmitted) => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) => axiosInstance.put(`/users/update?id=${data._id}`, data),
+        mutationFn: (data) => axiosInstance.patch(`/admin/orgs/update/${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
         },

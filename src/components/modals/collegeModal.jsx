@@ -9,7 +9,7 @@ import { collegeValidationSchema } from '@/constants/validationSchemas'
 import { collegeInitalValue } from '@/constants/initalValue'
 import SelectInput from '../common/SelectInput'
 import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations'
-import { useCreateCollege } from '@/services/mutation/collegeMutations'
+import { useCreateCollege , useUpdateCollege } from '@/services/mutation/collegeMutations'
 import { PasswordInput } from '../ui/password-input'
 import { AuthContext } from '@/context/authContext'
 import extractDepartment from '@/utils/extractDepartment'
@@ -26,9 +26,8 @@ const generateRandomPassword = (length = 12) => {
 
 function CollegeModal({ editMode = false, initialData = {} }) {
     const [submitted, setSubmitted] = React.useState(false);
-    const { mutate: createUser } = useCreateUser();
     const { mutate: createCollege } = useCreateCollege(setSubmitted);
-    const { mutate: updateUser } = useUpdateUser();
+    const { mutate: updateCollege } = useUpdateCollege();
     const { isOpen, openModal, closeModal } = useModel()
 
     // const { auth } = useContext(AuthContext);
@@ -40,7 +39,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateUser(values) : createCollege({ ...values, user_type: 'organization' });
+            editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             // handleCloseDialog()
         }
     })

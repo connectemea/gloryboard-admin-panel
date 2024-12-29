@@ -204,9 +204,9 @@ function Filter({ column }) {
             >
                 <SelectTrigger className="!h-6 !text-[12px]">
                     <SelectValue placeholder="All" />
-                </SelectTrigger>
+                </SelectTrigger> 
                 <SelectContent>
-                    <SelectItem className="text-xs" value={null}>
+                    <SelectItem  className="text-xs" value={null}>
                         All
                     </SelectItem>
                     {uniqueValues.map((value) => (
