@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { DialogHeader, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Pencil, Plus } from 'lucide-react'
+import { Pencil, Plus, Copy, RefreshCw } from 'lucide-react'
 import { useModel } from '@/hooks/useModel'
 import { collegeValidationSchema } from '@/constants/validationSchemas'
 import { collegeInitalValue } from '@/constants/initalValue'
@@ -13,18 +13,25 @@ import { PasswordInput } from '../ui/password-input'
 import { DepartmentOptionsContext } from '@/context/departmentContext'
 import { AuthContext } from '@/context/authContext'
 import extractDepartment from '@/utils/extractDepartment'
+import { toast } from 'sonner';
+
+// Utility function for random password generation
+const generateRandomPassword = (length = 12) => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+};
+
+
+
 
 function CollegeModal({ editMode = false, initialData = {} }) {
-
-    const { mutate: createUser } = useCreateUser();
-    const { mutate: updateUser } = useUpdateUser();
+    const [submitted, setSubmitted] = React.useState(false);
+    const { mutate: createUser } = useCreateUser(setSubmitted);
+    const { mutate: updateUser } = useUpdateUser(setSubmitted);
     const { isOpen, openModal, closeModal } = useModel()
-
 
     // const { auth } = useContext(AuthContext);
     const { data } = useContext(DepartmentOptionsContext);
-
-
 
     // Initial form values
     const formik = useFormik({
@@ -33,18 +40,29 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateUser(values) : createUser({ ...values, user_type: 'rep' });
-            handleCloseDialog()
+            editMode ? updateUser(values) : createUser({ ...values, user_type: 'college' });
+            // handleCloseDialog()
         }
     })
 
     const handleCloseDialog = () => {
         formik.resetForm()
+        setSubmitted(false)
         closeModal()
     }
 
+
+
+    // Utility function for copying to clipboard
+    const copyToClipboard = () => {
+        const textToCopy = `Email: ${formik.values.email}\nPassword: ${formik.values.password}`;
+        navigator.clipboard.writeText(textToCopy);
+        toast.success('Copied email and password to clipboard!');
+        handleCloseDialog();
+    };
+
     return (
-        <Dialog open={isOpen} onOpenChange={(open) => (open ? openModal() : closeModal())}>
+        <Dialog open={isOpen} onOpenChange={(open) => (open ? openModal() : handleCloseDialog())}>
             <DialogTrigger asChild>
                 {!editMode ? (
                     <Button>
@@ -58,59 +76,83 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{editMode ? 'Edit College' : 'Add New College'}</DialogTitle>
+                    <DialogTitle>
+                        {submitted ? 'College Added' :
+                            (editMode ? 'Edit College' : 'Add New College')}
+                    </DialogTitle>
                     <DialogDescription>
-                        {editMode ? 'Update the details of the College.' : 'Please fill out the form to create a new College.'}
+                        {submitted ? 'College added successfully' :
+                            (editMode ? 'Update the details of the College.' : 'Please fill out the form to create a new College.')}
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={formik.handleSubmit} className="space-y-2">
-                    {/* Name input field */}
-                    <Input
-                        name="name"
-                        label="college Name"
-                        placeholder="Enter college name"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.name && formik.errors.name && (
-                        <div className="text-red-500 text-sm">{formik.errors.name}</div>
-                    )}
-                    {/* Name input field */}
-                    <Input
-                        name="email"
-                        label="Email"
-                        placeholder="Enter email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.email && formik.errors.name && (
-                        <div className="text-red-500 text-sm">{formik.errors.email}</div>
-                    )}
-                    {/* phone number field */}
-                    <Input
-                        name="number"
-                        label="Phone No"
-                        placeholder="Enter phone no"
-                        value={formik.values.number}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.number && formik.errors.number && (
-                        <div className="text-red-500 text-sm">{formik.errors.number}</div>
-                    )}
+                {!submitted ? (
+                    <form onSubmit={formik.handleSubmit} className="space-y-2">
+                        {/* Name input field */}
+                        <Input
+                            name="name"
+                            label="college Name"
+                            placeholder="Enter college name"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.name && formik.errors.name && (
+                            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+                        )}
+                        {/* Name input field */}
+                        <Input
+                            name="email"
+                            label="Email"
+                            placeholder="Enter email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.email && formik.errors.name && (
+                            <div className="text-red-500 text-sm">{formik.errors.email}</div>
+                        )}
+                        {/* phone number field */}
+                        <Input
+                            name="number"
+                            label="Phone No"
+                            placeholder="Enter phone no"
+                            value={formik.values.number}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.number && formik.errors.number && (
+                            <div className="text-red-500 text-sm">{formik.errors.number}</div>
+                        )}
 
-                    {!editMode &&
+                        {/* {!editMode && */}
                         <>
-                            <PasswordInput
-                                name="password"
-                                label="Password"
-                                placeholder="Enter password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
+                            <div className='flex w-full'>
+                                <div className='w-full flex-1 flex-grow'>
+                                    <PasswordInput
+                                        name="password"
+                                        label="Password"
+                                        placeholder="Enter password"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+
+                                <div className='flex items-end justify-end pb-[2px] pl-[5px]'>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="!py-2"
+                                        onClick={() => {
+                                            const randomPassword = generateRandomPassword();
+                                            formik.setFieldValue('password', randomPassword);
+                                            formik.setFieldValue('confirmPassword', randomPassword);
+                                        }}
+                                    >
+                                        <RefreshCw className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </div>
                             {formik.touched.password && formik.errors.password && (
                                 <div className="text-red-500 text-sm">{formik.errors.password}</div>
                             )}
@@ -126,16 +168,36 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                 <div className="text-red-500 text-sm">{formik.errors.confirmPassword}</div>
                             )}
                         </>
-                    }
-                    <div className="!mt-4 flex justify-end">
-                        <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
-                            {editMode ? 'Update' : 'Submit'}
-                        </Button>
-                        <Button type="button" variant="ghost" onClick={handleCloseDialog}>
-                            Cancel
-                        </Button>
+                        {/* } */}
+                        <div className="!mt-4 flex justify-end">
+                            <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
+                                {editMode ? 'Update' : 'Submit'}
+                            </Button>
+                            <Button type="button" variant="ghost" onClick={handleCloseDialog}>
+                                Cancel
+                            </Button>
+                        </div>
+                    </form>
+                ) : (
+                    <div className="border p-4 rounded-lg shadow-sm bg-gray-950 mb-4">
+                        <div className="flex space-x-2 mt-4 relative py-2">
+                            <code className="text-sm text-gray-400 flex flex-col gap-2">
+                                <span> Email: {formik.values.email} </span>
+                                <span> Password: {formik.values.password}</span>
+                               
+                               
+                            </code>
+                            <Button
+                                onClick={copyToClipboard}
+                                variant="outline"
+                                size="sm"
+                                className="ml-4 absolute -top-5 -right-2"
+                            >
+                                <Copy className="mr-1 h-3 w-3" /> <span className='text-xs'>Copy</span>
+                            </Button>
+                        </div>
                     </div>
-                </form>
+                )}
             </DialogContent>
         </Dialog>
     )

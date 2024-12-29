@@ -25,23 +25,8 @@ function College() {
             cell: (info) => <strong>{info.getValue()}</strong>,
             enableSorting: false,
         },
-        {
-            accessorKey: "department",
-            header: "Department",
-            enableSorting: false,
-            meta: {
-                filterVariant: "select",
-            },
-        },
-        {
-            accessorKey: "year_of_study",
-            header: "Year",
-            enableSorting: false,
-            meta: {
-                filterVariant: "select",
-            },
-        },
         { accessorKey: "number", header: "Phone No", enableSorting: false },
+        { accessorKey: "email", header: "Email" , enableSorting: false},
         {
             accessorKey: "actions",
             header: "Actions",
