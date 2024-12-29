@@ -1,4 +1,4 @@
-import { boolean } from "yup";
+
 
 export const initalValue = {
     name: "",
