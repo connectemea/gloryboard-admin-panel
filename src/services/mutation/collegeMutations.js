@@ -2,12 +2,12 @@ import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useCreateCollege = (setSubmitted) => {
+export const useCreateCollege = () => {
     const queryClient = useQueryClient();
     let toastId; // Variable to store the toast ID for updating later
 
     return useMutation({
-        mutationFn: (newUser) => axiosInstance.post('/admin/register', newUser),
+        mutationFn: (newUser) => axiosInstance.post('/admin/orgs/register', newUser),
         onMutate: () => {
             toastId = toast.loading("Creating user...");
         },
@@ -15,14 +15,12 @@ export const useCreateCollege = (setSubmitted) => {
             toast.dismiss(toastId);
             toast.success("User created successfully");
             queryClient.invalidateQueries(['users']);
-            setSubmitted(true);
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
-            setSubmitted(false);
         },
     });
 };
@@ -32,7 +30,7 @@ export const useDeleteCollege = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (id) => axiosInstance.get(`/users/delete?id=${id}`),
+        mutationFn: (id) => axiosInstance.delete(`/admin/orgs/delete/${id}`),
     
         onMutate: () => {
             toastId = toast.loading("Deleting user...");
@@ -51,12 +49,12 @@ export const useDeleteCollege = () => {
     });
 };
 
-export const useUpdateCollege = (setSubmitted) => {
+export const useUpdateCollege = () => {
     const queryClient = useQueryClient();
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) => axiosInstance.put(`/users/update?id=${data._id}`, data),
+        mutationFn: (data) => axiosInstance.patch(`/admin/orgs/update/${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
         },
@@ -64,14 +62,12 @@ export const useUpdateCollege = (setSubmitted) => {
             toast.dismiss(toastId);
             toast.success("User Updated")
             queryClient.invalidateQueries(['users']);
-            setSubmitted(true);
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
-            setSubmitted(false);
         },
     
     });
