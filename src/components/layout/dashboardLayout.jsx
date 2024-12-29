@@ -26,8 +26,8 @@ const routes = [
         icon: Telescope
     },
     {
-        title: "Rep",
-        url: "/rep",
+        title: "College",
+        url: "/college",
         icon: SquareUserRound,
         role: "admin"
     },
@@ -117,13 +117,13 @@ const DashboardLayout = ({ children }) => {
          <DepartmentOptionsProvider>
         <SidebarProvider>
             <div className="flex h-screen w-full">
-                <Sidebar>
-                    <SidebarHeader>
-                        <div className="px-4 py-6 text-center">
+                <Sidebar className="z-50 bg-[#0d2622]">
+                    <SidebarHeader className="z-50">
+                        <div className="px-4 py-6 text-center z-50">
                             <h3 className="text-lg font-medium leading-none">C Zone</h3>
                         </div>
                     </SidebarHeader>
-                    <SidebarContent className="px-4">
+                    <SidebarContent className="px-4 z-50">
                         <SidebarMenu>
                             {filteredRoutes.map((route) => renderMenuGroup(route))}
                         </SidebarMenu>
@@ -137,10 +137,10 @@ const DashboardLayout = ({ children }) => {
 
                 {/* Main Content */}
                 <div className="flex-1">
-                    <div className="border shadow sticky top-0 z-50 bg-background">
+                    <div className="border shadow sticky top-0 z-40 bg-background">
                         <div className="container mx-auto py-4 flex justify-between px-6 items-center">
                             <SidebarTrigger />
-                            <div className="flex items-center space-x-4 z-50">
+                            <div className="flex items-center space-x-4 z-40">
                                 <span className="font-medium opacity-50 leading-none">{auth.user.name}</span>
                                 <Avatar>
                                     <AvatarImage src="/profile.jpg" alt="Profile" />
