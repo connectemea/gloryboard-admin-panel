@@ -10,7 +10,6 @@ import { collegeInitalValue } from '@/constants/initalValue'
 import SelectInput from '../common/SelectInput'
 import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations'
 import { PasswordInput } from '../ui/password-input'
-import { DepartmentOptionsContext } from '@/context/departmentContext'
 import { AuthContext } from '@/context/authContext'
 import extractDepartment from '@/utils/extractDepartment'
 import { toast } from 'sonner';
@@ -31,7 +30,6 @@ function CollegeModal({ editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel()
 
     // const { auth } = useContext(AuthContext);
-    const { data } = useContext(DepartmentOptionsContext);
 
     // Initial form values
     const formik = useFormik({

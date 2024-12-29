@@ -1,13 +1,13 @@
 import DataTable from "@/components/DataTable";
 import LeaderBoard from "@/components/LeaderBoard";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
-import { DepartmentOptionsContext } from "@/context/departmentContext";
+// import { DepartmentOptionsContext } from "@/context/departmentContext";
 import { useGetResults } from "@/services/queries/resultQueries";
 import { useContext } from "react";
 
 function ScoreTable() {
 
-    const { data: departmentOptions } = useContext(DepartmentOptionsContext);
+    // const { data: departmentOptions } = useContext(DepartmentOptionsContext);
     const { data, isLoading, error } = useGetResults();
 
     if (isLoading) {
@@ -23,12 +23,12 @@ function ScoreTable() {
 
     function getTeamName(courseName) {
         // Iterate through each team in the data object
-        for (const team in departmentOptions) {
-            // Check if the courseName exists in the team's list of courses
-            if (departmentOptions[team].includes(courseName)) {
-                return team; // Return the team name if found
-            }
-        }
+        // for (const team in departmentOptions) {
+        //     // Check if the courseName exists in the team's list of courses
+        //     if (departmentOptions[team].includes(courseName)) {
+        //         return team; // Return the team name if found
+        //     }
+        // }
         return "Team not found"; // Return this if the courseName is not found
     }
 

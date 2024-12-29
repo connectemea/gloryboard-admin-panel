@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
-import { DepartmentOptionsProvider } from '@/context/departmentContext';
+// import { DepartmentOptionsProvider } from '@/context/departmentContext';
 
 const routes = [
     {
@@ -114,7 +114,7 @@ const DashboardLayout = ({ children }) => {
 
     return (
         <>
-         <DepartmentOptionsProvider>
+         {/* <DepartmentOptionsProvider> */}
         <SidebarProvider>
             <div className="flex h-screen w-full">
                 <Sidebar className="z-50 bg-[#0d2622]">
@@ -155,7 +155,7 @@ const DashboardLayout = ({ children }) => {
                 </div>
             </div>
         </SidebarProvider>
-        </DepartmentOptionsProvider>
+        {/* </DepartmentOptionsProvider> */}
         </>
     );
 };

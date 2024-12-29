@@ -6,7 +6,7 @@ import "./index.css";
 import { AuthProvider } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-import { DepartmentOptionsProvider } from "./context/departmentContext";
+// import { DepartmentOptionsProvider } from "./context/departmentContext";
 
 const queryClient = new QueryClient();
 
