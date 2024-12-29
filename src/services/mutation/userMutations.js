@@ -1,5 +1,6 @@
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CloudFog } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const useCreateUser = () => {
@@ -99,7 +100,7 @@ export const useUpdateUser = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) => axiosInstance.put(`/users/update?id=${data._id}`, data),
+        mutationFn: (data) =>  axiosInstance.put(`/org/update?id=${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
         },

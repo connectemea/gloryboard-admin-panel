@@ -29,12 +29,12 @@ export const collegeInitalValue = {
 
 export const participantInitalValue = {
     name: "",
-    number: "",
+    phoneNumber: "",
     gender: "",
     year_of_study: "",
-    sem: "",
+    semester: "",
     dob: "",
-    capid: "",
+    capId: "",
 };
 
 export const eventTypeinitalValue = {

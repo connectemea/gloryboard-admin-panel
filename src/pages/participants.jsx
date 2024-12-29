@@ -28,13 +28,15 @@ function Participants() {
       cell: (info) => <Avatar><img src={info.getValue()} className="w-full h-full" alt="" /></Avatar>,
       enableSorting: false,
     },
+    { accessorKey: "userId", header: "User ID", enableSorting: false },
     {
       accessorKey: "name",
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
-    // { accessorKey: "department", header: "Department", enableSorting: false, },
-    // { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
+    { accessorKey: "college", header: "College", enableSorting: false },
+    { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
+    // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
     { accessorKey: "phoneNumber", header: "Phone", enableSorting: false, },
     // { accessorKey: "total_score", header: "Total Score" },
     {
