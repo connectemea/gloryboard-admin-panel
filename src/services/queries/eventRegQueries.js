@@ -5,7 +5,7 @@ export const useGetEventRegs = () => {
     return useQuery({
         queryKey: ['events-regs'], // Query key
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/admin/event-registration');
+            const { data } = await axiosInstance.get('/org/event-registration');
             return data.data;
         },
     });
