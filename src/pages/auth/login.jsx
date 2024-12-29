@@ -65,7 +65,7 @@ function Login() {
   return (
     <div
     onMouseMove={handleMouseMove}
-    className="flex items-center flex-col justify-center h-screen relative login-background"
+    className="flex items-center flex-col justify-center h-screen relative login-background select-none"
   >
     <div className="relative w-full max-w-sm" >
       {/* <img 
