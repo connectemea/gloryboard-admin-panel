@@ -6,6 +6,8 @@ import EventRegViewModal from "@/components/modals/view/eventRegViewModal";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { useDeleteEventReg } from "@/services/mutation/eventRegMutations";
+import { useGetConfig } from "@/services/queries/configQueries";
+import { getConfigValue } from "@/utils/configUtils"; 
 import { useGetEventRegs } from "@/services/queries/eventRegQueries";
 import {
     Download,
@@ -17,6 +19,8 @@ import { toast } from "sonner";
 function EventRegistration() {
     const { data, isLoading, error } = useGetEventRegs();
     const { mutate: deleteEventReg } = useDeleteEventReg();
+    
+    const { data: configs } = useGetConfig();
 
     if (isLoading) {
         return <TableSkeleton />;
@@ -26,7 +30,7 @@ function EventRegistration() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-    console.log(data)
+    // console.log(data)
 
     const columns = [
         {
@@ -102,11 +106,13 @@ function EventRegistration() {
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Event Registration</h2>
                 <div className="flex gap-2">
-                    <Button
+                    {configs &&
+                    getConfigValue(configs,'hall_ticket_export') && <Button
                         onClick={handleDownloadTickets}
                     >
                         Export Tickets 
-                    </Button>
+                    </Button> 
+                    }
                     <EventRegModal />
                 </div>
             </div>

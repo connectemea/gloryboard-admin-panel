@@ -5,12 +5,17 @@ import { useGetParticipants } from "@/services/queries/participantQueries";
 import DeleteModal from "@/components/common/DeleteModal";
 import { useDeleteUser } from "@/services/mutation/userMutations";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import { getConfigValue } from "@/utils/configUtils";
 import { Avatar } from "@/components/ui/avatar";
+import { useGetConfig } from "@/services/queries/configQueries";
 
 function Participants() {
 
   const { data, isLoading, error } = useGetParticipants();
   const { mutate: deleteUser } = useDeleteUser();
+
+  const { data: configs } = useGetConfig();
+
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -62,7 +67,7 @@ function Participants() {
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold">Participants</h2>
-        <ParticipantModal />
+        {configs && getConfigValue(configs, 'user_registration') && <ParticipantModal />}
       </div>
       <DataTable data={data} columns={columns} />
     </div>
