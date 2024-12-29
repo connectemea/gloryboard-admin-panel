@@ -74,13 +74,14 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-h-[85vh] overflow-hidden flex flex-col" >
                 <DialogHeader>
                     <DialogTitle>{editMode ? 'Edit Record' : 'Add New Participant'}</DialogTitle>
                     <DialogDescription>
                         {editMode ? 'Update the details of the record.' : 'Please fill out the form to create a new participant.'}
                     </DialogDescription>
                 </DialogHeader>
+                <div className="overflow-y-auto  px-1">
                 <form onSubmit={formik.handleSubmit} className="space-y-2">
                     <Input
                         name="name"
@@ -146,6 +147,31 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         <div className="text-red-500 text-sm">{formik.errors.number}</div>
                     )}
 
+                    <Input
+                        name="capid"
+                        label="CAPID/Exam Reg No"
+                        placeholder="Enter CAPID/Exam Reg No"
+                        value={formik.values.capid}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.capid && formik.errors.capid && (
+                        <div className="text-red-500 text-sm">{formik.errors.capid}</div>
+                    )}
+
+                    <Input
+                        type="date"
+                        name="dob"
+                        label="Date of Birth"
+                        placeholder="Enter Date of Birth"
+                        value={formik.values.dob}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.dob && formik.errors.dob && (
+                        <div className="text-red-500 text-sm">{formik.errors.dob}</div>
+                    )}
+
                     {/* Image Picker */}
                     <div>
 
@@ -164,6 +190,8 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         </Button>
                     </div>
                 </form>
+                </div>
+               
             </DialogContent>
 
 

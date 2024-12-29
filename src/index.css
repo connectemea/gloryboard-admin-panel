@@ -51,7 +51,7 @@ body {
 /* Apply styles globally */
 * {
   scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #180d39 transparent; /* For Firefox */
+  scrollbar-color: #0d3935 transparent; /* For Firefox */
 }
 
 /* WebKit browsers (Chrome, Edge, Safari) */
