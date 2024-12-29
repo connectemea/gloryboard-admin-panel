@@ -7,12 +7,15 @@ export const validationSchema = Yup.object({
 });
 
 export const loginSchema = Yup.object().shape({
-    number: Yup.string()
-        .matches(/^\d+$/, "Phone number must only contain digits") 
-        .matches(/^\S+$/, "Phone number cannot contain spaces") // no spaces are allowed
-        .min(10, "Phone number must be at least 10 digits")
-        .max(15, "Phone number must be no more than 15 digits")
-        .required("Phone No is required"),
+    // number: Yup.string()
+    //     .matches(/^\d+$/, "Phone number must only contain digits") 
+    //     .matches(/^\S+$/, "Phone number cannot contain spaces") // no spaces are allowed
+    //     .min(10, "Phone number must be at least 10 digits")
+    //     .max(15, "Phone number must be no more than 15 digits")
+    //     .required("Phone No is required"),
+    email: Yup.string()
+        .email("Invalid email")
+        .required("Email is required"),
     password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
