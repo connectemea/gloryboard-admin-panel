@@ -36,7 +36,7 @@ function EventModal({ editMode = false, initialData = {} }) {
         validationSchema: eventValidationSchema,
         validateOnBlur: false,
         onSubmit: (values) => {
-            editMode ? updateEvent({...values, id: initialData._id}) : CreateEvent(values);
+            editMode ? updateEvent({ ...values, id: initialData._id }) : CreateEvent(values);
             handleCloseDialog();
         },
     });
@@ -49,6 +49,19 @@ function EventModal({ editMode = false, initialData = {} }) {
     const getEventTypeOptions = (data) => {
         return data.map((item) => ({ label: item.name, value: item._id }));
     };
+
+    const eventCategorys = [
+        { label: 'Solo', value: 'solo' },
+        { label: 'Group', value: 'group' },
+        { label: 'General', value: 'General' },
+    ];
+
+    const resultCategorys = [
+        { label: 'First', value: 'first' },
+        { label: 'Second', value: 'second' },
+        { label: 'Third', value: 'third' },
+        { label: 'Kalaprathipa', value: 'Kalaprathipa' }
+    ];
 
     return (
         <Dialog
@@ -92,6 +105,73 @@ function EventModal({ editMode = false, initialData = {} }) {
                             {formik.errors.name}
                         </div>
                     )}
+
+                    {/* Event Category input field */}
+                    <SelectInput
+                        label="Event Category"
+                        name="event_category"
+                        value={formik.values.event_category}
+                        onChange={(e) =>
+                            formik.setFieldValue('event_category', e.target.value)
+                        }
+                        onBlur={formik.handleBlur}
+                        options={eventCategorys}
+                    />
+                    {formik.touched.event_category && formik.errors.event_category && (
+                        <div className="text-red-500 text-sm">
+                            {formik.errors.event_category}
+                        </div>
+                    )}
+
+                    {/* Result Category input field */}
+                    <SelectInput
+                        label={"Result Category"}
+                        name="result_category"
+                        value={formik.values.result_category}
+                        onChange={(e) =>
+                            formik.setFieldValue('result_category', e.target.value)
+                        }
+                        onBlur={formik.handleBlur}
+                        options={resultCategorys}
+                    />
+                    {formik.touched.result_category && formik.errors.result_category && (
+                        <div className="text-red-500 text-sm">
+                            {formik.errors.result_category}
+                        </div>
+                    )}
+
+                    {/* Min Participants input field */}
+                    <Input
+                        name="min_participants"
+                        label="Min Participants"
+                        placeholder="Enter min participants"
+                        value={formik.values.min_participants}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+
+                    {formik.touched.min_participants && formik.errors.min_participants && (
+                        <div className="text-red-500 text-sm">
+                            {formik.errors.min_participants}
+                        </div>
+                    )}
+
+                    {/* Max Participants input field */}
+                    <Input
+                        name="max_participants"
+                        label="Max Participants"
+                        placeholder="Enter max participants"
+                        value={formik.values.max_participants}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+
+                    {formik.touched.max_participants && formik.errors.max_participants && (
+                        <div className="text-red-500 text-sm">
+                            {formik.errors.max_participants}
+                        </div>
+                    )}
+
 
                     {!eventTypesLoading ? (
                         <>

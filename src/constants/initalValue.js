@@ -52,7 +52,11 @@ export const eventTypeinitalValue = {
 export const eventInitalValue = {
     name: "",
     event_type: "",
-    date: null
+    event_category: "",
+    result_category: "",
+    min_participants: 1,
+    max_participants: 2,
+    // date: null
 };
 
 export const eventRegistrationInitialValues = {

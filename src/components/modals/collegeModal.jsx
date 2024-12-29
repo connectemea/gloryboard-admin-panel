@@ -25,7 +25,7 @@ const generateRandomPassword = (length = 12) => {
 
 
 function CollegeModal({ editMode = false, initialData = {} }) {
-    const [updatePassword, setUpdatePassword] = useState(editMode ? false : true);
+    const [updatePassword, setUpdatePassword] = useState(false);
     const { mutate: createCollege } = useCreateCollege();
     const { mutate: updateCollege } = useUpdateCollege();
     const { isOpen, openModal, closeModal } = useModel()
@@ -37,18 +37,19 @@ function CollegeModal({ editMode = false, initialData = {} }) {
     // Initial form values
     const formik = useFormik({
         initialValues: editMode ? { ...collegeInitalValue, ...initialData } : collegeInitalValue,
-        validationSchema: collegeValidationSchema(editMode),
+        validationSchema: collegeValidationSchema(editMode, updatePassword),
         validateOnBlur: false,
         onSubmit: (values) => {
             setCopyData({ email: values.email, password: values.password });
-            if (!updatePassword) {
+            if (updatePassword) {
                 delete values.password;
                 delete values.confirmPassword;
+                console.log('Form Values:', values)
             }
             console.log('Form Values:', values)
             console.log('Form Values:', values)
             console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateCollege(values,) : createCollege({ ...values, user_type: 'organization' });
+            editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             handleCloseDialog()
             handleCopyModal()
         }
@@ -138,7 +139,53 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                 Update Password
                             </Button>
                         )}
-                        {updatePassword &&
+                        {editMode ? (
+                            updatePassword && (
+                                <>
+                                    <div className='flex w-full'>
+                                        <div className='w-full flex-1 flex-grow'>
+                                            <PasswordInput
+                                                name="password"
+                                                label="Password"
+                                                placeholder="Enter password"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            />
+                                        </div>
+
+                                        <div className='flex items-end justify-end pb-[2px] pl-[5px]'>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="!py-2"
+                                                onClick={() => {
+                                                    const randomPassword = generateRandomPassword();
+                                                    formik.setFieldValue('password', randomPassword);
+                                                    formik.setFieldValue('confirmPassword', randomPassword);
+                                                }}
+                                            >
+                                                <RefreshCw className="h-5 w-5" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    {formik.touched.password && formik.errors.password && (
+                                        <div className="text-red-500 text-sm">{formik.errors.password}</div>
+                                    )}
+                                    <PasswordInput
+                                        name="confirmPassword"
+                                        label="Password"
+                                        placeholder="Enter password"
+                                        value={formik.values.confirmPassword}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                        <div className="text-red-500 text-sm">{formik.errors.confirmPassword}</div>
+                                    )}
+                                </>
+                            )) : (
                             <>
                                 <div className='flex w-full'>
                                     <div className='w-full flex-1 flex-grow'>
@@ -183,6 +230,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                     <div className="text-red-500 text-sm">{formik.errors.confirmPassword}</div>
                                 )}
                             </>
+                        )
                         }
                         <div className="!mt-4 flex justify-end">
                             <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>

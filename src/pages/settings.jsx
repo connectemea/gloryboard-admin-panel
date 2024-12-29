@@ -29,7 +29,11 @@ function Settings() {
                         </div>
                         <Switch
                             checked={config.value}
-                            onCheckedChange={() => updateConfig({ _id: config._id, value: !config.value })}
+                            onCheckedChange={() => {
+                                const updatedConfig = { _id: config._id, value: !config.value };
+                                console.log("Updating config:", updatedConfig);  // Debugging line
+                                updateConfig(updatedConfig); // Trigger mutation
+                            }}
                         />
                     </div>
                 ))}

@@ -9,40 +9,51 @@ export const useUpdateConfig = () => {
     return useMutation({
         mutationFn: (updateData) =>
             axiosInstance.patch(`/admin/config/update/${updateData._id}`, { value: updateData.value }),
+
+        onMutate: () => {
+            toastId = toast.loading("Updating config...");
+        },
+
+        // Optimistically update the cache before mutation is complete
         onMutate: async (updatedConfig) => {
-            console.log(updatedConfig);
-            // Cancel any outgoing refetches for `configs`
-            await queryClient.cancelQueries(['configs']);
+            // Cancel any ongoing requests for the 'config' query
+            await queryClient.cancelQueries(['config']);
 
-            // Snapshot of previous state
-            const previousConfigs = queryClient.getQueryData(['configs']);
+            // Snapshot of previous data
+            const previousConfig = queryClient.getQueryData(['config']);
 
-            // Optimistically update the data
-            queryClient.setQueryData(['configs'], (old) =>
-                old.map((config) =>
-                    config._id === updatedConfig._id ? { ...config, value: updatedConfig.value } : config
+            // Optimistically update the cache with new value
+            queryClient.setQueryData(['config'], (oldData) =>
+                oldData.map((config) =>
+                    config._id === updatedConfig._id
+                        ? { ...config, value: updatedConfig.value }
+                        : config
                 )
             );
 
-            // Return snapshot for rollback
-            return { previousConfigs };
+            // Return snapshot for rollback in case of error
+            return { previousConfig };
         },
+
+        onSuccess: () => {
+            toast.dismiss(toastId);
+            toast.success("Configuration updated successfully");
+
+            // Invalidate and refetch the 'config' query to ensure it's up-to-date
+            queryClient.invalidateQueries(['config']);
+            console.log("Configuration updated successfully");
+        },
+
         onError: (error, variables, context) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
 
-            // Rollback to previous state
-            if (context?.previousConfigs) {
-                queryClient.setQueryData(['configs'], context.previousConfigs);
+            // Rollback the optimistic update if there's an error
+            if (context?.previousConfig) {
+                queryClient.setQueryData(['config'], context.previousConfig);
             }
-        },
-        onSuccess: () => {
-            toast.dismiss(toastId);
-            toast.success("Configuration updated successfully");
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries(['configs']);
+            console.log("Error updating config:", errorMessage);
         },
     });
 };
