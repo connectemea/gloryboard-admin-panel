@@ -2,7 +2,7 @@ import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useCreateCollege = (setSubmitted) => {
+export const useCreateCollege = () => {
     const queryClient = useQueryClient();
     let toastId; // Variable to store the toast ID for updating later
 
@@ -15,14 +15,12 @@ export const useCreateCollege = (setSubmitted) => {
             toast.dismiss(toastId);
             toast.success("User created successfully");
             queryClient.invalidateQueries(['users']);
-            setSubmitted(true);
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
-            setSubmitted(false);
         },
     });
 };
@@ -51,7 +49,7 @@ export const useDeleteCollege = () => {
     });
 };
 
-export const useUpdateCollege = (setSubmitted) => {
+export const useUpdateCollege = () => {
     const queryClient = useQueryClient();
     let toastId; 
 
@@ -64,14 +62,12 @@ export const useUpdateCollege = (setSubmitted) => {
             toast.dismiss(toastId);
             toast.success("User Updated")
             queryClient.invalidateQueries(['users']);
-            setSubmitted(true);
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
-            setSubmitted(false);
         },
     
     });

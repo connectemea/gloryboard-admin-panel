@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite", 
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -22,6 +22,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slider": "^1.2.2",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.3",
     "@tanstack/react-query": "^5.60.5",
     "@tanstack/react-table": "^8.20.5",
