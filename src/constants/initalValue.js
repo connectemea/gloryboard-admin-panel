@@ -33,14 +33,15 @@ export const participantInitalValue = {
     gender: "",
     department: "",
     year_of_study: "",
+    sem: "",
+    dob: "",
+    capid: "",
 };
 
 export const eventTypeinitalValue = {
     name: "",
     is_group: false,
     is_onstage: false,
-    participant_count: 1, 
-    helper_count: 0, 
     scores: {
         first: null,
         second: null,
