@@ -5,7 +5,7 @@ export const useGetResults = () => {
     return useQuery({
         queryKey: ['results'], // Query key
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/users/results');
+            const { data } = await axiosInstance.get('/results');
             return data.data;
         },
     });

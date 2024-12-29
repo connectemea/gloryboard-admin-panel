@@ -10,7 +10,7 @@ import { participantValidationSchema } from '@/constants/validationSchemas';
 import { participantInitalValue } from '@/constants/initalValue';
 import SelectInput from '../common/SelectInput';
 import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations';
-import { DepartmentOptionsContext } from '@/context/departmentContext';
+// import { DepartmentOptionsContext } from '@/context/departmentContext';
 import { AuthContext } from '@/context/authContext';
 import extractDepartment from '@/utils/extractDepartment';
 import ImageCropper from '../ImageCropper';
@@ -22,7 +22,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel();
 
     const { auth } = useContext(AuthContext);
-    const { data } = useContext(DepartmentOptionsContext);
+    // const { data } = useContext(DepartmentOptionsContext);
 
     const [image, setImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -105,7 +105,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         <div className="text-red-500 text-sm">{formik.errors.name}</div>
                     )}
 
-                    <SelectInput
+                    {/* <SelectInput
                         label="Department"
                         name="department"
                         value={formik.values.department}
@@ -119,7 +119,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     />
                     {formik.touched.department && formik.errors.department && (
                         <div className="text-red-500 text-sm">{formik.errors.department}</div>
-                    )}
+                    )} */}
 
 
                     <div className='flex gap-2'>

@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetParticipants = () => {
     return useQuery({
-        queryKey: ['participants'], // Query key
+        queryKey: [''], // Query key
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/users/members');
+            const { data } = await axiosInstance.get('/');
             return data.data;
         },
     });
