@@ -42,8 +42,6 @@ export const eventTypeinitalValue = {
     name: "",
     is_group: false,
     is_onstage: false,
-    participant_count: 1, 
-    helper_count: 0, 
     scores: {
         first: null,
         second: null,

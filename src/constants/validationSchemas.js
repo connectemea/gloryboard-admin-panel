@@ -78,21 +78,21 @@ export const participantValidationSchema = (editMode) =>
 
 export const eventTypeValidationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
-    participant_count: Yup.number()
-        .required('Participants count is required')
-        .typeError('Participants count must be a number')
-        .positive('Participants count must be a positive number')
-        .integer('Participants count must be a whole number')
-        .when('is_group', {
-            is: true,
-            then: (schema) =>
-                schema
-                    .min(2, 'Participants count must be at least 2'),
-            otherwise: (schema) =>
-                schema
-                    .min(1, 'Participants count must be at least 1'),
-        }),
-    helper_count: Yup.string().required('Helper count is required'),
+    // participant_count: Yup.number()
+    //     .required('Participants count is required')
+    //     .typeError('Participants count must be a number')
+    //     .positive('Participants count must be a positive number')
+    //     .integer('Participants count must be a whole number')
+    //     .when('is_group', {
+    //         is: true,
+    //         then: (schema) =>
+    //             schema
+    //                 .min(2, 'Participants count must be at least 2'),
+    //         otherwise: (schema) =>
+    //             schema
+    //                 .min(1, 'Participants count must be at least 1'),
+    //     }),
+    // helper_count: Yup.string().required('Helper count is required'),
 
     scores: Yup.object({
         first: Yup.number()
