@@ -16,6 +16,13 @@ export const repInitalValue = {
     department: "",
     year_of_study: "",
 };
+export const collegeInitalValue = {
+    name: "",
+    number: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+};
 
 export const participantInitalValue = {
     name: "",
