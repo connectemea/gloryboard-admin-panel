@@ -39,7 +39,7 @@ export const repValidationSchema = (editMode) =>
         department: Yup.string().required("Department is required"),
         year_of_study: Yup.string().required("Year is required"),
     });
-export const collegeValidationSchema = (editMode) =>
+export const collegeValidationSchema = (editMode, updatePassword) =>
     Yup.object({
         name: Yup.string().required("Name is required"),
         phoneNumber: Yup.string()
@@ -47,8 +47,8 @@ export const collegeValidationSchema = (editMode) =>
             .min(10, "Phone number must be at least 10 digits")
             .max(15, "Phone number must be no more than 15 digits")
             .required("Phone No is required"),
-        password: editMode
-            ? Yup.string() // No validation if in editMode
+        password: !updatePassword
+            ? Yup.string() 
             : Yup.string()
                 .required("Password is required")
                 .min(6, "Password must be at least 6 characters"),
