@@ -6,7 +6,10 @@ export const initalValue = {
     year: "",
 };
 
-export const loginInitalValue = {};
+export const loginInitalValue = {
+    email: "aseel@lekitk.com",
+    password: "P@ssw0rd",
+};
 
 export const repInitalValue = {
     name: "",
