@@ -14,6 +14,7 @@ import { DepartmentOptionsContext } from '@/context/departmentContext';
 import { AuthContext } from '@/context/authContext';
 import extractDepartment from '@/utils/extractDepartment';
 import ImageCropper from '../ImageCropper';
+import { toast } from 'sonner';
 
 function ParticipantModal({ editMode = false, initialData = {} }) {
     const { mutate: createUser } = useCreateUser();
@@ -31,6 +32,13 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to MB
+            if (fileSizeInMB > 1) {
+                toast.warning("The selected file is larger than 1MB. Please choose a smaller file.");
+                event.target.value = "";
+                return; // Stop further processing
+            }
+
             const reader = new FileReader();
             reader.onload = () => {
                 setImage(reader.result);
@@ -56,7 +64,9 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values);
-            editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
+            console.log(croppedImage);
+
+            // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
             handleCloseDialog();
         },
     });
@@ -111,6 +121,9 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         <div className="text-red-500 text-sm">{formik.errors.department}</div>
                     )}
 
+
+                    <div className='flex gap-2'>
+                        <div className='w-1/2'>
                     <SelectInput
                         label="Year"
                         name="year_of_study"
@@ -122,7 +135,25 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     {formik.touched.year_of_study && formik.errors.year_of_study && (
                         <div className="text-red-500 text-sm">{formik.errors.year_of_study}</div>
                     )}
+                    </div>
 
+                    <div className='w-1/2'>
+                    <SelectInput
+                        label="Semster"
+                        name="sem"
+                        value={formik.values.sem}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        options={yearOptions}
+                    />
+                    {formik.touched.sem && formik.errors.sem && (
+                        <div className="text-red-500 text-sm">{formik.errors.sem}</div>
+                    )} 
+                    </div>
+                    </div>
+
+                    <div className='flex gap-2'>
+                        <div className='w-1/2'>
                     <SelectInput
                         label="Gender"
                         name="gender"
@@ -134,6 +165,22 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     {formik.touched.gender && formik.errors.gender && (
                         <div className="text-red-500 text-sm">{formik.errors.gender}</div>
                     )}
+                    </div > 
+                    <div className='w-1/2'>
+                        <Input
+                        type="date"
+                        name="dob"
+                        label="Date of Birth"
+                        placeholder="Enter Date of Birth"
+                        value={formik.values.dob}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.dob && formik.errors.dob && (
+                        <div className="text-red-500 text-sm">{formik.errors.dob}</div>
+                    )}
+                    </div>
+                    </div>
 
                     <Input
                         name="number"
@@ -159,23 +206,11 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         <div className="text-red-500 text-sm">{formik.errors.capid}</div>
                     )}
 
-                    <Input
-                        type="date"
-                        name="dob"
-                        label="Date of Birth"
-                        placeholder="Enter Date of Birth"
-                        value={formik.values.dob}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.dob && formik.errors.dob && (
-                        <div className="text-red-500 text-sm">{formik.errors.dob}</div>
-                    )}
-
                     {/* Image Picker */}
                     <div>
 
-                        <Input label="Image" type="file" accept="image/*" onChange={handleFileChange} />
+                        <Input label="Image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
+                        <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>
                         {croppedImage && (
                             <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 aspect-square object-contain rounded" />
                         )}
@@ -191,7 +226,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     </div>
                 </form>
                 </div>
-               
+                        
             </DialogContent>
 
 

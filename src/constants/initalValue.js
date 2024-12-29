@@ -23,6 +23,9 @@ export const participantInitalValue = {
     gender: "",
     department: "",
     year_of_study: "",
+    sem: "",
+    dob: "",
+    capid: "",
 };
 
 export const eventTypeinitalValue = {

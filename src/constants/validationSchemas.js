@@ -45,7 +45,12 @@ export const participantValidationSchema = (editMode) =>
             .max(15, "Phone number must be no more than 15 digits")
             .required("Phone No is required"),
         department: Yup.string().required("Department is required"),
+        sem: Yup.string().required("Semster is required"),
         year_of_study: Yup.string().required("Year is required"),
+        dob: Yup.date()
+        .required("Date of Birth is required")
+        .min(new Date("2000-07-01"), "Date of Birth must be after July 1, 2000"),
+        capid: Yup.string().required("Required"),
     });
 
 export const eventTypeValidationSchema = Yup.object({
