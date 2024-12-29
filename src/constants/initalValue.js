@@ -21,7 +21,7 @@ export const repInitalValue = {
 };
 export const collegeInitalValue = {
     name: "",
-    number: "",
+    phoneNumber: "",
     email: "",
     password: "",
     confirmPassword: "",

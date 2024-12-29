@@ -42,7 +42,7 @@ export const repValidationSchema = (editMode) =>
 export const collegeValidationSchema = (editMode) =>
     Yup.object({
         name: Yup.string().required("Name is required"),
-        number: Yup.string()
+        phoneNumber: Yup.string()
             .matches(/^[0-9]+$/, "Phone number must only contain digits")
             .min(10, "Phone number must be at least 10 digits")
             .max(15, "Phone number must be no more than 15 digits")

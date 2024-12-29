@@ -25,7 +25,7 @@ function College() {
             cell: (info) => <strong>{info.getValue()}</strong>,
             enableSorting: false,
         },
-        { accessorKey: "number", header: "Phone No", enableSorting: false },
+        { accessorKey: "phoneNumber", header: "Phone No", enableSorting: false },
         { accessorKey: "email", header: "Email" , enableSorting: false},
         {
             accessorKey: "actions",

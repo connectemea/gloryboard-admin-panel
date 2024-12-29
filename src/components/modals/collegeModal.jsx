@@ -9,6 +9,7 @@ import { collegeValidationSchema } from '@/constants/validationSchemas'
 import { collegeInitalValue } from '@/constants/initalValue'
 import SelectInput from '../common/SelectInput'
 import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations'
+import { useCreateCollege } from '@/services/mutation/collegeMutations'
 import { PasswordInput } from '../ui/password-input'
 import { AuthContext } from '@/context/authContext'
 import extractDepartment from '@/utils/extractDepartment'
@@ -25,8 +26,9 @@ const generateRandomPassword = (length = 12) => {
 
 function CollegeModal({ editMode = false, initialData = {} }) {
     const [submitted, setSubmitted] = React.useState(false);
-    const { mutate: createUser } = useCreateUser(setSubmitted);
-    const { mutate: updateUser } = useUpdateUser(setSubmitted);
+    const { mutate: createUser } = useCreateUser();
+    const { mutate: createCollege } = useCreateCollege(setSubmitted);
+    const { mutate: updateUser } = useUpdateUser();
     const { isOpen, openModal, closeModal } = useModel()
 
     // const { auth } = useContext(AuthContext);
@@ -38,7 +40,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateUser(values) : createUser({ ...values, user_type: 'college' });
+            editMode ? updateUser(values) : createCollege({ ...values, user_type: 'organization' });
             // handleCloseDialog()
         }
     })
@@ -88,7 +90,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                         {/* Name input field */}
                         <Input
                             name="name"
-                            label="college Name"
+                            label="College Name"
                             placeholder="Enter college name"
                             value={formik.values.name}
                             onChange={formik.handleChange}
@@ -111,15 +113,15 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                         )}
                         {/* phone number field */}
                         <Input
-                            name="number"
+                            name="phoneNumber"
                             label="Phone No"
                             placeholder="Enter phone no"
-                            value={formik.values.number}
+                            value={formik.values.phoneNumber}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.number && formik.errors.number && (
-                            <div className="text-red-500 text-sm">{formik.errors.number}</div>
+                        {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+                            <div className="text-red-500 text-sm">{formik.errors.phoneNumber}</div>
                         )}
 
                         {/* {!editMode && */}
@@ -138,6 +140,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
 
                                 <div className='flex items-end justify-end pb-[2px] pl-[5px]'>
                                     <Button
+                                        type="button"
                                         variant="ghost"
                                         size="sm"
                                         className="!py-2"
@@ -182,8 +185,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                             <code className="text-sm text-gray-400 flex flex-col gap-2">
                                 <span> Email: {formik.values.email} </span>
                                 <span> Password: {formik.values.password}</span>
-                               
-                               
+
+
                             </code>
                             <Button
                                 onClick={copyToClipboard}
