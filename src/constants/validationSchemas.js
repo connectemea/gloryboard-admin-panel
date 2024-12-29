@@ -8,7 +8,8 @@ export const validationSchema = Yup.object({
 
 export const loginSchema = Yup.object().shape({
     number: Yup.string()
-        .matches(/^[0-9]+$/, "Phone number must only contain digits")
+        .matches(/^\d+$/, "Phone number must only contain digits") 
+        .matches(/^\S+$/, "Phone number cannot contain spaces") // no spaces are allowed
         .min(10, "Phone number must be at least 10 digits")
         .max(15, "Phone number must be no more than 15 digits")
         .required("Phone No is required"),
@@ -16,6 +17,7 @@ export const loginSchema = Yup.object().shape({
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
 });
+
 
 export const repValidationSchema = (editMode) =>
     Yup.object({
@@ -33,6 +35,24 @@ export const repValidationSchema = (editMode) =>
                 .min(6, "Password must be at least 6 characters"),
         department: Yup.string().required("Department is required"),
         year_of_study: Yup.string().required("Year is required"),
+    });
+export const collegeValidationSchema = (editMode) =>
+    Yup.object({
+        name: Yup.string().required("Name is required"),
+        number: Yup.string()
+            .matches(/^[0-9]+$/, "Phone number must only contain digits")
+            .min(10, "Phone number must be at least 10 digits")
+            .max(15, "Phone number must be no more than 15 digits")
+            .required("Phone No is required"),
+        password: editMode
+            ? Yup.string() // No validation if in editMode
+            : Yup.string()
+                .required("Password is required")
+                .min(6, "Password must be at least 6 characters"),
+        email: Yup.string().email("Invalid email").required("Email is required"),
+        confirmPassword: Yup.string()
+            .required("Confirm Password is required")
+            .oneOf([Yup.ref("password"), null], "Passwords must match"),
     });
 
 export const participantValidationSchema = (editMode) =>
@@ -56,19 +76,19 @@ export const participantValidationSchema = (editMode) =>
 export const eventTypeValidationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     participant_count: Yup.number()
-    .required('Participants count is required')
-    .typeError('Participants count must be a number')
-    .positive('Participants count must be a positive number')
-    .integer('Participants count must be a whole number')
-    .when('is_group', {
-        is: true,
-        then: (schema) =>
-            schema
-                .min(2, 'Participants count must be at least 2'),
-        otherwise: (schema) =>
-            schema
-                .min(1, 'Participants count must be at least 1'),
-    }),
+        .required('Participants count is required')
+        .typeError('Participants count must be a number')
+        .positive('Participants count must be a positive number')
+        .integer('Participants count must be a whole number')
+        .when('is_group', {
+            is: true,
+            then: (schema) =>
+                schema
+                    .min(2, 'Participants count must be at least 2'),
+            otherwise: (schema) =>
+                schema
+                    .min(1, 'Participants count must be at least 1'),
+        }),
     helper_count: Yup.string().required('Helper count is required'),
 
     scores: Yup.object({
@@ -77,7 +97,7 @@ export const eventTypeValidationSchema = Yup.object({
             .positive('Must be a positive number')
             .integer('Must be an integer')
             .min(1, 'Score must be at least 1'),
-    
+
         second: Yup.number()
             .required('Second place score is required')
             .positive('Must be a positive number')
@@ -91,7 +111,7 @@ export const eventTypeValidationSchema = Yup.object({
                 }
             )
         ,
-    
+
         third: Yup.number()
             .required('Third place score is required')
             .positive('Must be a positive number')
@@ -105,7 +125,7 @@ export const eventTypeValidationSchema = Yup.object({
                 }
             )
         ,
-    })    
+    })
 });
 
 export const eventValidationSchema = Yup.object({
@@ -122,9 +142,11 @@ export const eventRegistrationSchema = Yup.object().shape({
 
 
     group_name: Yup.string().when('is_group',
-        {is:true,
-        then:(schema)=> schema.required("Group Name is rquired"), 
-        otherwise:(schema)=>schema.notRequired()}
+        {
+            is: true,
+            then: (schema) => schema.required("Group Name is rquired"),
+            otherwise: (schema) => schema.notRequired()
+        }
     ),
 
     participants: Yup.array()

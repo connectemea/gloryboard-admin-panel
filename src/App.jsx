@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import EventType from "./pages/event_type";
 import EventRegistration from "./pages/event_registration";
 import ScoreTable from "./pages/score_table";
+import College from "./pages/college";
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
           <Route path="/event/type" element={<EventType />} />
           <Route path="/event/registration" element={<EventRegistration />} />
           <Route path="/results" element={<Results />} />
-          <Route path="/rep" element={<Rep />} />
+          <Route path="/college" element={<College />} />
         </Route>
       </Route>
     </Routes>
