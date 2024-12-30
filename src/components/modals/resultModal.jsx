@@ -141,7 +141,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
                         <span>
                             {participant?.name || 'No Name'}
                             <span className="text-gray-500 text-xs font-normal ml-2">
-                                {participant?.department || 'No Department'}
+                                {participant?.course || 'No Department'}
                             </span>
                             <span className="text-gray-500 text-xs font-normal ml-2">
                                 {participant?.year_of_study || 'No Year'}
