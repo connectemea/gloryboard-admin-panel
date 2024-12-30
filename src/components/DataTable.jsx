@@ -107,14 +107,67 @@ export default function DataTable({ data, columns }) {
                             <tbody className="divide-y bg-black/40">
                                 {/* Check for empty data */}
                                 {table.getRowModel().rows.length === 0 ? (
-                                    <tr>
-                                        <td
-                                            colSpan={table.getHeaderGroups()[0].headers.length}
-                                            className="px-4 py-4 text-center text-gray-200"
-                                        >
-                                            No data available. <span className="animate-bounce"> 🐝 </span>Fly high,(creative!)
-                                        </td>
-                                    </tr>
+                                    <>
+                                        <tr>
+                                            <td
+                                                colSpan={table.getHeaderGroups()[0].headers.length}
+                                                className="px-4 py-4 text-center text-gray-200"
+                                            >
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+
+                                                No data available.
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+                                                Fly high, stay buzzing!
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                colSpan={table.getHeaderGroups()[0].headers.length}
+                                                className="px-4 py-4 text-center text-gray-200"
+                                            >
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+                                                <span
+                                                    className="inline-block animate-fly text-yellow-400 px-4"
+                                                    role="img"
+                                                    aria-label="bee"
+                                                >
+                                                    🐝
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </>
                                 ) : (
                                     table.getRowModel().rows.map((row) => (
                                         <tr key={row.id} className="hover:bg-[#0D1E26]/10">

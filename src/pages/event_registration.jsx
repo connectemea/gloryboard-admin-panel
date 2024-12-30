@@ -8,7 +8,7 @@ import { useDeleteEventReg } from "@/services/mutation/eventRegMutations";
 import { useGetConfig } from "@/services/queries/configQueries";
 import { getConfigValue } from "@/utils/configUtils";
 import { useGetEventRegs } from "@/services/queries/eventRegQueries";
-import {Users2} from "lucide-react";
+import { Users2 } from "lucide-react";
 import React, { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
 import DownloadTickets from "@/components/tickets/DownloadAllTickets";
@@ -72,15 +72,17 @@ function EventRegistration() {
             header: "Actions",
             enableSorting: false,
             cell: ({ row }) => (
-                <div className="flex space-x-2">
+                <div className="flex gap-2">
                     <EventRegViewModal data={row.original} />
                     {/* <EventRegModal editMode={true} initialData={row.original} /> */}
-                    <DeleteModal
-                        onDelete={() => {
-                            console.log(row.original._id);
-                            deleteEventReg(row.original._id);
-                        }}
-                    />
+                    {auth?.user.user_type !== 'admin' && (
+                        <DeleteModal
+                            onDelete={() => {
+                                console.log(row.original._id);
+                                deleteEventReg(row.original._id);
+                            }}
+                        />
+                    )}
                 </div>
             ),
         },
@@ -93,10 +95,12 @@ function EventRegistration() {
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Event Registration</h2>
                 <div className="flex gap-2">
-                    {auth?.user.user_type === 'admin' || (configs && getConfigValue(configs, 'hall_ticket_export')) ? (
+                    {(configs && getConfigValue(configs, 'hall_ticket_export')) ? (
                         <DownloadAllTickets />
                     ) : null}
-                    <EventRegModal />
+                    {auth?.user.user_type !== 'admin' && (
+                        <EventRegModal />
+                    )}
                 </div>
             </div>
             <DataTable data={data} columns={columns} />

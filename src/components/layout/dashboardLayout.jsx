@@ -125,8 +125,9 @@ const DashboardLayout = ({ children }) => {
                     <Sidebar className="z-50 bg-[#0D1E26]">
                         <SidebarHeader className="z-50">
                             <div className="px-4 py-2 text-center z-50">
-                                <h3 className="text-lg font-medium leading-none">
-                                    <img src={Logo} alt="Logo" className="h-12 mx-auto" />
+                                <h3 className="text-lg font-medium leading-none py-2">
+                                    <img src={Logo} alt="Logo" className="h-10 mx-auto" />
+                                    {/* C Zone */}
                                 </h3>
                             </div>
                         </SidebarHeader>
@@ -148,17 +149,17 @@ const DashboardLayout = ({ children }) => {
                                         <AvatarImage src="/profile.jpg" alt="Profile" />
                                         <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
                                     </Avatar>
-                                    <Button variant="secondary" className="hover:bg-red-600"  onClick={logout}>
+                                    <Button variant="secondary" className="hover:bg-red-600" onClick={logout}>
                                         <LogOut />
                                     </Button>
                                 </div>
                             </div>
                         </div>
-                        <div className="container mx-auto py-8">
-                            <div className='z-30 relative p-4'>
+                        <div className="container mx-auto py-8 h-full">
+                            <div className="z-30 relative p-4 h-full">
                                 <Outlet />
-                                <div className='mt-10'>
-                                    <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
+                                <div className="absolute bottom-0 left-0 right-0 mx-auto flex justify-center">
+                                    <img src={ProductLogo} alt="Logo" className="h-12 mt-2" />
                                 </div>
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
