@@ -6,6 +6,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
 // import { DepartmentOptionsProvider } from '@/context/departmentContext';
+import ProductLogo from '@/assets/p_logo.svg';
+import Logo from '@/assets/logo.svg';
 
 const routes = [
     {
@@ -93,7 +95,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-white/10 space-x-2 px-4 py-2 rounded-lg ${location.pathname === item.url ? 'bg-teal-600' : 'text-white'
+                    className={`flex items-center hover:bg-[#0CA5EA]/20 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />
@@ -122,10 +124,12 @@ const DashboardLayout = ({ children }) => {
             {/* <DepartmentOptionsProvider> */}
             <SidebarProvider>
                 <div className="flex h-screen w-full">
-                    <Sidebar className="z-50 bg-[#0d2622]">
+                    <Sidebar className="z-50 bg-[#0D1E26]">
                         <SidebarHeader className="z-50">
                             <div className="px-4 py-6 text-center z-50">
-                                <h3 className="text-lg font-medium leading-none">C Zone</h3>
+                                <h3 className="text-lg font-medium leading-none">
+                                    <img src={Logo} alt="Logo" className="h-16 mx-auto" />
+                                </h3>
                             </div>
                         </SidebarHeader>
                         <SidebarContent className="px-4 z-50">
@@ -137,6 +141,9 @@ const DashboardLayout = ({ children }) => {
                             <Button variant="ghost" onClick={logout}>
                                 Logout
                             </Button>
+                            <div>
+                                <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
+                            </div>
                         </SidebarFooter>
                     </Sidebar>
 
@@ -155,7 +162,17 @@ const DashboardLayout = ({ children }) => {
                             </div>
                         </div>
                         <div className="container mx-auto py-8">
+                            <div className='z-30 relative '>
                             <Outlet />
+                            </div>
+                            <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
+                                <div className='relative w-full z-0'>
+                                    <div className='rounded-full w-72 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[100px]' />
+                                </div>
+                                <div className='relative w-full z-0'>
+                                    <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[95px] absolute left-0 bottom-0' />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

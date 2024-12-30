@@ -21,9 +21,9 @@ function Settings() {
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Settings</h2>
             </div>
-            <div className="flex flex-col gap-2 border rounded-md p-6 max-w-[800px] mx-auto w-full">
+            <div className="flex flex-col border rounded-md px-4 py-2 max-w-[800px] mx-auto w-full">
                 {data.map((config) => (
-                    <div key={config._id} className="flex justify-between items-center py-4 border-b">
+                    <div key={config._id} className="flex justify-between items-center py-4 border-b last:border-none">
                         <div>
                             <h3 className="text-lg font-semibold">{config.key}</h3>
                         </div>

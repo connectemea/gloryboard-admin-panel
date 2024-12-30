@@ -10,10 +10,12 @@ import { Loader2 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import LoginHead from '@/assets/login_head.svg';
+import ProductLogo from '@/assets/p_logo2.svg';
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -46,11 +48,11 @@ function Login() {
 
   const handleMouseMove = (e) => {
     // Background gradient effect
-    const x = (e.clientX / window.innerWidth) * 90;
-    const y = (e.clientY / window.innerHeight) * 90;
+    const x = (e.clientX / window.innerWidth) * 40;
+    const y = (e.clientY / window.innerHeight) * 40;
     document.querySelector(
       ".login-background"
-    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #1a1a1a, #000000)`;
+    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #294d708d, #00000071)`;
 
     // Logo movement effect
     const logo = document.querySelector(".floating-logo");
@@ -78,12 +80,14 @@ function Login() {
       /> */}
         <form
           onSubmit={formik.handleSubmit}
-          className="border p-8 rounded shadow-md w-full"
+          className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0d1e26aa]  z-30 relative mb-10"
         >
+          <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4" />
+          <div className="bg-transparent absolute top-0 left-0 w-full  z-0 h-[150px]" />
           <h2 className="text-4xl font-bold text-left text-primary">
             Welcome back!
           </h2>
-          <p className="mb-10 text-sm text-white/50">Login to your account</p>
+          <p className="mb-5 text-sm text-white/50">Login to your account</p>
           <div>
             <Input
               name="email"
@@ -114,6 +118,15 @@ function Login() {
             {formik.isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
           </Button>
         </form>
+        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto " />
+      </div>
+      <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse '>
+        <div className='relative w-full z-0'>
+          <div className='rounded-full w-72 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[100px]' />
+        </div>
+        <div className='relative w-full z-0'>
+          <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[95px] absolute left-[60px] bottom-20' />
+        </div>
       </div>
     </div>
   );

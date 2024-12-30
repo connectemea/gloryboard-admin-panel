@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import DataTable from "@/components/DataTable";
 import ParticipantModal from "@/components/modals/participantModal";
 import { useGetParticipants } from "@/services/queries/participantQueries";
@@ -8,12 +8,15 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { getConfigValue } from "@/utils/configUtils";
 import { Avatar } from "@/components/ui/avatar";
 import { useGetConfig } from "@/services/queries/configQueries";
+import { AuthContext } from "@/context/authContext";
 
 function Participants() {
 
   const { data, isLoading, error } = useGetParticipants();
   const { mutate: deleteUser } = useDeleteUser();
 
+
+  const { auth } = useContext(AuthContext);
   const { data: configs } = useGetConfig();
 
 
@@ -67,7 +70,10 @@ function Participants() {
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold">Participants</h2>
-        {configs && getConfigValue(configs, 'user_registration') && <ParticipantModal />}
+        {auth?.user.user_type === 'admin' || (configs && getConfigValue(configs, 'user_registration')) ? (
+    <ParticipantModal />
+) : null}
+
       </div>
       <DataTable data={data} columns={columns} />
     </div>
