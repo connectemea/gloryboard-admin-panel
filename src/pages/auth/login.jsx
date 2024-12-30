@@ -14,8 +14,8 @@ import LoginHead from '@/assets/login_head.svg';
 import ProductLogo from '@/assets/p_logo2.svg';
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -48,11 +48,11 @@ function Login() {
 
   const handleMouseMove = (e) => {
     // Background gradient effect
-    const x = (e.clientX / window.innerWidth) * 90;
-    const y = (e.clientY / window.innerHeight) * 90;
+    const x = (e.clientX / window.innerWidth) * 40;
+    const y = (e.clientY / window.innerHeight) * 40;
     document.querySelector(
       ".login-background"
-    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #1a1a1a, #071820)`;
+    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #294d708d, #00000071)`;
 
     // Logo movement effect
     const logo = document.querySelector(".floating-logo");
@@ -80,7 +80,7 @@ function Login() {
       /> */}
         <form
           onSubmit={formik.handleSubmit}
-          className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0D1E26] z-30 relative mb-10"
+          className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0d1e26aa]  z-30 relative mb-10"
         >
           <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4 h-[100px]" />
           <div className="bg-transparent absolute top-0 left-0 w-full  z-0 h-[150px]" />
@@ -120,7 +120,7 @@ function Login() {
         </form>
         <img src={ProductLogo} alt="Logo" className="h-10  mx-auto " />
       </div>
-      <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0'>
+      <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse '>
         <div className='relative w-full z-0'>
           <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[125px] absolute top-10 right-[50px]' />
         </div>
