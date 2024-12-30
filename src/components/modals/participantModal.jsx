@@ -10,10 +10,10 @@ import { participantValidationSchema } from '@/constants/validationSchemas';
 import { participantInitalValue } from '@/constants/initalValue';
 import SelectInput from '../common/SelectInput';
 import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations';
-import { DepartmentOptionsContext } from '@/context/departmentContext';
+// import { DepartmentOptionsContext } from '@/context/departmentContext';
 import { AuthContext } from '@/context/authContext';
-import extractDepartment from '@/utils/extractDepartment';
 import ImageCropper from '../ImageCropper';
+import { toast } from 'sonner';
 
 function ParticipantModal({ editMode = false, initialData = {} }) {
     const { mutate: createUser } = useCreateUser();
@@ -21,7 +21,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel();
 
     const { auth } = useContext(AuthContext);
-    const { data } = useContext(DepartmentOptionsContext);
+    // const { data } = useContext(DepartmentOptionsContext);
 
     const [image, setImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -31,6 +31,13 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to MB
+            if (fileSizeInMB > 1) {
+                toast.warning("The selected file is larger than 1MB. Please choose a smaller file.");
+                event.target.value = "";
+                return; // Stop further processing
+            }
+
             const reader = new FileReader();
             reader.onload = () => {
                 setImage(reader.result);
@@ -50,13 +57,21 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
 
     const formik = useFormik({
         initialValues: editMode
-            ? { ...participantInitalValue, ...initialData, year_of_study: String(initialData.year_of_study) }
+            ? { ...participantInitalValue, ...initialData, 
+                year_of_study: String(initialData.year_of_study), 
+                semester: String(initialData.semester), 
+                phoneNumber: String(initialData.phoneNumber), 
+                capId: String(initialData.capId),
+                dob: initialData.dob ? new Date(initialData.dob).toISOString().split('T')[0] : '', 
+                }
             : participantInitalValue,
         validationSchema: participantValidationSchema,
         validateOnBlur: false,
         onSubmit: (values) => {
             console.log(editMode ? 'Updated Data:' : 'New Data:', values);
-            editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
+
+            // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
+            editMode ? updateUser(values) : createUser({ ...values, user_type: 'member', image: croppedImage });
             handleCloseDialog();
         },
     });
@@ -82,20 +97,32 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="overflow-y-auto  px-1">
-                <form onSubmit={formik.handleSubmit} className="space-y-2">
-                    <Input
-                        name="name"
-                        label="Name"
-                        placeholder="Enter name"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.name && formik.errors.name && (
-                        <div className="text-red-500 text-sm">{formik.errors.name}</div>
-                    )}
+                    <form onSubmit={formik.handleSubmit} className="space-y-2">
+                        <Input
+                            name="name"
+                            label="Name"
+                            placeholder="Enter name"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.name && formik.errors.name && (
+                            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+                        )}
 
-                    <SelectInput
+                        <Input
+                            name="course"
+                            label="Course Name"
+                            placeholder="Enter Course Name"
+                            value={formik.values.course}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.course && formik.errors.course && (
+                            <div className="text-red-500 text-sm">{formik.errors.course}</div>
+                        )}
+
+                        {/* <SelectInput
                         label="Department"
                         name="department"
                         value={formik.values.department}
@@ -109,89 +136,117 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                     />
                     {formik.touched.department && formik.errors.department && (
                         <div className="text-red-500 text-sm">{formik.errors.department}</div>
-                    )}
+                    )} */}
 
-                    <SelectInput
-                        label="Year"
-                        name="year_of_study"
-                        value={formik.values.year_of_study.toString()}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        options={yearOptions}
-                    />
-                    {formik.touched.year_of_study && formik.errors.year_of_study && (
-                        <div className="text-red-500 text-sm">{formik.errors.year_of_study}</div>
-                    )}
 
-                    <SelectInput
-                        label="Gender"
-                        name="gender"
-                        value={formik.values.gender}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        options={genderOptions}
-                    />
-                    {formik.touched.gender && formik.errors.gender && (
-                        <div className="text-red-500 text-sm">{formik.errors.gender}</div>
-                    )}
+                        <div className='flex gap-2'>
+                            <div className='w-1/2'>
+                                <SelectInput
+                                    label="Year"
+                                    name="year_of_study"
+                                    value={formik.values.year_of_study.toString()}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    options={yearOptions}
+                                />
+                                {formik.touched.year_of_study && formik.errors.year_of_study && (
+                                    <div className="text-red-500 text-sm">{formik.errors.year_of_study}</div>
+                                )}
+                            </div>
 
-                    <Input
-                        name="number"
-                        label="Phone No"
-                        placeholder="Enter phone no"
-                        value={formik.values.number}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.number && formik.errors.number && (
-                        <div className="text-red-500 text-sm">{formik.errors.number}</div>
-                    )}
+                            <div className='w-1/2'>
+                                <SelectInput
+                                    label="Semster"
+                                    name="semester"
+                                    value={formik.values.semester}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    options={yearOptions}
+                                />
+                                {formik.touched.semester && formik.errors.semester && (
+                                    <div className="text-red-500 text-sm">{formik.errors.semester}</div>
+                                )}
+                            </div>
+                        </div>
 
-                    <Input
-                        name="capid"
-                        label="CAPID/Exam Reg No"
-                        placeholder="Enter CAPID/Exam Reg No"
-                        value={formik.values.capid}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.capid && formik.errors.capid && (
-                        <div className="text-red-500 text-sm">{formik.errors.capid}</div>
-                    )}
+                        <div className='flex gap-2'>
+                            <div className='w-1/2'>
+                                <SelectInput
+                                    label="Gender"
+                                    name="gender"
+                                    value={formik.values.gender}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    options={genderOptions}
+                                />
+                                {formik.touched.gender && formik.errors.gender && (
+                                    <div className="text-red-500 text-sm">{formik.errors.gender}</div>
+                                )}
+                            </div >
+                            <div className='w-1/2'>
+                                <Input
+                                    type="date"
+                                    name="dob"
+                                    label="Date of Birth"
+                                    placeholder="Enter Date of Birth"
+                                    value={formik.values.dob}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.dob && formik.errors.dob && (
+                                    <div className="text-red-500 text-sm">{formik.errors.dob}</div>
+                                )}
+                            </div>
+                        </div>
 
-                    <Input
-                        type="date"
-                        name="dob"
-                        label="Date of Birth"
-                        placeholder="Enter Date of Birth"
-                        value={formik.values.dob}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.dob && formik.errors.dob && (
-                        <div className="text-red-500 text-sm">{formik.errors.dob}</div>
-                    )}
-
-                    {/* Image Picker */}
-                    <div>
-
-                        <Input label="Image" type="file" accept="image/*" onChange={handleFileChange} />
-                        {croppedImage && (
-                            <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 aspect-square object-contain rounded" />
+                        <Input
+                            name="phoneNumber"
+                            label="Phone No"
+                            placeholder="Enter phone no"
+                            value={formik.values.phoneNumber}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+                            <div className="text-red-500 text-sm">{formik.errors.phoneNumber}</div>
                         )}
-                    </div>
 
-                    <div className="!mt-4 flex justify-end">
-                        <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
-                            {editMode ? 'Update' : 'Submit'}
-                        </Button>
-                        <Button type="button" variant="ghost" onClick={handleCloseDialog}>
-                            Cancel
-                        </Button>
-                    </div>
-                </form>
+                        <Input
+                            name="capId"
+                            label="CAPID/Exam Reg No"
+                            placeholder="Enter CAPID/Exam Reg No"
+                            value={formik.values.capId}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.capId && formik.errors.capId && (
+                            <div className="text-red-500 text-sm">{formik.errors.capId}</div>
+                        )}
+
+                        {/* Image Picker */}
+
+                        {!editMode && (
+                            <div>
+                                <Input label="Image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
+                                <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>
+                                {croppedImage && (
+                                    <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 aspect-square object-contain rounded" />
+                                )}
+                            </div>
+                        )}
+
+
+                        <div className="!mt-4 flex justify-end">
+                            <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
+                                {editMode ? 'Update' : 'Submit'}
+                            </Button>
+                            <Button type="button" variant="ghost" onClick={handleCloseDialog}>
+                                Cancel
+                            </Button>
+                        </div>
+                    </form>
                 </div>
-               
+
             </DialogContent>
 
 

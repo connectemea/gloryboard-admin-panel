@@ -5,11 +5,17 @@ import { useGetParticipants } from "@/services/queries/participantQueries";
 import DeleteModal from "@/components/common/DeleteModal";
 import { useDeleteUser } from "@/services/mutation/userMutations";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import { getConfigValue } from "@/utils/configUtils";
+import { Avatar } from "@/components/ui/avatar";
+import { useGetConfig } from "@/services/queries/configQueries";
 
 function Participants() {
 
   const { data, isLoading, error } = useGetParticipants();
   const { mutate: deleteUser } = useDeleteUser();
+
+  const { data: configs } = useGetConfig();
+
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -22,14 +28,22 @@ function Participants() {
 
   const columns = [
     {
+      accessorKey: "image",
+      header: "Picture",
+      cell: (info) => <Avatar><img src={info.getValue()} className="w-full h-full" alt="" /></Avatar>,
+      enableSorting: false,
+    },
+    { accessorKey: "userId", header: "User ID", enableSorting: false },
+    {
       accessorKey: "name",
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
-    { accessorKey: "department", header: "Department", enableSorting: false, },
+    { accessorKey: "college", header: "College", enableSorting: false },
     { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
-    { accessorKey: "number", header: "Phone", enableSorting: false, },
-    { accessorKey: "total_score", header: "Total Score" },
+    // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
+    { accessorKey: "phoneNumber", header: "Phone", enableSorting: false, },
+    // { accessorKey: "total_score", header: "Total Score" },
     {
       accessorKey: "actions",
       header: "Actions",
@@ -53,7 +67,7 @@ function Participants() {
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold">Participants</h2>
-        <ParticipantModal />
+        {configs && getConfigValue(configs, 'user_registration') && <ParticipantModal />}
       </div>
       <DataTable data={data} columns={columns} />
     </div>

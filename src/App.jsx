@@ -11,6 +11,7 @@ import EventType from "./pages/event_type";
 import EventRegistration from "./pages/event_registration";
 import ScoreTable from "./pages/score_table";
 import College from "./pages/college";
+import Settings from "./pages/settings";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/event/type" element={<EventType />} />
           <Route path="/event/registration" element={<EventRegistration />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/college" element={<College />} />
         </Route>
       </Route>

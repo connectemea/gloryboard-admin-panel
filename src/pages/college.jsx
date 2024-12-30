@@ -2,13 +2,13 @@ import DeleteModal from "@/components/common/DeleteModal";
 import DataTable from "@/components/DataTable";
 import CollegeModal from "@/components/modals/collegeModal";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
-import { useDeleteUser } from "@/services/mutation/userMutations";
+import { useDeleteCollege  } from '@/services/mutation/collegeMutations'
 import { useGetUsers } from "@/services/queries/userQueries";
 import React from "react";
 
 function College() {
     const { data, isLoading, error } = useGetUsers();
-    const { mutate: deleteUser } = useDeleteUser();
+    const { mutate: deleteUser } = useDeleteCollege();
 
     if (isLoading) {
         return <TableSkeleton />;
@@ -25,23 +25,8 @@ function College() {
             cell: (info) => <strong>{info.getValue()}</strong>,
             enableSorting: false,
         },
-        {
-            accessorKey: "department",
-            header: "Department",
-            enableSorting: false,
-            meta: {
-                filterVariant: "select",
-            },
-        },
-        {
-            accessorKey: "year_of_study",
-            header: "Year",
-            enableSorting: false,
-            meta: {
-                filterVariant: "select",
-            },
-        },
-        { accessorKey: "number", header: "Phone No", enableSorting: false },
+        { accessorKey: "phoneNumber", header: "Phone No", enableSorting: false },
+        { accessorKey: "email", header: "Email" , enableSorting: false},
         {
             accessorKey: "actions",
             header: "Actions",

@@ -1,18 +1,26 @@
+import axiosInstance from "@/api/axiosInstance";
 import DataTable from "@/components/DataTable";
 import DeleteModal from "@/components/common/DeleteModal";
 import EventRegModal from "@/components/modals/eventRegModal";
 import EventRegViewModal from "@/components/modals/view/eventRegViewModal";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import { Button } from "@/components/ui/button";
 import { useDeleteEventReg } from "@/services/mutation/eventRegMutations";
+import { useGetConfig } from "@/services/queries/configQueries";
+import { getConfigValue } from "@/utils/configUtils"; 
 import { useGetEventRegs } from "@/services/queries/eventRegQueries";
 import {
+    Download,
     Users2,
 } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 
 function EventRegistration() {
     const { data, isLoading, error } = useGetEventRegs();
     const { mutate: deleteEventReg } = useDeleteEventReg();
+    
+    const { data: configs } = useGetConfig();
 
     if (isLoading) {
         return <TableSkeleton />;
@@ -22,7 +30,7 @@ function EventRegistration() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-    console.log(data)
+    // console.log(data)
 
     const columns = [
         {
@@ -49,7 +57,7 @@ function EventRegistration() {
                     {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.department
                     ) : (
                         <div className="flex items-center gap-2">
-                        {row.original.group_name} <Users2 size={16} className="" />
+                            {row.original.group_name} <Users2 size={16} className="" />
                         </div>
                     )}
                 </strong>
@@ -79,11 +87,34 @@ function EventRegistration() {
         },
     ];
 
+    const handleDownloadTickets = async () => {
+        try {
+            const response = await axiosInstance.get('/org/participant-tickets');
+            // Optionally handle the response, like triggering a file download
+            console.log('Tickets exported successfully:', response.data);
+        } catch (error) {
+            // Display an error alert
+            console.error('Error exporting tickets:', error);
+            toast.error('Failed to export tickets. Please try again.');
+        }
+    };
+
+
+
     return (
         <div className="px-4 flex flex-col ">
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Event Registration</h2>
-                <EventRegModal />
+                <div className="flex gap-2">
+                    {configs &&
+                    getConfigValue(configs,'hall_ticket_export') && <Button
+                        onClick={handleDownloadTickets}
+                    >
+                        Export Tickets 
+                    </Button> 
+                    }
+                    <EventRegModal />
+                </div>
             </div>
             <DataTable data={data} columns={columns} />
         </div>

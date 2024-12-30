@@ -16,8 +16,7 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel()
 
     const { mutate: CreateEventType } = useCreateEventType()
-    const { mutate: updateEventType } = useUpdateEventType();
-  
+    const { mutate: updateEventType } = useUpdateEventType();  
 
     const formik = useFormik({
         initialValues: editMode ? { ...eventTypeinitalValue, ...initialData } : eventTypeinitalValue,
@@ -113,7 +112,7 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
 
                     {/* Participants Count input, shown only if Is Group Event is checked */}
                     {/* {formik.values.is_group && ( */}
-                        <Input
+                        {/* <Input
                             name="participant_count"
                             label="Participants Count"
                             type="number"
@@ -121,15 +120,15 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
                             value={formik.values.participant_count}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                        />
+                        /> */}
                     {/* )} */}
-                    {formik.touched.participant_count && formik.errors.participant_count && (
+                    {/* {formik.touched.participant_count && formik.errors.participant_count && (
                         <div className="text-red-500 text-sm">{formik.errors.participant_count}</div>
-                    )}
+                    )} */}
 
 
 
-                    <Input
+                    {/* <Input
                         name="helper_count"
                         label="Helpers Count"
                         type="number"
@@ -137,11 +136,11 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
                         value={formik.values.helper_count}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                    />
+                    /> */}
 
-                    {formik.touched.helper_count && formik.errors.helper_count && (
+                    {/* {formik.touched.helper_count && formik.errors.helper_count && (
                         <div className="text-red-500 text-sm">{formik.errors.helper_count}</div>
-                    )}
+                    )} */}
 
                     <div className='text-gray-500 text-lg font-semibold '>Set Scores</div>
 

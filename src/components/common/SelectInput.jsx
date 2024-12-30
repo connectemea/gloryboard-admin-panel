@@ -11,7 +11,7 @@ function SelectInput({ label, name, value, onChange, options, disabled }) {
     }
 
     return (
-        <div className="form-control space-y-1">
+        <div className="form-control space-y-1 w-full">
             {label && <Label className="text-sm text-white/50" >{label}</Label>}
             <Select name={name} value={value} onValueChange={handleSelectChange} disabled={disabled}>
                 <SelectTrigger>

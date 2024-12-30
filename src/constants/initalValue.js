@@ -6,7 +6,10 @@ export const initalValue = {
     year: "",
 };
 
-export const loginInitalValue = {};
+export const loginInitalValue = {
+    email: "aseel@lekitk.com",
+    password: "P@ssw0rd",
+};
 
 export const repInitalValue = {
     name: "",
@@ -18,7 +21,7 @@ export const repInitalValue = {
 };
 export const collegeInitalValue = {
     name: "",
-    number: "",
+    phoneNumber: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,18 +29,18 @@ export const collegeInitalValue = {
 
 export const participantInitalValue = {
     name: "",
-    number: "",
+    phoneNumber: "",
     gender: "",
-    department: "",
     year_of_study: "",
+    semester: "",
+    dob: "",
+    capId: "",
 };
 
 export const eventTypeinitalValue = {
     name: "",
     is_group: false,
     is_onstage: false,
-    participant_count: 1, 
-    helper_count: 0, 
     scores: {
         first: null,
         second: null,
@@ -48,7 +51,11 @@ export const eventTypeinitalValue = {
 export const eventInitalValue = {
     name: "",
     event_type: "",
-    date: null
+    event_category: "",
+    result_category: "",
+    min_participants: 1,
+    max_participants: 2,
+    // date: null
 };
 
 export const eventRegistrationInitialValues = {

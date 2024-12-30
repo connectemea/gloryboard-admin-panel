@@ -1,13 +1,58 @@
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CloudFog } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const useCreateUser = () => {
     const queryClient = useQueryClient();
     let toastId; // Variable to store the toast ID for updating later
 
+    
+
     return useMutation({
-        mutationFn: (newUser) => axiosInstance.post('/users/register', newUser),
+        mutationFn: (newUser) => {
+
+            const formData = new FormData();
+
+            
+            formData.append('name', newUser.name);
+            formData.append('phoneNumber', newUser.number);
+            formData.append('gender', newUser.gender);
+            formData.append('course', newUser.course);
+            formData.append('semester', newUser.sem);
+            formData.append('capId', newUser.capid);
+            formData.append('dob', newUser.dob);
+            formData.append('year_of_study', newUser.year_of_study);
+
+
+            if (newUser.image) {
+                // Function to convert base64 to Blob
+                const base64ToBlob = (base64, mimeType) => {
+                    const byteString = atob(base64.split(',')[1]); // Decode base64
+                    const arrayBuffer = new Uint8Array(byteString.length);
+                    for (let i = 0; i < byteString.length; i++) {
+                        arrayBuffer[i] = byteString.charCodeAt(i);
+                    }
+                    return new Blob([arrayBuffer], { type: mimeType });
+                };
+        
+                // Extract mime type from the base64 string
+                const mimeType = newUser.image.match(/data:(.*?);base64,/)[1];
+                const blob = base64ToBlob(newUser.image, mimeType);
+        
+                // Append the Blob to FormData
+                formData.append('image', blob, 'image.jpg'); // 'image.jpg' is the file name
+            }
+
+            return axiosInstance.post('/org/register', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+        
+        },
+
+        
+
+
         onMutate: () => {
             toastId = toast.loading("Creating user...");
         },
@@ -30,7 +75,8 @@ export const useDeleteUser = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (id) => axiosInstance.get(`/users/delete?id=${id}`),
+        mutationFn: (id) => axiosInstance.delete(`/org/delete/${id}`),
+
     
         onMutate: () => {
             toastId = toast.loading("Deleting user...");
@@ -54,7 +100,7 @@ export const useUpdateUser = () => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) => axiosInstance.put(`/users/update?id=${data._id}`, data),
+        mutationFn: (data) =>  axiosInstance.put(`/org/update?id=${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
         },

@@ -3,9 +3,9 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users } from 'lucide-react';
+import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
-import { DepartmentOptionsProvider } from '@/context/departmentContext';
+// import { DepartmentOptionsProvider } from '@/context/departmentContext';
 
 const routes = [
     {
@@ -29,6 +29,12 @@ const routes = [
         title: "College",
         url: "/college",
         icon: SquareUserRound,
+        role: "admin"
+    },
+    {
+        title: "Settings",
+        url: "/settings",
+        icon: Settings,
         role: "admin"
     },
     {
@@ -87,9 +93,8 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-white/10 space-x-2 px-4 py-2 rounded-lg ${
-                        location.pathname === item.url ? 'bg-teal-600' : 'text-white'
-                    }`}
+                    className={`flex items-center hover:bg-white/10 space-x-2 px-4 py-2 rounded-lg ${location.pathname === item.url ? 'bg-teal-600' : 'text-white'
+                        }`}
                 >
                     <item.icon />
                     <span>{item.title}</span>
@@ -114,48 +119,48 @@ const DashboardLayout = ({ children }) => {
 
     return (
         <>
-         <DepartmentOptionsProvider>
-        <SidebarProvider>
-            <div className="flex h-screen w-full">
-                <Sidebar className="z-50 bg-[#0d2622]">
-                    <SidebarHeader className="z-50">
-                        <div className="px-4 py-6 text-center z-50">
-                            <h3 className="text-lg font-medium leading-none">C Zone</h3>
-                        </div>
-                    </SidebarHeader>
-                    <SidebarContent className="px-4 z-50">
-                        <SidebarMenu>
-                            {filteredRoutes.map((route) => renderMenuGroup(route))}
-                        </SidebarMenu>
-                    </SidebarContent>
-                    <SidebarFooter>
-                        <Button variant="ghost" onClick={logout}>
-                            Logout
-                        </Button>
-                    </SidebarFooter>
-                </Sidebar>
+            {/* <DepartmentOptionsProvider> */}
+            <SidebarProvider>
+                <div className="flex h-screen w-full">
+                    <Sidebar className="z-50 bg-[#0d2622]">
+                        <SidebarHeader className="z-50">
+                            <div className="px-4 py-6 text-center z-50">
+                                <h3 className="text-lg font-medium leading-none">C Zone</h3>
+                            </div>
+                        </SidebarHeader>
+                        <SidebarContent className="px-4 z-50">
+                            <SidebarMenu>
+                                {filteredRoutes.map((route) => renderMenuGroup(route))}
+                            </SidebarMenu>
+                        </SidebarContent>
+                        <SidebarFooter>
+                            <Button variant="ghost" onClick={logout}>
+                                Logout
+                            </Button>
+                        </SidebarFooter>
+                    </Sidebar>
 
-                {/* Main Content */}
-                <div className="flex-1">
-                    <div className="border shadow sticky top-0 z-40 bg-background">
-                        <div className="container mx-auto py-4 flex justify-between px-6 items-center">
-                            <SidebarTrigger />
-                            <div className="flex items-center space-x-4 z-40">
-                                <span className="font-medium opacity-50 leading-none">{auth.user.name}</span>
-                                <Avatar>
-                                    <AvatarImage src="/profile.jpg" alt="Profile" />
-                                    <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
-                                </Avatar>
+                    {/* Main Content */}
+                    <div className="flex-1">
+                        <div className="border shadow sticky top-0 z-40 bg-background">
+                            <div className="container mx-auto py-4 flex justify-between px-6 items-center">
+                                <SidebarTrigger />
+                                <div className="flex items-center space-x-4 z-40">
+                                    <span className="font-medium opacity-50 leading-none">{auth.user.name}</span>
+                                    <Avatar>
+                                        <AvatarImage src="/profile.jpg" alt="Profile" />
+                                        <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
+                                    </Avatar>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="container mx-auto py-8">
-                        <Outlet />
+                        <div className="container mx-auto py-8">
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </SidebarProvider>
-        </DepartmentOptionsProvider>
+            </SidebarProvider>
+            {/* </DepartmentOptionsProvider> */}
         </>
     );
 };
