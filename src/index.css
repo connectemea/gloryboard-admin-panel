@@ -26,9 +26,9 @@ body {
   --primary-foreground: 0 0% 100%;
   --secondary: 199 30% 20%;
   --secondary-foreground: 0 0% 100%;
-  --muted: 161 30% 25%;
+  --muted: 197 60% 35% ;
   --muted-foreground: 199 5% 65%;
-  --accent: 161 30% 25%;
+  --accent: 197 91% 47%;
   --accent-foreground: 199 5% 95%;
   --destructive: 0 77% 50%;
   --destructive-foreground: 199 5% 100%;

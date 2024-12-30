@@ -11,6 +11,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import LoginHead from '@/assets/login_head.svg';
+import ProductLogo from '@/assets/p_logo2.svg';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -79,7 +80,7 @@ function Login() {
       /> */}
         <form
           onSubmit={formik.handleSubmit}
-          className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0D1E26] z-30 relative"
+          className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0D1E26] z-30 relative mb-10"
         >
           <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4" />
           <div className="bg-transparent absolute top-0 left-0 w-full  z-0 h-[150px]" />
@@ -117,6 +118,7 @@ function Login() {
             {formik.isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
           </Button>
         </form>
+        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto " />
       </div>
       <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0'>
         <div className='relative w-full z-0'>
