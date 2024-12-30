@@ -2,7 +2,7 @@ import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useCreateCollege = (handleCopyModal,handleCloseDialog) => {
+export const useCreateCollege = (onSuccess) => {
     const queryClient = useQueryClient();
     let toastId; // Variable to store the toast ID for updating later
 
@@ -15,8 +15,7 @@ export const useCreateCollege = (handleCopyModal,handleCloseDialog) => {
             toast.dismiss(toastId);
             toast.success("User created successfully");
             queryClient.invalidateQueries(['users']);
-            handleCloseDialog();
-            handleCopyModal();
+            onSuccess();
         },
         onError: (error) => {
             toast.dismiss(toastId);
@@ -51,7 +50,7 @@ export const useDeleteCollege = () => {
     });
 };
 
-export const useUpdateCollege = (handleCopyModal,handleCloseDialog) => {
+export const useUpdateCollege = (onSuccess) => {
     const queryClient = useQueryClient();
     let toastId; 
 
@@ -64,8 +63,7 @@ export const useUpdateCollege = (handleCopyModal,handleCloseDialog) => {
             toast.dismiss(toastId);
             toast.success("User Updated")
             queryClient.invalidateQueries(['users']);
-            handleCloseDialog();
-            handleCopyModal();
+            onSuccess();
         },
         onError: (error) => {
             toast.dismiss(toastId);

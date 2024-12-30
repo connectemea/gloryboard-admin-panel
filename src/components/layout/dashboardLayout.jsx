@@ -126,9 +126,9 @@ const DashboardLayout = ({ children }) => {
                 <div className="flex h-screen w-full">
                     <Sidebar className="z-50 bg-[#0D1E26]">
                         <SidebarHeader className="z-50">
-                            <div className="px-4 py-6 text-center z-50">
+                            <div className="px-4 py-2 text-center z-50">
                                 <h3 className="text-lg font-medium leading-none">
-                                    <img src={Logo} alt="Logo" className="h-16 mx-auto" />
+                                    <img src={Logo} alt="Logo" className="h-12 mx-auto" />
                                 </h3>
                             </div>
                         </SidebarHeader>

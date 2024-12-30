@@ -18,15 +18,23 @@ const generateRandomPassword = (length = 12) => {
     return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 };
 
-
-
-
 function CollegeModal({ editMode = false, initialData = {} }) {
     const [updatePassword, setUpdatePassword] = useState(false);
-    const { mutate: createCollege } = useCreateCollege();
-    const { mutate: updateCollege } = useUpdateCollege();
-    const { isOpen, openModal, closeModal } = useModel()
+    const { isOpen, openModal, closeModal: handleCloseModal } = useModel()
     const { isOpen: isCopyOpen, openModal: handleCopyModal, closeModal: handleCloseCopyModal } = useModel()
+
+    const handleCloseDialog = () => {
+        formik.resetForm()
+        handleCloseModal()
+    }
+    const handleFormSuccess = () => {
+        handleCloseDialog()
+        handleCopyModal()
+    }
+
+    const { mutate: createCollege } = useCreateCollege(handleFormSuccess);
+    const { mutate: updateCollege } = useUpdateCollege(handleFormSuccess);
+
     const [copyData, setCopyData] = useState({ email: '', password: '' });
 
     // const { auth } = useContext(AuthContext);
@@ -34,7 +42,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
     // Initial form values
     const formik = useFormik({
         initialValues: editMode ? { ...collegeInitalValue, ...initialData } : collegeInitalValue,
-        validationSchema: collegeValidationSchema(editMode, updatePassword),
+        validationSchema: collegeValidationSchema(editMode),
         validateOnBlur: false,
         onSubmit: (values) => {
             setCopyData({ email: values.email, password: values.password });
@@ -44,21 +52,16 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             }
             // console.log('Form Values:', values)
             // console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateCollege(values, handleCopyModal, handleCloseDialog) : createCollege({ ...values, user_type: 'organization', handleCopyModal, handleCloseDialog });
+            editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
         }
     })
-
-    const handleCloseDialog = () => {
-        formik.resetForm()
-        closeModal()
-    }
 
 
 
     // Utility function for copying to clipboard
     const copyToClipboard = () => {
         console.log(copyData);
-        const textToCopy = `Email: ${copyData.email}\nPassword: ${copyData.password}`;
+        const textToCopy = `Email: ${copyData.email}\nPassword: ${copyData.password ? copyData.password : '****'}`;
         navigator.clipboard.writeText(textToCopy);
         toast.success('Copied email and password to clipboard!');
         handleCloseDialog();
@@ -252,7 +255,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                         <div className="flex space-x-2 mt-4 relative py-2">
                             <code className="text-sm text-gray-400 flex flex-col gap-2">
                                 <span> Email: {copyData.email} </span>
-                                <span> Password: {copyData.password}</span>
+                                <span> Password: {copyData.password ? copyData.password : '****'}</span>
                             </code>
                             <Button
                                 onClick={copyToClipboard}
