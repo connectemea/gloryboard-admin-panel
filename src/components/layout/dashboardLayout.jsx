@@ -165,9 +165,9 @@ const DashboardLayout = ({ children }) => {
                             <div className='z-30 relative '>
                             <Outlet />
                             </div>
-                            <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0'>
+                            <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>
-                                    <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[500px]' />
+                                    <div className='rounded-full w-72 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[100px]' />
                                 </div>
                                 <div className='relative w-full z-0'>
                                     <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[95px] absolute left-0 bottom-0' />
