@@ -94,7 +94,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:!bg-accent space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
+                    className={`flex items-center hover:bg-[#3fa3d1e0] space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />

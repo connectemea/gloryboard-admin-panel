@@ -50,10 +50,10 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: "department", header: "Department",
+            accessorKey: "college", header: "College",
             cell: ({ row }) => (
                 <strong>
-                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.department
+                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.college
                     ) : (
                         <div className="flex items-center gap-2">
                             {row.original.group_name} <Users2 size={16} className="" />
@@ -74,14 +74,16 @@ function EventRegistration() {
             cell: ({ row }) => (
                 <div className="flex gap-2">
                     <EventRegViewModal data={row.original} />
-                    {/* <EventRegModal editMode={true} initialData={row.original} /> */}
                     {auth?.user.user_type !== 'admin' && (
-                        <DeleteModal
-                            onDelete={() => {
-                                console.log(row.original._id);
-                                deleteEventReg(row.original._id);
-                            }}
-                        />
+                        <>
+                            <EventRegModal editMode={true} initialData={row.original} />
+                            <DeleteModal
+                                onDelete={() => {
+                                    console.log(row.original._id);
+                                    deleteEventReg(row.original._id);
+                                }}
+                            />
+                        </>
                     )}
                 </div>
             ),
