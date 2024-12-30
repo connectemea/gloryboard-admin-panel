@@ -34,7 +34,7 @@ function Participants() {
     {
       accessorKey: "image",
       header: "Picture",
-      cell: (info) => <Avatar><img src={info.getValue()} className="w-full h-full" alt="" /></Avatar>,
+      cell: (info) => <img src={info.getValue()} className="w-10 h-10 object-cover rounded-sm" alt="" />,
       enableSorting: false,
     },
     { accessorKey: "userId", header: "User ID", enableSorting: false },

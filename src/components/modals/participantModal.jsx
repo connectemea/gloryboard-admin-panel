@@ -75,7 +75,6 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
             handleCloseDialog();
         },
     });
-
     return (
         <Dialog open={isOpen} onOpenChange={(open) => (open ? openModal() : handleCloseDialog())}>
             <DialogTrigger asChild>
@@ -228,11 +227,19 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         {/* Image Picker */}
 
                         {!editMode && (
-                            <div>
-                                <Input label="Image" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
-                                <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>
+                            <div className='flex flex-col gap-2'>
+                                <Input className='hidden' label="Image" id="fileInput" type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
+                                <Button
+                                    variant="secondary"
+                                    type="button"
+                                    onClick={() => { document.getElementById('fileInput').click(); }}
+
+                                >
+                                    Upload Image
+                                </Button>
+                                <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>                               
                                 {croppedImage && (
-                                    <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 aspect-square object-contain rounded" />
+                                    <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 object-contain rounded" />
                                 )}
                             </div>
                         )}
