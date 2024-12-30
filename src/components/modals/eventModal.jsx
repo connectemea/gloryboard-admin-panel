@@ -14,11 +14,10 @@ import { Pencil, Plus } from 'lucide-react';
 import { useModel } from '@/hooks/useModel';
 import SelectInput from '../common/SelectInput';
 import { useGetEventTypes } from '@/services/queries/eventTypeQueries';
-import { DayPicker } from '../common/DayPicker';
 import { eventInitalValue } from '@/constants/initalValue';
 import { eventValidationSchema } from '@/constants/validationSchemas';
-import { Label } from '@radix-ui/react-label';
 import { useCreateEvent, useUpdateEvent } from '@/services/mutation/eventMutations';
+import { eventCategorys, resultCategorys } from '@/constants/options';
 
 function EventModal({ editMode = false, initialData = {} }) {
 
@@ -50,18 +49,6 @@ function EventModal({ editMode = false, initialData = {} }) {
         return data.map((item) => ({ label: item.name, value: item._id }));
     };
 
-    const eventCategorys = [
-        { label: 'Solo', value: 'solo' },
-        { label: 'Group', value: 'group' },
-        { label: 'General', value: 'General' },
-    ];
-
-    const resultCategorys = [
-        { label: 'First', value: 'first' },
-        { label: 'Second', value: 'second' },
-        { label: 'Third', value: 'third' },
-        { label: 'Kalaprathipa', value: 'Kalaprathipa' }
-    ];
 
     return (
         <Dialog

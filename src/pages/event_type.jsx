@@ -41,8 +41,6 @@ function EventType() {
             cell: ({ row }) =>
                 row.original.is_onstage ? <CheckCircle size={16} /> : null,
         },
-        { accessorKey: "participant_count", header: "Participants Count" },
-        { accessorKey: "helper_count", header: "Helpers Count" },
         {
             accessorKey: "scores",
             header: "scores",

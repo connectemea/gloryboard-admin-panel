@@ -48,3 +48,15 @@ export const semesterOptions = [
     { value: '9', label: '9' },
     { value: '10', label: '10' },
 ]
+
+
+export const eventCategorys = [
+    { label: 'General', value: 'general' },
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+];
+
+export const resultCategorys = [
+    { label: 'Chithrolsavam', value: 'chithrolsavam' },
+    { label: 'Saahithyolsavam', value: 'saahithyolsavam' },
+];
