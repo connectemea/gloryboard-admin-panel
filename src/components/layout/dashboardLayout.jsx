@@ -125,9 +125,9 @@ const DashboardLayout = ({ children }) => {
                     <Sidebar className="z-50 bg-[#0D1E26]">
                         <SidebarHeader className="z-50">
                             <div className="px-4 py-2 text-center z-50">
-                                <h3 className="text-lg font-medium leading-none py-4">
-                                    {/* <img src={Logo} alt="Logo" className="h-12 mx-auto" /> */}
-                                    Itz we GB
+                                <h3 className="text-lg font-medium leading-none py-2">
+                                    <img src={Logo} alt="Logo" className="h-10 mx-auto" />
+                                    {/* C Zone */}
                                 </h3>
                             </div>
                         </SidebarHeader>
