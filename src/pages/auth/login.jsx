@@ -82,7 +82,7 @@ function Login() {
           onSubmit={formik.handleSubmit}
           className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0D1E26] z-30 relative mb-10"
         >
-          <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4" />
+          <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4 h-[100px]" />
           <div className="bg-transparent absolute top-0 left-0 w-full  z-0 h-[150px]" />
           <h2 className="text-4xl font-bold text-left text-primary">
             Welcome back!
@@ -122,10 +122,10 @@ function Login() {
       </div>
       <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0'>
         <div className='relative w-full z-0'>
-          <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[100px]' />
+          <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[125px] absolute top-10 right-[50px]' />
         </div>
         <div className='relative w-full z-0'>
-          <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[95px] absolute left-[100px] bottom-20' />
+          <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[125px] absolute left-[50px] bottom-10' />
         </div>
       </div>
     </div>

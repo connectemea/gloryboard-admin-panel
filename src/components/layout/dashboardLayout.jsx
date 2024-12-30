@@ -95,7 +95,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-[#0CA5EA]/20 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
+                    className={`flex items-center hover:bg-accent/80 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />
@@ -149,7 +149,7 @@ const DashboardLayout = ({ children }) => {
 
                     {/* Main Content */}
                     <div className="flex-1">
-                        <div className="border shadow sticky top-0 z-40 bg-background">
+                        <div className="border-b shadow sticky top-0 z-40 bg-background">
                             <div className="container mx-auto py-4 flex justify-between px-6 items-center">
                                 <SidebarTrigger />
                                 <div className="flex items-center space-x-4 z-40">
@@ -167,10 +167,10 @@ const DashboardLayout = ({ children }) => {
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0'>
                                 <div className='relative w-full z-0'>
-                                    <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[95px] absolute top-20 right-[500px]' />
+                                    <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[125px] absolute top-20 right-[500px]' />
                                 </div>
                                 <div className='relative w-full z-0'>
-                                    <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[95px] absolute left-0 bottom-0' />
+                                    <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[125px] absolute left-0 bottom-0' />
                                 </div>
                             </div>
                         </div>

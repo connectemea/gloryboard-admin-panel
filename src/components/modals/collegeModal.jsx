@@ -7,12 +7,9 @@ import { Pencil, Plus, Copy, RefreshCw } from 'lucide-react'
 import { useModel } from '@/hooks/useModel'
 import { collegeValidationSchema } from '@/constants/validationSchemas'
 import { collegeInitalValue } from '@/constants/initalValue'
-import SelectInput from '../common/SelectInput'
-import { useCreateUser, useUpdateUser } from '@/services/mutation/userMutations'
 import { useCreateCollege, useUpdateCollege } from '@/services/mutation/collegeMutations'
 import { PasswordInput } from '../ui/password-input'
 import { AuthContext } from '@/context/authContext'
-import extractDepartment from '@/utils/extractDepartment'
 import { toast } from 'sonner';
 
 // Utility function for random password generation
@@ -46,9 +43,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                 delete values.confirmPassword;
                 console.log('Form Values:', values)
             }
-            console.log('Form Values:', values)
-            console.log('Form Values:', values)
-            console.log(editMode ? 'Updated Data:' : 'New Data:', values)
+            // console.log('Form Values:', values)
+            // console.log(editMode ? 'Updated Data:' : 'New Data:', values)
             editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             handleCloseDialog()
             handleCopyModal()
@@ -64,7 +60,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
 
     // Utility function for copying to clipboard
     const copyToClipboard = () => {
-        const textToCopy = `Email: ${formik.values.email}\nPassword: ${formik.values.password}`;
+        console.log(copyData);
+        const textToCopy = `Email: ${copyData.email}\nPassword: ${copyData.password}`;
         navigator.clipboard.writeText(textToCopy);
         toast.success('Copied email and password to clipboard!');
         handleCloseDialog();
