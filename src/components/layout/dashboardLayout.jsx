@@ -3,9 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings } from 'lucide-react';
+import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
-// import { DepartmentOptionsProvider } from '@/context/departmentContext';
 import ProductLogo from '@/assets/p_logo.svg';
 import Logo from '@/assets/logo.svg';
 
@@ -95,7 +94,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-accent/70 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
+                    className={`flex items-center hover:bg-[#0CA5EA]/70 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />
@@ -121,7 +120,6 @@ const DashboardLayout = ({ children }) => {
 
     return (
         <>
-            {/* <DepartmentOptionsProvider> */}
             <SidebarProvider>
                 <div className="flex h-screen w-full">
                     <Sidebar className="z-50 bg-[#0D1E26]">
@@ -137,14 +135,6 @@ const DashboardLayout = ({ children }) => {
                                 {filteredRoutes.map((route) => renderMenuGroup(route))}
                             </SidebarMenu>
                         </SidebarContent>
-                        <SidebarFooter>
-                            <Button variant="ghost" onClick={logout}>
-                                Logout
-                            </Button>
-                            <div>
-                                <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
-                            </div>
-                        </SidebarFooter>
                     </Sidebar>
 
                     {/* Main Content */}
@@ -158,12 +148,18 @@ const DashboardLayout = ({ children }) => {
                                         <AvatarImage src="/profile.jpg" alt="Profile" />
                                         <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
                                     </Avatar>
+                                    <Button variant="secondary" className="hover:bg-red-600"  onClick={logout}>
+                                        <LogOut />
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                         <div className="container mx-auto py-8">
                             <div className='z-30 relative p-4'>
-                            <Outlet />
+                                <Outlet />
+                                <div className='mt-10'>
+                                    <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
+                                </div>
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>
@@ -177,7 +173,6 @@ const DashboardLayout = ({ children }) => {
                     </div>
                 </div>
             </SidebarProvider>
-            {/* </DepartmentOptionsProvider> */}
         </>
     );
 };

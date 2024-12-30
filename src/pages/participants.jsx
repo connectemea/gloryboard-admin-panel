@@ -55,7 +55,7 @@ function Participants() {
       cell: ({ row }) => (
         <div className="flex space-x-2">
 
-          <DownloadTicket id={row.original._id} />
+          <DownloadTicket id={row.original._id} name={row.original.name} />
 
           <ParticipantModal editMode={true} initialData={row.original} />
           <DeleteModal

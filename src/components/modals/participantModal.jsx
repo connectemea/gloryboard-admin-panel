@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Pencil, Plus } from 'lucide-react';
 import { useModel } from '@/hooks/useModel';
-import { departmentOptions, genderOptions, yearOptions } from '@/constants/options';
+import { departmentOptions, genderOptions, semesterOptions, yearOptions } from '@/constants/options';
 import { participantValidationSchema } from '@/constants/validationSchemas';
 import { participantInitalValue } from '@/constants/initalValue';
 import SelectInput from '../common/SelectInput';
@@ -121,6 +121,8 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                         {formik.touched.course && formik.errors.course && (
                             <div className="text-red-500 text-sm">{formik.errors.course}</div>
                         )}
+                        <span className='italic text-gray-500 text-xs '>example: BSC Computer Science</span>
+
 
                         {/* <SelectInput
                         label="Department"
@@ -161,7 +163,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                                     value={formik.values.semester}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    options={yearOptions}
+                                    options={semesterOptions}
                                 />
                                 {formik.touched.semester && formik.errors.semester && (
                                     <div className="text-red-500 text-sm">{formik.errors.semester}</div>

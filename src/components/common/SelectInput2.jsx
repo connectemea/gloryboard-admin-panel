@@ -1,5 +1,5 @@
 import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 function SelectInput2({
     label,
@@ -8,7 +8,8 @@ function SelectInput2({
     onChange,
     options,
     renderOption,
-    valueKey = "value", // Default to 'value', but allow customization
+    valueKey = "value", 
+    formik // Pass formik here to check for selected participants
 }) {
     const handleSelectChange = (selectedValue) => {
         const selectedOption = options.find(
@@ -35,9 +36,13 @@ function SelectInput2({
                 </SelectTrigger>
                 <SelectContent>
                     {options.map((option, index) => (
-                        <SelectItem key={index} value={option[valueKey]} >
+                        <SelectItem 
+                            key={index} 
+                            value={option[valueKey]} 
+                            disabled={formik?.some(participant => participant.user === option._id)}
+                        >
                             {renderOption
-                                ? renderOption(option) // Custom rendering
+                                ? renderOption(option) 
                                 : option.label || option[valueKey]}
                         </SelectItem>
                     ))}
