@@ -56,14 +56,17 @@ function Participants() {
         <div className="flex space-x-2">
 
           <DownloadTicket id={row.original._id} name={row.original.name} />
-
-          <ParticipantModal editMode={true} initialData={row.original} />
-          <DeleteModal
-            onDelete={() => {
-              console.log(row.original._id);
-              deleteUser(row.original._id);
-            }}
-          />
+          {auth?.user.user_type !== 'admin' && (
+            <>
+              <ParticipantModal editMode={true} initialData={row.original} />
+              <DeleteModal
+                onDelete={() => {
+                  console.log(row.original._id);
+                  deleteUser(row.original._id);
+                }}
+              />
+            </>
+          )}
         </div>
       ),
     },
@@ -73,9 +76,9 @@ function Participants() {
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold">Participants</h2>
-        {auth?.user.user_type === 'admin' || (configs && getConfigValue(configs, 'user_registration')) ? (
-    <ParticipantModal />
-) : null}
+        {auth?.user.user_type !== 'admin' && (configs && getConfigValue(configs, 'user_registration')) ? (
+          <ParticipantModal />
+        ) : null}
 
       </div>
       <DataTable data={data} columns={columns} />
