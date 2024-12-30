@@ -50,14 +50,18 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: "college", header: "College",
+            accessorKey: auth.user.user_type === "admin" ? "college" : "course", header: auth.user.user_type === "admin" ? "College" : "Course/group",
             cell: ({ row }) => (
                 <strong>
-                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.college
+                    {auth.user.user_type === "admin" ? (
+                        //  {!row.original.event?.event_type.is_group == true ? (
+                        row.original.participants[0]?.college
                     ) : (
-                        <div className="flex items-center gap-2">
-                            {row.original.group_name} <Users2 size={16} className="" />
-                        </div>
+                        !row.original.event?.event_type.is_group == true ? row.original.participants[0]?.course : (
+                            <div className="flex items-center gap-2">
+                                {row.original.group_name} <Users2 size={16} className="" />
+                            </div>
+                        )
                     )}
                 </strong>
             ), enableSorting: false,

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
@@ -8,7 +9,8 @@ function SelectInput2({
     onChange,
     options,
     renderOption,
-    valueKey = "value", 
+    valueKey = "value",
+    category = "general",
     formik // Pass formik here to check for selected participants
 }) {
     const handleSelectChange = (selectedValue) => {
@@ -22,6 +24,17 @@ function SelectInput2({
             },
         });
     };
+    const [optionss, setOptionss] = useState(options);
+    useEffect(() => {
+        console.log(category);
+        if (category === "female" || category === "male") {
+            console.log(category);
+            setOptionss(options.filter(option => option.gender === category));
+            console.log(options);
+        } else {
+            setOptionss(options);
+        }
+    }, [category]);
 
     return (
         <div className="form-control space-y-1 w-full">
@@ -35,14 +48,14 @@ function SelectInput2({
                     <SelectValue placeholder={`${label}`} />
                 </SelectTrigger>
                 <SelectContent>
-                    {options.map((option, index) => (
-                        <SelectItem 
-                            key={index} 
-                            value={option[valueKey]} 
+                    {optionss.map((option, index) => (
+                        <SelectItem
+                            key={index}
+                            value={option[valueKey]}
                             disabled={formik?.some(participant => participant.user === option._id)}
                         >
                             {renderOption
-                                ? renderOption(option) 
+                                ? renderOption(option)
                                 : option.label || option[valueKey]}
                         </SelectItem>
                     ))}

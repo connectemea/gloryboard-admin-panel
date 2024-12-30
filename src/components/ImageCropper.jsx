@@ -61,7 +61,6 @@ function ImageCropper({ image, onSave, onClose }) {
           crop={cropData.crop}
           zoom={cropData.zoom}
           aspect={cropData.aspect}
-          objectFit="contain"
           onCropChange={(crop) => setCropData((prev) => ({ ...prev, crop }))}
           onZoomChange={(zoom) => setCropData((prev) => ({ ...prev, zoom }))}
           onCropComplete={handleCropComplete}
