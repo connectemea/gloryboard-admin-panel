@@ -7,19 +7,22 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { useDeleteEventReg } from "@/services/mutation/eventRegMutations";
 import { useGetConfig } from "@/services/queries/configQueries";
-import { getConfigValue } from "@/utils/configUtils"; 
+import { getConfigValue } from "@/utils/configUtils";
 import { useGetEventRegs } from "@/services/queries/eventRegQueries";
 import {
     Download,
     Users2,
 } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "sonner";
+import DownloadTicket from "@/components/DownloadTicket";
+import { AuthContext } from "@/context/authContext";
 
 function EventRegistration() {
     const { data, isLoading, error } = useGetEventRegs();
     const { mutate: deleteEventReg } = useDeleteEventReg();
-    
+
+    const { auth } = useContext(AuthContext);
     const { data: configs } = useGetConfig();
 
     if (isLoading) {
@@ -87,17 +90,8 @@ function EventRegistration() {
         },
     ];
 
-    const handleDownloadTickets = async () => {
-        try {
-            const response = await axiosInstance.get('/org/participant-tickets');
-            // Optionally handle the response, like triggering a file download
-            console.log('Tickets exported successfully:', response.data);
-        } catch (error) {
-            // Display an error alert
-            console.error('Error exporting tickets:', error);
-            toast.error('Failed to export tickets. Please try again.');
-        }
-    };
+
+
 
 
 
@@ -106,13 +100,9 @@ function EventRegistration() {
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Event Registration</h2>
                 <div className="flex gap-2">
-                    {configs &&
-                    getConfigValue(configs,'hall_ticket_export') && <Button
-                        onClick={handleDownloadTickets}
-                    >
-                        Export Tickets 
-                    </Button> 
-                    }
+                    {auth?.user.user_type === 'admin' || (configs && getConfigValue(configs, 'hall_ticket_export')) ? (
+                        <DownloadTicket />
+                    ) : null}
                     <EventRegModal />
                 </div>
             </div>
