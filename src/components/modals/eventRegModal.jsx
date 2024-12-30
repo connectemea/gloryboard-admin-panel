@@ -24,6 +24,7 @@ import SelectInput2 from "../common/SelectInput2";
 import { toast } from "sonner";
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
+    console.log(initialData)
     const { isOpen, openModal, closeModal } = useModel();
     const [event, setEvent] = React.useState(null)
     const { mutate: CreateEventReg } = useCreateEventReg()
@@ -51,7 +52,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     });
 
     const handleCloseDialog = () => {
-        formik.resetForm();
+        // formik.resetForm();
         closeModal();
     };
 
@@ -150,12 +151,15 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     };
 
     const getDetails = (user) => {
+        console.log(user)
+        // console.log(participants.user)
         const foundItem = participants?.find((item) => item._id === user);
-        return <div>{foundItem?.name}<span className="text-gray-500 text-xs"> {foundItem?.department} {foundItem.year_of_study}yr </span></div>;
+        // console.log(foundItem)
+        return <div className="space-x-2"> {user?.name} <span className="text-gray-500 text-xs"> {user?.college} - {user?.year_of_study}yr </span></div>;
     };
 
     const renderOption = (option) => {
-        return <div>{option.name}<span className="text-gray-500 text-xs"> {option.department} {option.year_of_study}yr </span></div>;
+        return <div>{option.name}<span className="text-gray-500 text-xs"> {option?.college} {option?.year_of_study}yr </span></div>;
     };
 
 
@@ -284,8 +288,8 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                         {formik.values.participants.length > 0 && (
                             <div className="border rounded-md p-3 space-y-2">
                                 {formik.values.participants.map((participant, index) => (
-                                    <div className="flex items-center justify-between">
-                                        <span>{getDetails(participant.user)} </span>
+                                    <div className="flex items-center justify-between" key={index}>
+                                        <span>{getDetails(participant)} </span>
                                         <Button
                                             type="button"
                                             variant="outline"

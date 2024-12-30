@@ -74,14 +74,16 @@ function EventRegistration() {
             cell: ({ row }) => (
                 <div className="flex gap-2">
                     <EventRegViewModal data={row.original} />
-                    {/* <EventRegModal editMode={true} initialData={row.original} /> */}
                     {auth?.user.user_type !== 'admin' && (
-                        <DeleteModal
-                            onDelete={() => {
-                                console.log(row.original._id);
-                                deleteEventReg(row.original._id);
-                            }}
-                        />
+                        <>
+                            <EventRegModal editMode={true} initialData={row.original} />
+                            <DeleteModal
+                                onDelete={() => {
+                                    console.log(row.original._id);
+                                    deleteEventReg(row.original._id);
+                                }}
+                            />
+                        </>
                     )}
                 </div>
             ),
