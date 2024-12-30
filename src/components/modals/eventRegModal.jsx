@@ -24,7 +24,7 @@ import SelectInput2 from "../common/SelectInput2";
 import { toast } from "sonner";
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
-    console.log(initialData)
+    // console.log(initialData)
     const { isOpen, openModal, closeModal } = useModel();
     const [event, setEvent] = React.useState(null)
     const { mutate: CreateEventReg } = useCreateEventReg()
@@ -36,7 +36,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
 
     const { data: participants, isLoading: participantIsLoading, error: participantError } = useGetParticipants();
     const { data: events, isLoading: eventIsLoading, error: eventError } = useGetEventsOrg();
-
+    console.log(participants)
 
     const formik = useFormik({
         initialValues: editMode
@@ -50,6 +50,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
             handleCloseDialog();
         },
     });
+    // console.log(formik.values)
 
     const handleCloseDialog = () => {
         // formik.resetForm();
@@ -151,11 +152,11 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     };
 
     const getDetails = (user) => {
-        console.log(user)
-        // console.log(participants.user)
-        const foundItem = participants?.find((item) => item._id === user);
+        // console.log(user)
+        // console.log(participants)
+        const foundItem = participants?.find((item) => item._id === user._id);
         // console.log(foundItem)
-        return <div className="space-x-2"> {user?.name} <span className="text-gray-500 text-xs"> {user?.college} - {user?.year_of_study}yr </span></div>;
+        return <div className="space-x-2"> {foundItem?.name} <span className="text-gray-500 text-xs"> {foundItem?.college} - {foundItem?.year_of_study}yr </span></div>;
     };
 
     const renderOption = (option) => {
