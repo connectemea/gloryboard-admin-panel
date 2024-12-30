@@ -53,7 +53,7 @@ export default function DataTable({ data, columns }) {
             </div>
 
             {/* Table Wrapper */}
-            <div className="hidden md:block relative rounded-md border bg-background border-[#0D1E26]/20">
+            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 ">
                 <ScrollArea className=" h-[calc(100vh-300px)] rounded-md">
                     <div className="min-w-full inline-block align-middle">
                         <table className="min-w-full divide-y">
