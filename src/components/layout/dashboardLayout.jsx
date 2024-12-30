@@ -95,7 +95,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-accent/80 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
+                    className={`flex items-center hover:bg-accent/[0.8] space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />
@@ -162,7 +162,7 @@ const DashboardLayout = ({ children }) => {
                             </div>
                         </div>
                         <div className="container mx-auto py-8">
-                            <div className='z-30 relative '>
+                            <div className='z-30 relative p-4'>
                             <Outlet />
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
