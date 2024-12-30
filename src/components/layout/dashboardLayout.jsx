@@ -3,9 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings } from 'lucide-react';
+import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
-// import { DepartmentOptionsProvider } from '@/context/departmentContext';
 import ProductLogo from '@/assets/p_logo.svg';
 import Logo from '@/assets/logo.svg';
 
@@ -121,7 +120,6 @@ const DashboardLayout = ({ children }) => {
 
     return (
         <>
-            {/* <DepartmentOptionsProvider> */}
             <SidebarProvider>
                 <div className="flex h-screen w-full">
                     <Sidebar className="z-50 bg-[#0D1E26]">
@@ -137,12 +135,6 @@ const DashboardLayout = ({ children }) => {
                                 {filteredRoutes.map((route) => renderMenuGroup(route))}
                             </SidebarMenu>
                         </SidebarContent>
-                        <SidebarFooter>
-                            <Button variant="ghost" onClick={logout}>
-                                Logout
-                            </Button>
-
-                        </SidebarFooter>
                     </Sidebar>
 
                     {/* Main Content */}
@@ -156,6 +148,9 @@ const DashboardLayout = ({ children }) => {
                                         <AvatarImage src="/profile.jpg" alt="Profile" />
                                         <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
                                     </Avatar>
+                                    <Button variant="secondary" className="hover:bg-red-600"  onClick={logout}>
+                                        <LogOut />
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +173,6 @@ const DashboardLayout = ({ children }) => {
                     </div>
                 </div>
             </SidebarProvider>
-            {/* </DepartmentOptionsProvider> */}
         </>
     );
 };

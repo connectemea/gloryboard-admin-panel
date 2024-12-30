@@ -44,10 +44,8 @@ export const collegeValidationSchema = (editMode, updatePassword) =>
     Yup.object({
         name: Yup.string().required("Name is required"),
         phoneNumber: Yup.string()
-            .matches(/^[0-9]+$/, "Phone number must only contain digits")
-            .min(10, "Phone number must be at least 10 digits")
-            .max(15, "Phone number must be no more than 15 digits")
-            .required("Phone No is required"),
+            .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+            .required("Phone number is required"),
         email: Yup.string().email("Invalid email").required("Email is required"),
         password: editMode
             ? Yup.string()
@@ -67,15 +65,13 @@ export const participantValidationSchema = (editMode) =>
         gender: Yup.string().required("Gender is required"),
         course: Yup.string().required("Course is required"),
         phoneNumber: Yup.string()
-            .matches(/^[0-9]+$/, "Phone number must only contain digits")
-            .min(10, "Phone number must be at least 10 digits")
-            .max(15, "Phone number must be no more than 15 digits")
-            .required("Phone No is required"),
+            .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+            .required("Phone number is required"),
         semester: Yup.string().required("Semster is required"),
         year_of_study: Yup.string().required("Year is required"),
         dob: Yup.date()
             .required("Date of Birth is required")
-            .min(new Date("2000-07-01"), "Date of Birth must be after July 1, 2000"),
+            .min(new Date("2000-07-01"), "Must be after July 1, 2000"),
         capId: Yup.string().required("Required"),
     });
 
