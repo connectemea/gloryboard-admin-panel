@@ -1,4 +1,3 @@
-import axiosInstance from "@/api/axiosInstance";
 import DataTable from "@/components/DataTable";
 import DeleteModal from "@/components/common/DeleteModal";
 import EventRegModal from "@/components/modals/eventRegModal";
@@ -9,14 +8,11 @@ import { useDeleteEventReg } from "@/services/mutation/eventRegMutations";
 import { useGetConfig } from "@/services/queries/configQueries";
 import { getConfigValue } from "@/utils/configUtils";
 import { useGetEventRegs } from "@/services/queries/eventRegQueries";
-import {
-    Download,
-    Users2,
-} from "lucide-react";
+import {Users2} from "lucide-react";
 import React, { useContext } from "react";
-import { toast } from "sonner";
-import DownloadTicket from "@/components/DownloadTicket";
 import { AuthContext } from "@/context/authContext";
+import DownloadTickets from "@/components/tickets/DownloadAllTickets";
+import DownloadAllTickets from "@/components/tickets/DownloadAllTickets";
 
 function EventRegistration() {
     const { data, isLoading, error } = useGetEventRegs();
@@ -101,7 +97,7 @@ function EventRegistration() {
                 <h2 className="text-2xl font-bold">Event Registration</h2>
                 <div className="flex gap-2">
                     {auth?.user.user_type === 'admin' || (configs && getConfigValue(configs, 'hall_ticket_export')) ? (
-                        <DownloadTicket />
+                        <DownloadAllTickets />
                     ) : null}
                     <EventRegModal />
                 </div>

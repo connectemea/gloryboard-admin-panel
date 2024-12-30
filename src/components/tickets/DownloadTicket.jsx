@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import { Button } from './ui/button';
+import { Button } from '../ui/button'
 import axiosInstance from '@/api/axiosInstance';
-import { Loader2 } from 'lucide-react';
+import { Download, Loader2 } from 'lucide-react';
 
-function DownloadTicket() {
+function DownloadTicket({id}) {
+
 
     const [loading, setLoading] = useState(false);
 
-    const handleDownloadTickets = async () => {
+    const handleDownloadTicket = async () => {
         setLoading(true); // Start the loader
         try {
             // Fetch the PDF file as a blob
-            const response = await axiosInstance.get('/org/participant-tickets', {
+            const response = await axiosInstance.get(`org/ticket/${id}`, {
                 responseType: 'blob', // Ensure the response is treated as binary data
             });
 
@@ -22,7 +23,7 @@ function DownloadTicket() {
             // Create a temporary anchor element to trigger the download
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'participant_tickets.pdf'; // Set the desired file name
+            link.download = 'participant_ticket.pdf'; // Set the desired file name
             document.body.appendChild(link);
 
             // Trigger the download
@@ -44,10 +45,13 @@ function DownloadTicket() {
 
   return (
     <Button
+    variant="outline"
+    size="icon"
+    className="w-8 h-8"
     disabled={loading}
-    onClick={handleDownloadTickets}
+    onClick={handleDownloadTicket}
 >
-    {loading ? <>Exporting<Loader2 className="animate-spin" /> </> : 'Export Tickets'}
+    {loading ?<Loader2 className="animate-spin" /> : <Download/>}
 </Button> 
   )
 }

@@ -9,6 +9,7 @@ import { getConfigValue } from "@/utils/configUtils";
 import { Avatar } from "@/components/ui/avatar";
 import { useGetConfig } from "@/services/queries/configQueries";
 import { AuthContext } from "@/context/authContext";
+import DownloadTicket from "@/components/tickets/DownloadTicket";
 
 function Participants() {
 
@@ -53,8 +54,10 @@ function Participants() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          <ParticipantModal editMode={true} initialData={row.original} />
 
+          <DownloadTicket id={row.original._id} />
+
+          <ParticipantModal editMode={true} initialData={row.original} />
           <DeleteModal
             onDelete={() => {
               console.log(row.original._id);
