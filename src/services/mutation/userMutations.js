@@ -20,7 +20,7 @@ export const useCreateUser = () => {
             formData.append('gender', newUser.gender);
             formData.append('course', newUser.course);
             formData.append('semester', newUser.semester);
-            formData.append('capId', newUser.capid);
+            formData.append('capId', newUser.capId);
             formData.append('dob', newUser.dob);
             formData.append('year_of_study', newUser.year_of_study);
 

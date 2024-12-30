@@ -18,7 +18,7 @@ import { eventRegistrationInitialValues } from "@/constants/initalValue";
 import { eventRegistrationSchema } from "@/constants/validationSchemas";
 import { useGetParticipants } from "@/services/queries/participantQueries";
 import SearchSelectInput from "../common/SearchSelectInput ";
-import { useGetEvents } from "@/services/queries/eventsQueries";
+import { useGetEvents, useGetEventsOrg } from "@/services/queries/eventsQueries";
 import { useCreateEventReg, useUpdateEventReg } from "@/services/mutation/eventRegMutations";
 import SelectInput2 from "../common/SelectInput2";
 import { toast } from "sonner";
@@ -34,7 +34,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     const [selectedHelper, setSelectedHelper] = useState(null)
 
     const { data: participants, isLoading: participantIsLoading, error: participantError } = useGetParticipants();
-    const { data: events, isLoading: eventIsLoading, error: eventError } = useGetEvents();
+    const { data: events, isLoading: eventIsLoading, error: eventError } = useGetEventsOrg();
 
 
     const formik = useFormik({
