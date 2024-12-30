@@ -62,7 +62,7 @@ function EventRegViewModal({ data = {} }) {
                         <div key={index} className='flex justify-between'>
                             <p>{participant?.name}</p>
                             <span>
-                                {participant?.department}
+                                {participant?.college}
                             </span>
                             <span>
                                 {getYear(participant?.year_of_study)}
