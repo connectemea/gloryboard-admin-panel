@@ -46,7 +46,9 @@ export const collegeValidationSchema = (editMode, updatePassword) =>
         phoneNumber: Yup.string()
             .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
             .required("Phone number is required"),
-        email: Yup.string().email("Invalid email").required("Email is required"),
+        email: Yup.string()
+            .email("Invalid email address")  // Built-in email validation
+            .required("Email is required"),
         password: editMode
             ? Yup.string()
             : Yup.string()
