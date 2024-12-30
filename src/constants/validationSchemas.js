@@ -39,6 +39,7 @@ export const repValidationSchema = (editMode) =>
         department: Yup.string().required("Department is required"),
         year_of_study: Yup.string().required("Year is required"),
     });
+
 export const collegeValidationSchema = (editMode, updatePassword) =>
     Yup.object({
         name: Yup.string().required("Name is required"),
@@ -47,15 +48,17 @@ export const collegeValidationSchema = (editMode, updatePassword) =>
             .min(10, "Phone number must be at least 10 digits")
             .max(15, "Phone number must be no more than 15 digits")
             .required("Phone No is required"),
-        password: !updatePassword
-            ? Yup.string() 
+        email: Yup.string().email("Invalid email").required("Email is required"),
+        password: editMode
+            ? Yup.string()
             : Yup.string()
                 .required("Password is required")
                 .min(6, "Password must be at least 6 characters"),
-        email: Yup.string().email("Invalid email").required("Email is required"),
-        confirmPassword: Yup.string()
-            .required("Confirm Password is required")
-            .oneOf([Yup.ref("password"), null], "Passwords must match"),
+        confirmPassword: editMode
+            ? Yup.string()
+            : Yup.string()
+                .required("Confirm Password is required")
+                .oneOf([Yup.ref("password"), null], "Passwords must match"),
     });
 
 export const participantValidationSchema = (editMode) =>
@@ -71,8 +74,8 @@ export const participantValidationSchema = (editMode) =>
         semester: Yup.string().required("Semster is required"),
         year_of_study: Yup.string().required("Year is required"),
         dob: Yup.date()
-        .required("Date of Birth is required")
-        .min(new Date("2000-07-01"), "Date of Birth must be after July 1, 2000"),
+            .required("Date of Birth is required")
+            .min(new Date("2000-07-01"), "Date of Birth must be after July 1, 2000"),
         capId: Yup.string().required("Required"),
     });
 

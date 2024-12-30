@@ -38,16 +38,13 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             setCopyData({ email: values.email, password: values.password });
-            if (updatePassword) {
+            if (!values.password || !values.confirmPassword) {
                 delete values.password;
                 delete values.confirmPassword;
-                console.log('Form Values:', values)
             }
             // console.log('Form Values:', values)
             // console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
-            handleCloseDialog()
-            handleCopyModal()
+            editMode ? updateCollege(values, handleCopyModal, handleCloseDialog) : createCollege({ ...values, user_type: 'organization', handleCopyModal, handleCloseDialog });
         }
     })
 
