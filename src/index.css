@@ -12,31 +12,31 @@
 body {
   margin: 0;
 }
-.login-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000000; transition: background 0.3s ease-in-out; }
+.login-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0D1E26; transition: background 0.3s ease-in-out; }
 
 
-:root  {
-  --background: 170.6 50% 10%;
-  --foreground: 170.6 5% 90%;
-  --card: 170.6 50% 10%;
-  --card-foreground: 170.6 5% 90%;
-  --popover: 170.6 50% 5%;
-  --popover-foreground: 170.6 5% 90%;
-  --primary: 170.6 76.9% 64.3%;
-  --primary-foreground: 0 0% 0%;
-  --secondary: 170.6 30% 20%;
+:root {
+  --background: 199 50% 10%;
+  --foreground: 199 5% 100%;
+  --card: 199 50% 10%;
+  --card-foreground: 199 5% 100%;
+  --popover: 199 50% 5%;
+  --popover-foreground: 199 5% 100%;
+  --primary: 199 88.7% 48.4%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 199 30% 20%;
   --secondary-foreground: 0 0% 100%;
-  --muted: 132.6 30% 25%;
-  --muted-foreground: 170.6 5% 60%;
-  --accent: 132.6 30% 25%;
-  --accent-foreground: 170.6 5% 90%;
-  --destructive: 0 100% 30%;
-  --destructive-foreground: 170.6 5% 90%;
-  --border: 170.6 30% 26%;
-  --input: 170.6 30% 26%;
-  --ring: 170.6 76.9% 64.3%;
+  --muted: 161 30% 25%;
+  --muted-foreground: 199 5% 65%;
+  --accent: 161 30% 25%;
+  --accent-foreground: 199 5% 95%;
+  --destructive: 0 77% 50%;
+  --destructive-foreground: 199 5% 100%;
+  --border: 199 30% 50%;
+  --input: 199 30% 50%;
+  --ring: 199 88.7% 48.4%;
   --radius: 0.5rem;
-}
+ }
 
 
 @layer base {
