@@ -5,7 +5,7 @@ export const useGetParticipants = () => {
     return useQuery({
         queryKey: [''], // Query key
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/');
+            const { data } = await axiosInstance.get('/admin/users');
             return data.data;
         },
     });

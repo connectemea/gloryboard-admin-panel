@@ -95,7 +95,7 @@ const DashboardLayout = ({ children }) => {
             <SidebarMenuButton asChild>
                 <a
                     href={item.url}
-                    className={`flex items-center hover:bg-accent/70 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
+                    className={`flex items-center hover:bg-[#0CA5EA]/70 space-x-2 px-4 py-2 my-[2px] rounded-lg ${location.pathname === item.url ? 'bg-accent' : 'text-white'
                         }`}
                 >
                     <item.icon />
@@ -141,9 +141,7 @@ const DashboardLayout = ({ children }) => {
                             <Button variant="ghost" onClick={logout}>
                                 Logout
                             </Button>
-                            <div>
-                                <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
-                            </div>
+
                         </SidebarFooter>
                     </Sidebar>
 
@@ -163,7 +161,10 @@ const DashboardLayout = ({ children }) => {
                         </div>
                         <div className="container mx-auto py-8">
                             <div className='z-30 relative p-4'>
-                            <Outlet />
+                                <Outlet />
+                                <div className='mt-10'>
+                                    <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
+                                </div>
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>

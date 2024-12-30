@@ -88,9 +88,6 @@ function EventRegistration() {
 
 
 
-
-
-
     return (
         <div className="px-4 flex flex-col ">
             <div className="flex justify-between pb-6">

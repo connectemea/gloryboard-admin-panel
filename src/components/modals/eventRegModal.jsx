@@ -100,11 +100,14 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     };
 
     const handleAddParticipant = () => {
-
+        if (!selectedParticipant) {
+            toast.error("Please select a participant.");
+            return;
+        }
         const isAlreadyAdded = formik.values.participants.some(
             (participant) => participant.user === selectedParticipant._id
         );
-    
+
         if (isAlreadyAdded) {
             toast.error("This participant is already added.");
             return;
@@ -116,23 +119,23 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
         setSelectedParticipant(null);
     }
 
-    const handleAddHelper = () => {
+    // const handleAddHelper = () => {
 
-        const isAlreadyAdded = formik.values.helpers.some(
-            (helper) => helper.user === selectedHelper._id
-        )
+    //     const isAlreadyAdded = formik.values.helpers.some(
+    //         (helper) => helper.user === selectedHelper._id
+    //     )
 
-        if (isAlreadyAdded) {
-            toast.error("This helper is already added.");
-            return;
-        }
+    //     if (isAlreadyAdded) {
+    //         toast.error("This helper is already added.");
+    //         return;
+    //     }
 
-        formik.setFieldValue("helpers", [
-            ...formik.values.helpers,
-            { user: selectedHelper._id },
-        ]);
-        setSelectedHelper(null);
-    }
+    //     formik.setFieldValue("helpers", [
+    //         ...formik.values.helpers,
+    //         { user: selectedHelper._id },
+    //     ]);
+    //     setSelectedHelper(null);
+    // }
 
     const handleRemoveParticipant = (index) => {
         const newParticipants = formik.values.participants.filter(
@@ -211,52 +214,72 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                         ) : (
                             <div>loading...</div>
                         )}
+                        {formik.values.event && (
+                            <>
+                                <>
+                                    {checkIfGroupItem(formik.values.event) && (
+                                        <div className="space-y-2">
+                                            <Input
+                                                id="group_name"
+                                                name="group_name"
+                                                label="Group Name"
+                                                placeholder="Enter group name"
+                                                value={formik.values.group_name}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            />
+                                            {formik.touched.group_name && formik.errors.group_name && (
+                                                <div className="text-red-500 text-sm">
+                                                    {formik.errors.group_name}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
+                                <>
+                                    {participantIsLoading ? (
+                                        <div>loading...</div>
+                                    ) : (
+                                        <div className="flex items-end gap-3">
+                                            {/* {console.log(participants)} */}
+                                            <SelectInput2
+                                                label="Participants"
+                                                value={selectedParticipant}
+                                                renderOption={renderOption}
+                                                onChange={(e) => setSelectedParticipant(e.target.value)}
+                                                valueKey="_id"
+                                                options={participants}
+                                                formik={formik.values.participants}  // Pass formik to access participant values
+                                            />
+                                            {formik.values.participants.length > 0 && (
+                                                <Button
+                                                    type="button"
+                                                    size="icon"
+                                                    className="cursor-pointer"
+                                                    variant="outline"
+                                                    onClick={() => removeAllParticipants()}
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </Button>
+                                            )
+                                            }
+                                            <Button
+                                                type="button"
+                                                size="icon"
+                                                className="cursor-pointer"
+                                                variant="outline"
+                                                onClick={() => handleAddParticipant()}
 
-                        {checkIfGroupItem(formik.values.event) && (
-                            <div className="space-y-2">
-                                <Input
-                                    id="group_name"
-                                    name="group_name"
-                                    label="Group Name"
-                                    placeholder="Enter group name"
-                                    value={formik.values.group_name}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                />
-                                {formik.touched.group_name && formik.errors.group_name && (
-                                    <div className="text-red-500 text-sm">
-                                        {formik.errors.group_name}
-                                    </div>
-                                )}
-                            </div>
+                                            >
+                                                <Plus className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    )}
+                                </>
+                            </>
                         )}
 
-                        {participantIsLoading ? (
-                            <div>loading...</div>
-                        ) : (
-                            <div className="flex items-end gap-3">
-                                {console.log(participants)}
-                                <SelectInput2
-                                    label="Participants"
-                                    value={selectedParticipant}
-                                    renderOption={renderOption}
-                                    onChange={(e) => setSelectedParticipant(e.target.value)}
-                                    valueKey="_id"
-                                    options={participants}
-                                />
-                                <Button
-                                    type="button"
-                                    size="icon"
-                                    className="cursor-pointer"
-                                    variant="outline"
-                                    onClick={() => handleAddParticipant()}
 
-                                >
-                                    <Plus className="w-4 h-4" />
-                                </Button>
-                            </div>
-                        )
-                        }
 
                         {formik.values.participants.length > 0 && (
                             <div className="border rounded-md p-3 space-y-2">
@@ -264,56 +287,28 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                                     <div className="flex items-center justify-between">
                                         <span>{getDetails(participant.user)} </span>
                                         <Button
-                                type="button"
-                                variant="outline"
-                                className="w-8 h-8 text-red-500"
-                                size="icon"
-                                onClick={() => {
-                                    // Call the delete function and pass the participant data
-                                    handleRemoveParticipant(index);
-                                }}
-                            >
-                                <Trash />
-                            </Button>
+                                            type="button"
+                                            variant="outline"
+                                            className="w-8 h-8 text-red-500"
+                                            size="icon"
+                                            onClick={() => {
+                                                // Call the delete function and pass the participant data
+                                                handleRemoveParticipant(index);
+                                            }}
+                                        >
+                                            <Trash />
+                                        </Button>
                                     </div>
                                 ))}
                             </div>
                         )}
 
-                            {formik.touched.participants && formik.errors.participants && (
-                                <div className="text-red-500 text-sm">
-                                    {formik.errors.participants}
-                                </div>
-                            )}
-
-
-                       {/* Helper */}
-
-                    {participantIsLoading ? (
-                            <div>loading...</div>
-                        ) : (
-                            <div className="flex items-end gap-3">
-                                <SelectInput2
-                                    label="Helpers"
-                                    value={selectedHelper}
-                                    renderOption={renderOption}
-                                    onChange={(e) => setSelectedHelper(e.target.value)}
-                                    valueKey="_id"
-                                    options={participants}
-                                />
-                                <Button
-                                    type="button"
-                                    size="icon"
-                                    className="cursor-pointer"
-                                    variant="outline"
-                                    onClick={() => handleAddHelper()}
-
-                                >
-                                    <Plus className="w-4 h-4" />
-                                </Button>
+                        {formik.touched.participants && formik.errors.participants && (
+                            <div className="text-red-500 text-sm">
+                                {formik.errors.participants}
                             </div>
-                        )
-                        }
+                        )}
+
 
 
                         {formik.values.helpers.length > 0 && (
@@ -322,17 +317,17 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                                     <div className="flex items-center justify-between">
                                         <span>{getDetails(participant.user)} </span>
                                         <Button
-                                type="button"
-                                variant="outline"
-                                className="w-8 h-8 text-red-500"
-                                size="icon"
-                                onClick={() => {
-                                    // Call the delete function and pass the participant data
-                                    handleRemoveHelper(index);
-                                }}
-                            >
-                                <Trash />
-                            </Button>
+                                            type="button"
+                                            variant="outline"
+                                            className="w-8 h-8 text-red-500"
+                                            size="icon"
+                                            onClick={() => {
+                                                // Call the delete function and pass the participant data
+                                                handleRemoveHelper(index);
+                                            }}
+                                        >
+                                            <Trash />
+                                        </Button>
                                     </div>
                                 ))}
                             </div>
