@@ -107,6 +107,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                         {formik.touched.name && formik.errors.name && (
                             <div className="text-red-500 text-sm">{formik.errors.name}</div>
                         )}
+
                         {/* Name input field */}
                         <Input
                             name="email"
@@ -116,9 +117,10 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.email && formik.errors.name && (
+                        {formik.touched.email && formik.errors.email && (
                             <div className="text-red-500 text-sm">{formik.errors.email}</div>
                         )}
+
                         {/* phone number field */}
                         <Input
                             name="phoneNumber"
