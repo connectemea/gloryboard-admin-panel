@@ -55,15 +55,17 @@ function ImageCropper({ image, onSave, onClose }) {
       <DialogHeader>
         <DialogTitle>Crop Image</DialogTitle>
       </DialogHeader>
-      <div className="relative w-full h-64">
+      <div className="relative w-full h-72 !padding-0">
         <Cropper
           image={image}
           crop={cropData.crop}
           zoom={cropData.zoom}
           aspect={cropData.aspect}
+          objectFit="contain"
           onCropChange={(crop) => setCropData((prev) => ({ ...prev, crop }))}
           onZoomChange={(zoom) => setCropData((prev) => ({ ...prev, zoom }))}
           onCropComplete={handleCropComplete}
+          className="!padding-0"
         />
       </div>
       <div className="mt-2 flex flex-col items-center">

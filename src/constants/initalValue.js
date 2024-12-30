@@ -7,8 +7,8 @@ export const initalValue = {
 };
 
 export const loginInitalValue = {
-    email: "aseel@lekitk.com",
-    password: "P@ssw0rd",
+    email: "",
+    password: "",
 };
 
 export const repInitalValue = {
