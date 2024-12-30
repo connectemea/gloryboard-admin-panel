@@ -3,7 +3,7 @@ import { Button } from '../ui/button'
 import axiosInstance from '@/api/axiosInstance';
 import { Download, Loader2 } from 'lucide-react';
 
-function DownloadTicket({id}) {
+function DownloadTicket({id, name}) {
 
 
     const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ function DownloadTicket({id}) {
             // Create a temporary anchor element to trigger the download
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'participant_ticket.pdf'; // Set the desired file name
+            link.download = `${name}_ticket.pdf`; // Set the desired file name
             document.body.appendChild(link);
 
             // Trigger the download
