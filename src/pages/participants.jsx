@@ -43,7 +43,11 @@ function Participants() {
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
-    { accessorKey: "college", header: "College", enableSorting: false },
+    {
+      accessorKey: "college", header: "College", enableSorting: false, meta: {
+        filterVariant: 'select',
+      }
+    },
     { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
     // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
     { accessorKey: "phoneNumber", header: "Phone", enableSorting: false, },
