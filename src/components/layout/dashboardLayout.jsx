@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings } from 'lucide-react';
+import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
 // import { DepartmentOptionsProvider } from '@/context/departmentContext';
 import ProductLogo from '@/assets/p_logo.svg';
@@ -138,9 +138,7 @@ const DashboardLayout = ({ children }) => {
                             </SidebarMenu>
                         </SidebarContent>
                         <SidebarFooter>
-                            <Button variant="ghost" onClick={logout}>
-                                Logout
-                            </Button>
+
                             <div>
                                 <img src={ProductLogo} alt="Logo" className="h-12 mx-auto mt-2" />
                             </div>
@@ -158,12 +156,15 @@ const DashboardLayout = ({ children }) => {
                                         <AvatarImage src="/profile.jpg" alt="Profile" />
                                         <AvatarFallback>{getAvatarFallback(auth.user.name)}</AvatarFallback>
                                     </Avatar>
+                                    <Button variant="secondary" className="hover:bg-red-600"  onClick={logout}>
+                                        <LogOut />
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                         <div className="container mx-auto py-8">
                             <div className='z-30 relative p-4'>
-                            <Outlet />
+                                <Outlet />
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>
