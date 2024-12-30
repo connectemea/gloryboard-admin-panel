@@ -10,3 +10,13 @@ export const useGetEvents = () => {
         },
     });
 };
+
+export const useGetEventsOrg = () => {
+    return useQuery({
+        queryKey: ['events-org'], // Query key
+        queryFn: async () => {
+            const { data } = await axiosInstance.get('/org/events');
+            return data.data;
+        },
+    });
+};
