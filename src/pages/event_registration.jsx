@@ -50,10 +50,10 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: "department", header: "Department",
+            accessorKey: "college", header: "College",
             cell: ({ row }) => (
                 <strong>
-                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.department
+                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.college
                     ) : (
                         <div className="flex items-center gap-2">
                             {row.original.group_name} <Users2 size={16} className="" />
