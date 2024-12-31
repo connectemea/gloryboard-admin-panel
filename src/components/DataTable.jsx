@@ -18,6 +18,8 @@ import {
 import { ScrollArea } from "./ui/scroll-area";
 import { AuthContext } from '@/context/authContext'
 import { useContext } from "react";
+import bee from '@/assets/bee.gif'
+
 
 export default function DataTable({ data, columns }) {
     const [globalFilter, setGlobalFilter] = React.useState("");
@@ -54,9 +56,9 @@ export default function DataTable({ data, columns }) {
             {/* Table Wrapper */}
             <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 ">
                 <ScrollArea className=" h-[calc(100vh-300px)] rounded-md">
-                    <div className="w-full inline-block align-middle max-w-[1440px] overflow-hidden overflow-x-auto ">
-                        <table className="min-w-full divide-y overflow-y-hidden">
-                            <thead className="bg-[#0D1E26] sticky top-0 z-10">
+                    <div className="w-full inline-block align-middle max-w-[1440px]  overflow-x-auto ">
+                        <table className="min-w-full divide-y overflow-y-hidden overflow-x-auto">
+                            <thead className="bg-[#0D1E26] sticky left-0 right-0 w-full top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <tr key={headerGroup.id}>
                                         {headerGroup.headers.map((header) => {
@@ -110,53 +112,13 @@ export default function DataTable({ data, columns }) {
                                         <tr>
                                             <td
                                                 colSpan={table.getHeaderGroups()[0].headers.length}
-                                                className="px-4 py-4 text-center text-gray-200"
+                                                className="px-4 py-4 text-center text-gray-200 font-semibold"
                                             >
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
+                                                <img src={bee} alt="bee" className=" mx-auto" />
                                                 No data available.
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td
-                                                colSpan={table.getHeaderGroups()[0].headers.length}
-                                                className="px-4 py-4 text-center text-gray-200"
-                                            >
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
-                                            </td>
-                                        </tr>
+
                                     </>
                                 ) : (
                                     table.getRowModel().rows.map((row) => (

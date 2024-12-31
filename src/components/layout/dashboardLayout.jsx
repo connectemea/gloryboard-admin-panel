@@ -136,10 +136,15 @@ const DashboardLayout = ({ children }) => {
                                 {filteredRoutes.map((route) => renderMenuGroup(route))}
                             </SidebarMenu>
                         </SidebarContent>
+                        <SidebarFooter className="z-50">
+                            <div className="absolute bottom-0 left-0 right-0 mx-auto flex justify-center">
+                                <img src={ProductLogo} alt="Logo" className="h-12 mt-2" />
+                            </div>
+                        </SidebarFooter>
                     </Sidebar>
 
                     {/* Main Content */}
-                    <div className="flex-1">
+                    <div className="flex-1 flex-grow h-screen overflow-y-hidden">
                         <div className="border-b shadow sticky top-0 z-40 bg-background">
                             <div className="container mx-auto py-4 flex justify-between px-6 items-center">
                                 <SidebarTrigger />
@@ -155,12 +160,10 @@ const DashboardLayout = ({ children }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="container mx-auto py-8 h-full">
+                        <div className="container mx-auto py-8 h-full ">
                             <div className="z-30 relative p-4 h-full">
                                 <Outlet />
-                                <div className="absolute bottom-0 left-0 right-0 mx-auto flex justify-center">
-                                    <img src={ProductLogo} alt="Logo" className="h-12 mt-2" />
-                                </div>
+
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>
