@@ -55,7 +55,8 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
       ? { ...eventRegistrationInitialValues, ...initialData }
       : eventRegistrationInitialValues,
     validationSchema: eventRegistrationSchema,
-    validateOnBlur: false,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: (values) => {
       editMode
         ? UpdateEventReg({ ...values, id: initialData._id })
