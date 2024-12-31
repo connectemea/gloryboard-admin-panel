@@ -68,6 +68,17 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             }
         }
     })
+    useEffect(() => {
+        if (editMode) {
+            formik.setFormikState((state) => ({
+                ...state,
+                values: {
+                    ...state.values,
+                    ...initialData,
+                },
+            }));
+        }
+    }, [editMode, initialData]);
 
 
     const handleSubmit = (e) => {
@@ -183,6 +194,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                                     const randomPassword = generateRandomPassword();
                                                     formik.setFieldValue('password', randomPassword);
                                                     formik.setFieldValue('confirmPassword', randomPassword);
+                                                    formik.validateField('password');
+                                                    formik.validateField('confirmPassword');
                                                 }}
                                             >
                                                 <RefreshCw className="h-5 w-5" />

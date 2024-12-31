@@ -75,7 +75,7 @@ export const participantValidationSchema = (editMode) =>
         dob: Yup.date()
             .required("Date of Birth is required")
             .min(new Date("2000-07-01"), "Must be after July 1, 2000"),
-        capId: Yup.string().required("Required"),
+        capId: Yup.string().required("Cap ID is required"),
     });
 
 export const eventTypeValidationSchema = Yup.object({
