@@ -41,9 +41,10 @@ function CollegeModal({ editMode = false, initialData = {} }) {
 
     // Initial form values
     const formik = useFormik({
-        initialValues: editMode ? { ...collegeInitalValue, ...initialData } : collegeInitalValue,
+        initialValues: collegeInitalValue,
         validationSchema: collegeValidationSchema(editMode),
-        validateOnBlur: false,
+        validateOnBlur: true,
+        validateOnChange: true,
         onSubmit: (values) => {
             setCopyData({ email: values.email, password: values.password });
             if (!values.password || !values.confirmPassword) {
@@ -55,6 +56,17 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
         }
     })
+    useEffect(() => {
+        if (!editMode) {
+            formik.setFormikState((state) => ({
+                ...state,
+                values: {
+                    ...state.values,
+                    ...initialData,
+                },
+            }));
+        }
+    }, [editMode, initialData]);
 
 
 
@@ -163,6 +175,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                                     const randomPassword = generateRandomPassword();
                                                     formik.setFieldValue('password', randomPassword);
                                                     formik.setFieldValue('confirmPassword', randomPassword);
+                                                    formik.validateField('password');
+                                                    formik.validateField('confirmPassword');
                                                 }}
                                             >
                                                 <RefreshCw className="h-5 w-5" />
