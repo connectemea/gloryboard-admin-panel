@@ -23,7 +23,6 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
         validationSchema: eventTypeValidationSchema,
         validateOnBlur: false,
         onSubmit: (values) => {
-            console.log('Submitted Values:', values);
             editMode ? updateEventType({...values, id: initialData._id}) : CreateEventType(values);
             handleCloseDialog();
         },

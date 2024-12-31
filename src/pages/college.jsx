@@ -36,7 +36,6 @@ function College() {
                     <CollegeModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
-                            console.log(row.original._id);
                             deleteUser(row.original._id);
                         }}
                     />

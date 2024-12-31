@@ -20,7 +20,6 @@ export const DepartmentOptionsProvider = ({ children }) => {
     //         }))
     //     : [];
 
-    // console.log(auth);
 
     return (
         <DepartmentOptionsContext.Provider

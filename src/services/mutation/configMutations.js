@@ -41,7 +41,6 @@ export const useUpdateConfig = () => {
 
             // Invalidate and refetch the 'config' query to ensure it's up-to-date
             queryClient.invalidateQueries(['config']);
-            console.log("Configuration updated successfully");
         },
 
         onError: (error, variables, context) => {
@@ -53,7 +52,6 @@ export const useUpdateConfig = () => {
             if (context?.previousConfig) {
                 queryClient.setQueryData(['config'], context.previousConfig);
             }
-            console.log("Error updating config:", errorMessage);
         },
     });
 };

@@ -4,8 +4,6 @@ import React from 'react'
 
 function LeaderBoard({ data }) {
 
-    console.log(data)
-
 
     const calculateTotalPoints = (data) => {
         const totalPoints = {};
@@ -26,8 +24,6 @@ function LeaderBoard({ data }) {
 
  
     const TotalPoints = calculateTotalPoints(data);
-
-    console.log(TotalPoints)
 
     return ( 
         <div className='flex lg:flex-row flex-col gap-3 w-full pb-6 px-2 lg:px-0'>

@@ -68,7 +68,6 @@ function EventType() {
                     <EventTypeModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
-                            console.log(row.original._id);
                             deleteEventType(row.original._id);
                         }}
                     />

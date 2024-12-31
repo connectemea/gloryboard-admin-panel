@@ -44,7 +44,6 @@ function Events() {
                     <EventModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
-                            console.log(row.original._id);
                             deleteEvent(row.original._id);
                         }}
                     />

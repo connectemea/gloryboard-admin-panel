@@ -32,8 +32,6 @@ function EventRegistration() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-    // console.log(data)
-
     
 
     const columns = [
@@ -42,7 +40,6 @@ function EventRegistration() {
             header: "Registred By",
             cell: ({ row }) => (
                 <strong>
-                    {/* {console.log(row.original.participants[0])} */}
                     {!row.original.event?.event_type.is_group == true ? (
                         row.original.participants[0]?.name
                     ) : (
@@ -71,9 +68,9 @@ function EventRegistration() {
               </strong>
             ),
             enableSorting: false,
-            meta: {
+            meta: auth.user.user_type === "admin" ? {
               filterVariant: "select",
-            },
+            }:undefined,
           },
         {
             accessorKey: "event.name", header: "Event", enableSorting: false, meta: {
@@ -86,13 +83,12 @@ function EventRegistration() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex gap-2">
-                    <EventRegViewModal data={row.original} />
+                    <EventRegViewModal data={row.original} role={auth.user.user_type}>
                     {auth?.user.user_type !== 'admin' && (
                         <>
                             <EventRegModal editMode={true} initialData={row.original} />
                             <DeleteModal
                                 onDelete={() => {
-                                    console.log(row.original._id);
                                     deleteEventReg(row.original._id);
                                 }}
                             />

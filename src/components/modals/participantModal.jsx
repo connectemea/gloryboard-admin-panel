@@ -92,7 +92,6 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     validateOnBlur: false,
     onSubmit: (values) => {
       setIsSubmitting(true);
-      console.log(editMode ? "Updated Data:" : "New Data:", values);
 
       // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
       editMode

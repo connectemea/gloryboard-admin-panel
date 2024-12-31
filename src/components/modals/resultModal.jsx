@@ -71,7 +71,6 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
         validateOnBlur: false,
         onSubmit: (values) => {
             if (editMode) {
-                console.log(initialData._id);
                 updateResult({ id: initialData._id, data: values });
             } else {
                 createResult(values);

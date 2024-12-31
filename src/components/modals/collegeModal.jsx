@@ -59,8 +59,6 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                 delete values.password;
                 delete values.confirmPassword;
             }
-            // console.log('Form Values:', values)
-            // console.log(editMode ? 'Updated Data:' : 'New Data:', values)
             // editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             if (editMode) {
                 updateCollege(values);
@@ -90,7 +88,6 @@ function CollegeModal({ editMode = false, initialData = {} }) {
 
     // Utility function for copying to clipboard
     const copyToClipboard = () => {
-        console.log(copyData);
         const textToCopy = `Email: ${copyData.email}\nPassword: ${copyData.password ? copyData.password : '****'}`;
         navigator.clipboard.writeText(textToCopy);
         toast.success('Copied email and password to clipboard!');

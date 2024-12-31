@@ -33,7 +33,6 @@ function RepModal({ editMode = false, initialData = {} }) {
         validationSchema: repValidationSchema(editMode),
         validateOnBlur: false,
         onSubmit: (values) => {
-            console.log(editMode ? 'Updated Data:' : 'New Data:', values)
             editMode ? updateUser(values) :  createUser({...values, user_type: 'rep'});
             handleCloseDialog()
         }
