@@ -22,8 +22,8 @@ export const departmentOptions = [
 
 
 export const genderOptions = [
-    {value: 'male', label: 'Male'},
-    {value: 'female', label: 'Female'},
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
     // {value: 'other', label: 'Other'},
 ]
 
@@ -59,4 +59,5 @@ export const eventCategorys = [
 export const resultCategorys = [
     { label: 'Chithrolsavam', value: 'chithrolsavam' },
     { label: 'Saahithyolsavam', value: 'saahithyolsavam' },
+    { label: 'None', value: 'none' },
 ];
