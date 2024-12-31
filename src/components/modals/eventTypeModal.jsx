@@ -187,7 +187,7 @@ function EventTypeModal({ editMode = false, initialData = {} }) {
                         <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
                             {editMode ? 'Update' : 'Submit'}
                         </Button>
-                        <Button variant="ghost" type="button" onClick={handleCloseDialog}>
+                        <Button  variant="ghost" type="button" onClick={handleCloseDialog}>
                             Cancel
                         </Button>
                     </div>
