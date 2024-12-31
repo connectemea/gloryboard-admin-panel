@@ -89,7 +89,6 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     validationSchema: participantValidationSchema,
     validateOnBlur: false,
     onSubmit: (values) => {
-      console.log(editMode ? "Updated Data:" : "New Data:", values);
 
       // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
       editMode
