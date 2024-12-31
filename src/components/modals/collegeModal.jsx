@@ -57,7 +57,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         }
     })
     useEffect(() => {
-        if (!editMode) {
+        if (editMode) {
             formik.setFormikState((state) => ({
                 ...state,
                 values: {
