@@ -61,7 +61,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             }
             // editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             if (editMode) {
-                updateCollege(values);
+                // updateCollege(values);
             } else {
                 createCollege({ ...values, user_type: 'organization' });
             }

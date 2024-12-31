@@ -33,8 +33,8 @@ function Events() {
         { accessorKey: 'result_category', header: 'Result Category', enableSorting: false, meta: {
             filterVariant: "select",
         } },
-        { accessorKey: 'min_participants', header: 'Min Participants', enableSorting: false },
-        { accessorKey: 'max_participants', header: 'Max Participants', enableSorting: false },
+        { accessorKey: 'min_participants', header: 'Min', enableSorting: false },
+        { accessorKey: 'max_participants', header: 'Max', enableSorting: false },
         {
             accessorKey: "actions",
             header: "Actions",
