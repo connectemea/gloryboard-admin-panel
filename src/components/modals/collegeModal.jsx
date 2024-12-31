@@ -11,7 +11,7 @@ import { useCreateCollege, useUpdateCollege } from '@/services/mutation/collegeM
 import { PasswordInput } from '../ui/password-input'
 import { AuthContext } from '@/context/authContext'
 import { toast } from 'sonner';
-
+import { useQueryClient } from '@tanstack/react-query';
 // Utility function for random password generation
 const generateRandomPassword = (length = 12) => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -19,33 +19,40 @@ const generateRandomPassword = (length = 12) => {
 };
 
 function CollegeModal({ editMode = false, initialData = {} }) {
+    const queryClient = useQueryClient();
     const [updatePassword, setUpdatePassword] = useState(false);
     const { isOpen, openModal, closeModal: handleCloseModal } = useModel()
     const { isOpen: isCopyOpen, openModal: handleCopyModal, closeModal: handleCloseCopyModal } = useModel()
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleCloseDialog = () => {
         formik.resetForm()
         handleCloseModal()
+        setUpdatePassword(false)
     }
     const handleFormSuccess = () => {
         handleCloseDialog()
         handleCopyModal()
+        queryClient.invalidateQueries(['users']);
     }
 
-    const { mutate: createCollege } = useCreateCollege(handleFormSuccess);
-    const { mutate: updateCollege } = useUpdateCollege(handleFormSuccess);
+    const { mutate: createCollege } = useCreateCollege(handleFormSuccess, setIsSubmitting);
+    const { mutate: updateCollege } = useUpdateCollege(handleFormSuccess, setIsSubmitting);
 
     const [copyData, setCopyData] = useState({ email: '', password: '' });
 
     // const { auth } = useContext(AuthContext);
-
+    const validationSchema = React.useMemo(
+        () => collegeValidationSchema(editMode, updatePassword),
+        [editMode, updatePassword]
+    );
     // Initial form values
     const formik = useFormik({
-        initialValues: collegeInitalValue,
-        validationSchema: collegeValidationSchema(editMode),
-        validateOnBlur: true,
-        validateOnChange: true,
+        initialValues: editMode ? { ...collegeInitalValue, ...initialData } : collegeInitalValue,
+        validationSchema: validationSchema,
+        validateOnBlur: false,
         onSubmit: (values) => {
+            // setIsSubmitting(true);
             setCopyData({ email: values.email, password: values.password });
             if (!values.password || !values.confirmPassword) {
                 delete values.password;
@@ -53,7 +60,12 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             }
             // console.log('Form Values:', values)
             // console.log(editMode ? 'Updated Data:' : 'New Data:', values)
-            editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
+            // editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
+            if (editMode) {
+                updateCollege(values);
+            } else {
+                createCollege({ ...values, user_type: 'organization' });
+            }
         }
     })
     useEffect(() => {
@@ -68,6 +80,11 @@ function CollegeModal({ editMode = false, initialData = {} }) {
         }
     }, [editMode, initialData]);
 
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        formik.handleSubmit()
+    }
 
 
     // Utility function for copying to clipboard
@@ -106,7 +123,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                             {editMode ? 'Update the details of the College.' : 'Please fill out the form to create a new College.'}
                         </DialogDescription>
                     </DialogHeader>
-                    <form onSubmit={formik.handleSubmit} className="space-y-2">
+                    <form onSubmit={handleSubmit} className="space-y-2">
                         {/* Name input field */}
                         <Input
                             name="name"
@@ -146,9 +163,11 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                             <div className="text-red-500 text-sm">{formik.errors.phoneNumber}</div>
                         )}
                         {editMode && (
-                            <Button type="button" onClick={() => handleUpdatePassword()} >
-                                Update Password
-                            </Button>
+                            <div className="pt-2">
+                                <Button type="button" onClick={() => handleUpdatePassword()} >
+                                    {editMode ? (updatePassword ? 'Cancel Password' : 'Update Password') : 'Update Password'}
+                                </Button>
+                            </div>
                         )}
                         {editMode ? (
                             updatePassword && (
@@ -222,10 +241,15 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                                 const randomPassword = generateRandomPassword();
                                                 formik.setFieldValue('password', randomPassword);
                                                 formik.setFieldValue('confirmPassword', randomPassword);
+
+                                                // Trigger validation for both fields after updating values
+                                                formik.validateField('password');
+                                                formik.validateField('confirmPassword');
                                             }}
                                         >
                                             <RefreshCw className="h-5 w-5" />
                                         </Button>
+
                                     </div>
                                 </div>
                                 {formik.touched.password && formik.errors.password && (
@@ -246,7 +270,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                         )
                         }
                         <div className="!mt-4 flex justify-end">
-                            <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
+                            <Button type="submit" className="mr-2" disabled={isSubmitting}>
                                 {editMode ? 'Update' : 'Submit'}
                             </Button>
                             <Button type="button" variant="ghost" onClick={handleCloseDialog}>

@@ -20,25 +20,37 @@ import { useCreateEvent, useUpdateEvent } from '@/services/mutation/eventMutatio
 import { eventCategorys, resultCategorys } from '@/constants/options';
 
 function EventModal({ editMode = false, initialData = {} }) {
-
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
     const { isOpen, openModal, closeModal } = useModel();
     const { data: eventTypes, isLoading: eventTypesLoading, error } = useGetEventTypes();
 
 
-    const { mutate: CreateEvent } = useCreateEvent()
-    const { mutate: updateEvent } = useUpdateEvent();
+    const { mutate: CreateEvent } = useCreateEvent(setIsSubmitting)
+    const { mutate: updateEvent } = useUpdateEvent(setIsSubmitting);
 
 
     // Initial form values
     const formik = useFormik({
-        initialValues: editMode ? { ...eventInitalValue, ...initialData } : eventInitalValue,
-        validationSchema: eventValidationSchema,
+        initialValues: editMode ? { name: initialData.name, id: initialData._id } : eventInitalValue, // Only set the name in editMode
+        validationSchema: eventValidationSchema(editMode),
         validateOnBlur: false,
         onSubmit: (values) => {
-            editMode ? updateEvent({ ...values, id: initialData._id }) : CreateEvent(values);
+            setIsSubmitting(true);
+            if (values.result_category === "") {
+                values.result_category = "none";
+            }
+
+            if (editMode) {
+                console.log(values,initialData);
+                updateEvent({ name: values.name, _id: values.id });
+            } else {
+                CreateEvent(values);
+            }
+
             handleCloseDialog();
         },
     });
+
 
     const handleCloseDialog = () => {
         formik.resetForm();
@@ -92,100 +104,102 @@ function EventModal({ editMode = false, initialData = {} }) {
                             {formik.errors.name}
                         </div>
                     )}
+                    {!editMode && (
+                        <div className='space-y-2'>
 
-                    {/* Event Category input field */}
-                    <SelectInput
-                        label="Event Category"
-                        name="event_category"
-                        value={formik.values.event_category}
-                        onChange={(e) =>
-                            formik.setFieldValue('event_category', e.target.value)
-                        }
-                        onBlur={formik.handleBlur}
-                        options={eventCategorys}
-                    />
-                    {formik.touched.event_category && formik.errors.event_category && (
-                        <div className="text-red-500 text-sm">
-                            {formik.errors.event_category}
-                        </div>
-                    )}
-
-                    {/* Result Category input field */}
-                    <SelectInput
-                        label={"Result Category"}
-                        name="result_category"
-                        value={formik.values.result_category}
-                        onChange={(e) =>
-                            formik.setFieldValue('result_category', e.target.value)
-                        }
-                        onBlur={formik.handleBlur}
-                        options={resultCategorys}
-                    />
-                    {formik.touched.result_category && formik.errors.result_category && (
-                        <div className="text-red-500 text-sm">
-                            {formik.errors.result_category}
-                        </div>
-                    )}
-
-                    {/* Min Participants input field */}
-                    <Input
-                        name="min_participants"
-                        label="Min Participants"
-                        placeholder="Enter min participants"
-                        value={formik.values.min_participants}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-
-                    {formik.touched.min_participants && formik.errors.min_participants && (
-                        <div className="text-red-500 text-sm">
-                            {formik.errors.min_participants}
-                        </div>
-                    )}
-
-                    {/* Max Participants input field */}
-                    <Input
-                        name="max_participants"
-                        label="Max Participants"
-                        placeholder="Enter max participants"
-                        value={formik.values.max_participants}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-
-                    {formik.touched.max_participants && formik.errors.max_participants && (
-                        <div className="text-red-500 text-sm">
-                            {formik.errors.max_participants}
-                        </div>
-                    )}
-
-
-                    {!eventTypesLoading ? (
-                        <>
+                            {/* Event Category input field */}
                             <SelectInput
-                                label="Event Type"
-                                name="event_type"
-                                value={formik.values.event_type}
+                                label="Event Category"
+                                name="event_category"
+                                value={formik.values.event_category}
                                 onChange={(e) =>
-                                    // console.log(value)
-                                    formik.setFieldValue('event_type', e.target.value)
+                                    formik.setFieldValue('event_category', e.target.value)
                                 }
                                 onBlur={formik.handleBlur}
-                                options={getEventTypeOptions(eventTypes)}
+                                options={eventCategorys}
                             />
-                            {formik.touched.event_type &&
-                                formik.errors.event_type && (
-                                    <div className="text-red-500 text-sm">
-                                        {formik.errors.event_type}
-                                    </div>
-                                )}
-                        </>
-                    ) : (
-                        <p>Loading...</p>
-                    )}
+                            {formik.touched.event_category && formik.errors.event_category && (
+                                <div className="text-red-500 text-sm">
+                                    {formik.errors.event_category}
+                                </div>
+                            )}
+
+                            {/* Result Category input field */}
+                            <SelectInput
+                                label={"Result Category"}
+                                name="result_category"
+                                value={formik.values.result_category}
+                                onChange={(e) =>
+                                    formik.setFieldValue('result_category', e.target.value)
+                                }
+                                onBlur={formik.handleBlur}
+                                options={resultCategorys}
+                            />
+                            {formik.touched.result_category && formik.errors.result_category && (
+                                <div className="text-red-500 text-sm">
+                                    {formik.errors.result_category}
+                                </div>
+                            )}
+
+                            {/* Min Participants input field */}
+                            <Input
+                                name="min_participants"
+                                label="Min Participants"
+                                placeholder="Enter min participants"
+                                value={formik.values.min_participants}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            />
+
+                            {formik.touched.min_participants && formik.errors.min_participants && (
+                                <div className="text-red-500 text-sm">
+                                    {formik.errors.min_participants}
+                                </div>
+                            )}
+
+                            {/* Max Participants input field */}
+                            <Input
+                                name="max_participants"
+                                label="Max Participants"
+                                placeholder="Enter max participants"
+                                value={formik.values.max_participants}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            />
+
+                            {formik.touched.max_participants && formik.errors.max_participants && (
+                                <div className="text-red-500 text-sm">
+                                    {formik.errors.max_participants}
+                                </div>
+                            )}
 
 
-                    {/* <Label className="text-white/50 ">Date</Label>
+                            {!eventTypesLoading ? (
+                                <>
+                                    <SelectInput
+                                        label="Event Type"
+                                        name="event_type"
+                                        value={formik.values.event_type}
+                                        onChange={(e) =>
+                                            // console.log(value)
+                                            formik.setFieldValue('event_type', e.target.value)
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        options={getEventTypeOptions(eventTypes)}
+                                    />
+                                    {formik.touched.event_type &&
+                                        formik.errors.event_type && (
+                                            <div className="text-red-500 text-sm">
+                                                {formik.errors.event_type}
+                                            </div>
+                                        )}
+                                </>
+                            ) : (
+                                <p>Loading...</p>
+                            )}
+
+
+                            {/* <Label className="text-white/50 ">Date</Label>
                     <DayPicker className="w-full" name="date" selected={formik.values.date}
                         onSelect={(date) => {
                             formik.setFieldValue('date', date);
@@ -196,12 +210,13 @@ function EventModal({ editMode = false, initialData = {} }) {
                             {formik.errors.date}
                         </div>
                     )} */}
-
+                        </div>
+                    )}
                     <div className="!mt-4 flex justify-end">
                         <Button
                             type="submit"
                             className="mr-2"
-                            disabled={formik.isSubmitting}
+                            disabled={isSubmitting}
                         >
                             {editMode ? 'Update' : 'Submit'}
                         </Button>
@@ -209,6 +224,9 @@ function EventModal({ editMode = false, initialData = {} }) {
                             Cancel
                         </Button>
                     </div>
+
+
+
                 </form>
             </DialogContent>
         </Dialog>

@@ -52,9 +52,9 @@ export const eventInitalValue = {
     name: "",
     event_type: "",
     event_category: "",
-    result_category: "",
+    result_category: "none",
     min_participants: 1,
-    max_participants: 2,
+    max_participants: 1,
     // date: null
 };
 

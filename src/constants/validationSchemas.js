@@ -49,16 +49,17 @@ export const collegeValidationSchema = (editMode, updatePassword) =>
         email: Yup.string()
             .email("Invalid email address")  // Built-in email validation
             .required("Email is required"),
-        password: editMode
+        password: editMode && !updatePassword
             ? Yup.string()
             : Yup.string()
                 .required("Password is required")
                 .min(6, "Password must be at least 6 characters"),
-        confirmPassword: editMode
+        confirmPassword: editMode && !updatePassword
             ? Yup.string()
             : Yup.string()
                 .required("Confirm Password is required")
                 .oneOf([Yup.ref("password"), null], "Passwords must match"),
+
     });
 
 export const participantValidationSchema = (editMode) =>
@@ -132,11 +133,38 @@ export const eventTypeValidationSchema = Yup.object({
     })
 });
 
-export const eventValidationSchema = Yup.object({
+export const eventValidationSchema = (editMode) => Yup.object({
     name: Yup.string().required("Name is required"),
-    event_type: Yup.string().required("Event Type is required"),
-    // date: Yup.string().required("Date is required"),
+    event_type: editMode ? Yup.string() : Yup.string().required("Event Type is required"),
+    event_category: editMode ? Yup.string() : Yup.string().required("Event Category is required"),
+    min_participants: editMode
+        ? Yup.string()
+        : Yup.number()
+            .typeError('Min Participants must be a number')  // Ensures the value is a number
+            .required("Min Participants is required")
+            .positive("Min Participants must be a positive number")  // Optional: to ensure positive values
+            .integer("Min Participants must be an integer"),  // Optional: to enforce integer values
+
+    max_participants: editMode
+        ? Yup.string()
+        : Yup.number()
+            .typeError('Max Participants must be a number')  // Ensures the value is a number
+            .required("Max Participants is required")
+            .positive("Max Participants must be a positive number")  // Optional: to ensure positive values
+            .integer("Max Participants must be an integer")  // Optional: to enforce integer values
+            .test(
+                "is-less-than-or-equal",
+                "Max Participants must be greater than or equal to Min Participants",
+                function(value) {
+                    const { min_participants } = this.parent;
+                    return value >= min_participants;
+                }
+            ),
+
+    result_category: editMode ? Yup.string() : Yup.string().required("Result Category is required"),
 });
+
+
 
 export const eventRegistrationSchema = Yup.object().shape({
     event: Yup.string()

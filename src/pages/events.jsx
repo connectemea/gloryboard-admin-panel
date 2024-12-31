@@ -27,13 +27,21 @@ function Events() {
         { accessorKey: 'event_type.name', header: 'Type', enableSorting: false , meta: {
             filterVariant: "select",
         } },
+        { accessorKey: 'event_category', header: 'Event Category', enableSorting: false , meta: {
+            filterVariant: "select",
+        }},
+        { accessorKey: 'result_category', header: 'Result Category', enableSorting: false, meta: {
+            filterVariant: "select",
+        } },
+        { accessorKey: 'min_participants', header: 'Min Participants', enableSorting: false },
+        { accessorKey: 'max_participants', header: 'Max Participants', enableSorting: false },
         {
             accessorKey: "actions",
             header: "Actions",
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex space-x-2">
-                    {/* <EventModal editMode={true} initialData={row.original} /> */}
+                    <EventModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
                             console.log(row.original._id);
