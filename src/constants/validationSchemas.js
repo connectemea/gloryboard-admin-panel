@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Name is required"),
     department: Yup.string().required("Department is required"),
     year: Yup.string().required("Year is required"),
 });
@@ -14,6 +14,7 @@ export const loginSchema = Yup.object().shape({
     //     .max(15, "Phone number must be no more than 15 digits")
     //     .required("Phone No is required"),
     email: Yup.string()
+        .transform((value) => value.trim())
         .email("Invalid email")
         .required("Email is required"),
     password: Yup.string()
@@ -24,7 +25,7 @@ export const loginSchema = Yup.object().shape({
 
 export const repValidationSchema = (editMode) =>
     Yup.object({
-        name: Yup.string().required("Name is required"),
+        name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Name is required"),
         gender: Yup.string().required("Gender is required"),
         number: Yup.string()
             .matches(/^[0-9]+$/, "Phone number must only contain digits")
@@ -36,17 +37,18 @@ export const repValidationSchema = (editMode) =>
             : Yup.string()
                 .required("Password is required")
                 .min(6, "Password must be at least 6 characters"),
-        department: Yup.string().required("Department is required"),
+        department: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Department is required"),
         year_of_study: Yup.string().required("Year is required"),
     });
 
 export const collegeValidationSchema = (editMode, updatePassword) =>
     Yup.object({
-        name: Yup.string().required("Name is required"),
+        name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Name is required"),
         phoneNumber: Yup.string()
             .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
             .required("Phone number is required"),
         email: Yup.string()
+            .transform((value) => value.trim())
             .email("Invalid email address")  // Built-in email validation
             .required("Email is required"),
         password: editMode && !updatePassword
@@ -80,7 +82,7 @@ export const participantValidationSchema = (editMode) =>
     });
 
 export const eventTypeValidationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required('Name is required'),
     // participant_count: Yup.number()
     //     .required('Participants count is required')
     //     .typeError('Participants count must be a number')
@@ -135,7 +137,7 @@ export const eventTypeValidationSchema = Yup.object({
 });
 
 export const eventValidationSchema = (editMode) => Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Name is required"),
     event_type: editMode ? Yup.string() : Yup.string().required("Event Type is required"),
     event_category: editMode ? Yup.string() : Yup.string().required("Event Category is required"),
     min_participants: editMode
@@ -169,6 +171,7 @@ export const eventValidationSchema = (editMode) => Yup.object({
 
 export const eventRegistrationSchema = Yup.object().shape({
     event: Yup.string()
+        .matches(/\S/, "Name cannot be just whitespace")
         .transform((value) => (value ? String(value).trim() : ''))
         .required('Event selection is required'),
 
@@ -178,7 +181,7 @@ export const eventRegistrationSchema = Yup.object().shape({
     group_name: Yup.string().when('is_group',
         {
             is: true,
-            then: (schema) => schema.required("Group Name is rquired"),
+            then: (schema) => schema.matches(/\S/, "Name cannot be just whitespace").required("Group Name is rquired"),
             otherwise: (schema) => schema.notRequired()
         }
     ),
