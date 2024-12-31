@@ -26,7 +26,6 @@ export default function DataTable({ data, columns }) {
     const [sorting, setSorting] = React.useState([]);
     const { auth } = useContext(AuthContext);
     const role = auth.user.user_type;
-    // console.log(JSON.stringify(data));
     const table = useReactTable({
         data,
         columns,

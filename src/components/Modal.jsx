@@ -18,7 +18,6 @@ function Modal({ editMode = false, initialData = {} }) {
         initialValues: editMode ? { ...initalValue, ...initialData } : initalValue,
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(editMode ? 'Updated Data:' : 'New Data:', values)
             handleCloseDialog()
         }
     })

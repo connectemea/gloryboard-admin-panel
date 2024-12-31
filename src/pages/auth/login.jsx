@@ -32,9 +32,7 @@ function Login() {
     validationSchema: loginSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        console.log("values", values);
         const { data } = await axiosInstance.post("/login", values);
-        console.log(data);
         login(data.data.accessToken, data.data.user);
         navigate("/participants");
       } catch (error) {

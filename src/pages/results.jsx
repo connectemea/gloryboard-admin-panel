@@ -17,8 +17,6 @@ function Results() {
     if (error) {
         return <div className="px-6">Error fetching data</div>;
     }
-
-    // console.log(data)
    
 
     const columns = [
@@ -38,7 +36,6 @@ function Results() {
                     <ResultModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
-                            console.log(row.original._id);
                             deleteResult(row.original._id);
                         }}
                     />

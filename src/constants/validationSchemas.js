@@ -176,16 +176,6 @@ export const eventRegistrationSchema = Yup.object().shape({
         .required('Event selection is required'),
 
 
-
-
-    group_name: Yup.string().when('is_group',
-        {
-            is: true,
-            then: (schema) => schema.matches(/\S/, "Name cannot be just whitespace").required("Group Name is rquired"),
-            otherwise: (schema) => schema.notRequired()
-        }
-    ),
-
     participants: Yup.array()
         .of(
             Yup.object().shape({
