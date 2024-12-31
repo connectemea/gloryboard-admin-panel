@@ -52,14 +52,18 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: "department", header: "Department",
+            accessorKey: auth.user.user_type === "admin" ? "college" : "course", header: auth.user.user_type === "admin" ? "College" : "Course/group",
             cell: ({ row }) => (
                 <strong>
-                    {!row.original.event?.event_type.is_group == true ? (row.original.participants[0]?.department
+                    {auth.user.user_type === "admin" ? (
+                        //  {!row.original.event?.event_type.is_group == true ? (
+                        row.original.participants[0]?.college
                     ) : (
-                        <div className="flex items-center gap-2">
-                            {row.original.group_name} <Users2 size={16} className="" />
-                        </div>
+                        !row.original.event?.event_type.is_group == true ? row.original.participants[0]?.course : (
+                            <div className="flex items-center gap-2">
+                                {row.original.group_name} <Users2 size={16} className="" />
+                            </div>
+                        )
                     )}
                 </strong>
             ), enableSorting: false,
@@ -76,14 +80,16 @@ function EventRegistration() {
             cell: ({ row }) => (
                 <div className="flex gap-2">
                     <EventRegViewModal data={row.original} />
-                    {/* <EventRegModal editMode={true} initialData={row.original} /> */}
                     {auth?.user.user_type !== 'admin' && (
-                        <DeleteModal
-                            onDelete={() => {
-                                console.log(row.original._id);
-                                deleteEventReg(row.original._id);
-                            }}
-                        />
+                        <>
+                            <EventRegModal editMode={true} initialData={row.original} />
+                            <DeleteModal
+                                onDelete={() => {
+                                    console.log(row.original._id);
+                                    deleteEventReg(row.original._id);
+                                }}
+                            />
+                        </>
                     )}
                 </div>
             ),

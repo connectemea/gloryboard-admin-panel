@@ -120,16 +120,7 @@ export default function DataTable({ data, columns }) {
                                                 >
                                                     🐝
                                                 </span>
-
                                                 No data available.
-                                                <span
-                                                    className="inline-block animate-fly text-yellow-400 px-4"
-                                                    role="img"
-                                                    aria-label="bee"
-                                                >
-                                                    🐝
-                                                </span>
-                                                Fly high, stay buzzing!
                                                 <span
                                                     className="inline-block animate-fly text-yellow-400 px-4"
                                                     role="img"

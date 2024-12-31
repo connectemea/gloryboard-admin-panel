@@ -57,13 +57,14 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
 
     const formik = useFormik({
         initialValues: editMode
-            ? { ...participantInitalValue, ...initialData, 
-                year_of_study: String(initialData.year_of_study), 
-                semester: String(initialData.semester), 
-                phoneNumber: String(initialData.phoneNumber), 
+            ? {
+                ...participantInitalValue, ...initialData,
+                year_of_study: String(initialData.year_of_study),
+                semester: String(initialData.semester),
+                phoneNumber: String(initialData.phoneNumber),
                 capId: String(initialData.capId),
-                dob: initialData.dob ? new Date(initialData.dob).toISOString().split('T')[0] : '', 
-                }
+                dob: initialData.dob ? new Date(initialData.dob).toISOString().split('T')[0] : '',
+            }
             : participantInitalValue,
         validationSchema: participantValidationSchema,
         validateOnBlur: false,
@@ -115,7 +116,14 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                             placeholder="Enter Course Name"
                             value={formik.values.course}
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
+                            onBlur={(e) => {
+                                const value = e.target.value;
+                                formik.setFieldValue(
+                                    'course',
+                                    value.charAt(0).toUpperCase() + value.slice(1) // Capitalize the first letter
+                                );
+                                formik.handleBlur(e);
+                            }}
                         />
                         {formik.touched.course && formik.errors.course && (
                             <div className="text-red-500 text-sm">{formik.errors.course}</div>
@@ -237,7 +245,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
                                 >
                                     Upload Image
                                 </Button>
-                                <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>                               
+                                <span className='italic text-gray-500 text-xs '>The image must be under 1MB and a clear, face-view portrait.</span>
                                 {croppedImage && (
                                     <img src={croppedImage} alt="Cropped Preview" className="w-32 h-32 mt-2 object-contain rounded" />
                                 )}
