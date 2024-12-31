@@ -55,7 +55,7 @@ function ImageCropper({ image, onSave, onClose }) {
       <DialogHeader>
         <DialogTitle>Crop Image</DialogTitle>
       </DialogHeader>
-      <div className="relative w-full h-72 !padding-0">
+      <div className="relative w-full h-64 !padding-0">
         <Cropper
           image={image}
           crop={cropData.crop}

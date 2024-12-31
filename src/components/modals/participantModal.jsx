@@ -31,9 +31,17 @@ import ImageCropper from "../ImageCropper";
 import { toast } from "sonner";
 
 function ParticipantModal({ editMode = false, initialData = {} }) {
-  const { mutate: createUser } = useCreateUser();
-  const { mutate: updateUser } = useUpdateUser();
   const { isOpen, openModal, closeModal } = useModel();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleCloseDialog = () => {
+    formik.resetForm();
+    closeModal();
+    setImage(null);
+    setCroppedImage(null);
+    setShowImgError(false);
+  };
+  const { mutate: createUser } = useCreateUser(handleCloseDialog,setIsSubmitting);
+  const { mutate: updateUser } = useUpdateUser(handleCloseDialog,setIsSubmitting);
 
   const { auth } = useContext(AuthContext);
   // const { data } = useContext(DepartmentOptionsContext);
@@ -64,43 +72,42 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
     }
   };
 
-  const handleCloseDialog = () => {
-    formik.resetForm();
-    closeModal();
-    setImage(null);
-    setCroppedImage(null);
-    setShowImgError(false);
-  };
+
 
   const formik = useFormik({
     initialValues: editMode
       ? {
-          ...participantInitalValue,
-          ...initialData,
-          year_of_study: String(initialData.year_of_study),
-          semester: String(initialData.semester),
-          phoneNumber: String(initialData.phoneNumber),
-          capId: String(initialData.capId),
-          dob: initialData.dob
-            ? new Date(initialData.dob).toISOString().split("T")[0]
-            : "",
-        }
+        ...participantInitalValue,
+        ...initialData,
+        year_of_study: String(initialData.year_of_study),
+        semester: String(initialData.semester),
+        phoneNumber: String(initialData.phoneNumber),
+        capId: String(initialData.capId),
+        dob: initialData.dob
+          ? new Date(initialData.dob).toISOString().split("T")[0]
+          : "",
+      }
       : participantInitalValue,
     validationSchema: participantValidationSchema,
     validateOnBlur: false,
     onSubmit: (values) => {
+      setIsSubmitting(true);
       console.log(editMode ? "Updated Data:" : "New Data:", values);
 
       // editMode ? updateUser(values) : createUser({ ...values, user_type: 'member' });
       editMode
         ? updateUser(values)
         : createUser({ ...values, user_type: "member", image: croppedImage });
-      handleCloseDialog();
+
     },
   });
+
+
   const handleFormValidation = () => {
     formik.validateForm();
   };
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!editMode && !croppedImage) {
@@ -328,7 +335,7 @@ function ParticipantModal({ editMode = false, initialData = {} }) {
               <Button
                 type="submit"
                 className="mr-2"
-                disabled={formik.isSubmitting}
+                disabled={isSubmitting}
               >
                 {editMode ? "Update" : "Submit"}
               </Button>

@@ -50,7 +50,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
     const formik = useFormik({
         initialValues: editMode ? { ...collegeInitalValue, ...initialData } : collegeInitalValue,
         validationSchema: validationSchema,
-        validateOnBlur: false,
+        validateOnBlur: true,
+        validateOnChange: true,
         onSubmit: (values) => {
             // setIsSubmitting(true);
             setCopyData({ email: values.email, password: values.password });
@@ -194,8 +195,8 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                                     const randomPassword = generateRandomPassword();
                                                     formik.setFieldValue('password', randomPassword);
                                                     formik.setFieldValue('confirmPassword', randomPassword);
-                                                    formik.validateField('password');
-                                                    formik.validateField('confirmPassword');
+                                                    // formik.validateField('password');
+                                                    // formik.validateField('confirmPassword');
                                                 }}
                                             >
                                                 <RefreshCw className="h-5 w-5" />
@@ -237,35 +238,37 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                                             variant="ghost"
                                             size="sm"
                                             className="!py-2"
-                                            onClick={() => {
+                                            onClick={(e) => {
                                                 const randomPassword = generateRandomPassword();
                                                 formik.setFieldValue('password', randomPassword);
                                                 formik.setFieldValue('confirmPassword', randomPassword);
 
-                                                // Trigger validation for both fields after updating values
-                                                formik.validateField('password');
-                                                formik.validateField('confirmPassword');
+                                                formik.validateForm();
                                             }}
                                         >
                                             <RefreshCw className="h-5 w-5" />
                                         </Button>
-
                                     </div>
                                 </div>
+
                                 {formik.touched.password && formik.errors.password && (
                                     <div className="text-red-500 text-sm">{formik.errors.password}</div>
                                 )}
+
                                 <PasswordInput
                                     name="confirmPassword"
-                                    label="Password"
+                                    label="Confirm Password"
                                     placeholder="Enter password"
                                     value={formik.values.confirmPassword}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
+
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                     <div className="text-red-500 text-sm">{formik.errors.confirmPassword}</div>
                                 )}
+
+
                             </>
                         )
                         }

@@ -55,7 +55,7 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: auth.user.user_type === "admin" ? "participants[0].college" : "participants[0].course",
+            accessorKey: auth.user.user_type === "admin" ? "college" : "course",
             header: auth.user.user_type === "admin" ? "College" : "Course/group",
             cell: ({ row }) => (
               <strong>

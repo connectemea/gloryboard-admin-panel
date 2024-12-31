@@ -74,7 +74,8 @@ export const participantValidationSchema = (editMode) =>
         year_of_study: Yup.string().required("Year is required"),
         dob: Yup.date()
             .required("Date of Birth is required")
-            .min(new Date("2000-07-01"), "Must be after July 1, 2000"),
+            .min(new Date("2000-07-01"), "Must be after July 1, 2000")
+            .max(new Date(), "Must be before today"),
         capId: Yup.string().required("Cap ID is required"),
     });
 
@@ -155,7 +156,7 @@ export const eventValidationSchema = (editMode) => Yup.object({
             .test(
                 "is-less-than-or-equal",
                 "Max Participants must be greater than or equal to Min Participants",
-                function(value) {
+                function (value) {
                     const { min_participants } = this.parent;
                     return value >= min_participants;
                 }
@@ -168,8 +169,9 @@ export const eventValidationSchema = (editMode) => Yup.object({
 
 export const eventRegistrationSchema = Yup.object().shape({
     event: Yup.string()
-        .required('Event selection is required')
-        .trim(),
+        .transform((value) => (value ? String(value).trim() : ''))
+        .required('Event selection is required'),
+
 
 
 
