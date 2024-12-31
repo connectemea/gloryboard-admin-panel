@@ -52,7 +52,7 @@ function EventRegistration() {
             enableSorting: false,
         },
         {
-            accessorKey: auth.user.user_type === "admin" ? "participants[0].college" : "participants[0].course",
+            accessorKey: auth.user.user_type === "admin" ? "college" : "course",
             header: auth.user.user_type === "admin" ? "College" : "Course/group",
             cell: ({ row }) => (
               <strong>
@@ -68,9 +68,9 @@ function EventRegistration() {
               </strong>
             ),
             enableSorting: false,
-            meta: {
+            meta: auth.user.user_type === "admin" ? {
               filterVariant: "select",
-            },
+            }:undefined,
           },
         {
             accessorKey: "event.name", header: "Event", enableSorting: false, meta: {
@@ -83,7 +83,7 @@ function EventRegistration() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex gap-2">
-                    <EventRegViewModal data={row.original} />
+                    <EventRegViewModal data={row.original} role={auth.user.user_type}>
                     {auth?.user.user_type !== 'admin' && (
                         <>
                             <EventRegModal editMode={true} initialData={row.original} />

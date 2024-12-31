@@ -43,8 +43,12 @@ function Participants() {
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
+    { accessorKey: "gender", header: "Gender", enableSorting: true , meta: {
+      filterVariant: 'select',
+    }},
     {
-      accessorKey: "college", header: "College", enableSorting: false, meta: {
+      accessorKey: auth.user.user_type === "admin" ? "college" : "course", header: auth.user.user_type === "admin" ? "College" : "course",
+       enableSorting: false, meta: {
         filterVariant: 'select',
       }
     },

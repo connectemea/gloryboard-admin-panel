@@ -12,6 +12,7 @@ import EventRegistration from "./pages/event_registration";
 import ScoreTable from "./pages/score_table";
 import College from "./pages/college";
 import Settings from "./pages/settings";
+import NotFound from "./pages/NotFound";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/college" element={<College />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

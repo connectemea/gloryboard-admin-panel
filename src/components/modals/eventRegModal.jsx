@@ -22,6 +22,7 @@ import {
   useGetEvents,
   useGetEventsOrg,
 } from "@/services/queries/eventsQueries";
+import { useGetEventRegsByEvent } from "@/services/queries/eventRegQueries";
 import {
   useCreateEventReg,
   useUpdateEventReg,
@@ -32,9 +33,14 @@ import { set } from "date-fns";
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
   const { isOpen, openModal, closeModal } = useModel();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const handleCloseDialog = () => {
+        formik.resetForm();
+        closeModal();
+    };
   const [event, setEvent] = useState(null);
-  const { mutate: CreateEventReg } = useCreateEventReg();
-  const { mutate: UpdateEventReg } = useUpdateEventReg();
+  const { mutate: CreateEventReg } = useCreateEventReg(handleCloseDialog, setIsSubmitting);
+  const { mutate: UpdateEventReg } = useUpdateEventReg(handleCloseDialog, setIsSubmitting);
   const [eventCategory, setEventCategory] = useState("general");
 
   const [selectedParticipant, setSelectedParticipant] = useState(null);
@@ -58,6 +64,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
+        setIsSubmitting(true);
       editMode
         ? UpdateEventReg({ ...values, id: initialData._id })
         : CreateEventReg(values);
@@ -69,14 +76,29 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     return events?.find((item) => item._id === formik.values.event) || null;
   }, [events, formik.values.event]);
 
-  const handleCloseDialog = () => {
-    // formik.resetForm();
-    closeModal();
-  };
 
-  const getEventsOptions = (data) => {
-    return data.map((item) => ({ label: item.name, value: item._id }));
-  };
+    const getEventsOptions = (data) => {
+        return data.map((item) => ({ label: item.name, value: item._id }));
+    };
+
+    useEffect(() => {
+        if (editMode) {
+            formik.setFieldValue("event", initialData.event._id);
+            formik.setFieldValue("is_group", checkIfGroupItem(initialData.event._id));
+            checkIfCategoryItem(initialData.event._id);
+    
+            if (initialData?.participants && Array.isArray(initialData?.participants)) {
+                const formattedParticipants = initialData?.participants.map((participant) => ({
+                    user: participant._id,  // Adjusting the structure here
+                }));
+                // console.log(formattedParticipants);
+                formik.setFieldValue("participants", formattedParticipants);
+            }
+    
+        }
+    }, [editMode, initialData]);
+    
+
 
   const checkIfGroupItem = (id) => {
     const foundItem = events?.find((item) => item._id === id);
@@ -343,7 +365,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
             )}
 
             <div className="flex justify-end space-x-2 pt-4">
-              <Button type="submit" disabled={formik.isSubmitting}>
+              <Button type="submit" disabled={isSubmitting}>
                 {editMode ? "Update" : "Submit"}
               </Button>
               <Button variant="ghost" onClick={handleCloseDialog}>

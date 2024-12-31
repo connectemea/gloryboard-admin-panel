@@ -39,7 +39,7 @@ export default function DataTable({ data, columns }) {
     });
 
     return (
-        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg">
+        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg overflow-auto">
             {/* Global Search */}
             <div className="mb-4">
                 <Input
@@ -54,8 +54,8 @@ export default function DataTable({ data, columns }) {
             {/* Table Wrapper */}
             <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 ">
                 <ScrollArea className=" h-[calc(100vh-300px)] rounded-md">
-                    <div className="min-w-full inline-block align-middle">
-                        <table className="min-w-full divide-y">
+                    <div className="w-full inline-block align-middle max-w-[1440px] overflow-hidden overflow-x-auto ">
+                        <table className="min-w-full divide-y overflow-y-hidden">
                             <thead className="bg-[#0D1E26] sticky top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <tr key={headerGroup.id}>
@@ -260,7 +260,7 @@ function Filter({ column }) {
                     <SelectValue placeholder="All" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem className="text-xs" value={null}>
+                    <SelectItem className="text-xs" value={null} key={'all'}>
                         All
                     </SelectItem>
                     {uniqueValues.map((value) => (

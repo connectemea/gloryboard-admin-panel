@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CloudFog } from 'lucide-react';
 import { toast } from 'sonner';
 
-export const useCreateUser = () => {
+export const useCreateUser = (onSuccess,setIsSubmitting) => {
     const queryClient = useQueryClient();
     let toastId; // Variable to store the toast ID for updating later
 
@@ -55,17 +55,21 @@ export const useCreateUser = () => {
 
         onMutate: () => {
             toastId = toast.loading("Creating user...");
+            setIsSubmitting(true);
         },
         onSuccess: () => {
             toast.dismiss(toastId);
             toast.success("User created successfully");
             queryClient.invalidateQueries(['users']);
+            setIsSubmitting(false);
+            onSuccess();
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
+            setIsSubmitting(false);
         },
     });
 };
@@ -95,7 +99,7 @@ export const useDeleteUser = () => {
     });
 };
 
-export const useUpdateUser = () => {
+export const useUpdateUser = (onSuccess,setIsSubmitting) => {
     const queryClient = useQueryClient();
     let toastId; 
 
@@ -103,17 +107,21 @@ export const useUpdateUser = () => {
         mutationFn: (data) =>  axiosInstance.put(`/org/update?id=${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
+            setIsSubmitting(true);
         },
         onSuccess: () => {
             toast.dismiss(toastId);
             toast.success("User Updated")
             queryClient.invalidateQueries(['users']);
+            setIsSubmitting(false);
+            onSuccess();
         },
         onError: (error) => {
             toast.dismiss(toastId);
             const errorMessage = error.response?.data?.message || "An error occurred";
             toast.error(errorMessage);
             console.error(errorMessage);
+            setIsSubmitting(false);
         },
     
     });
