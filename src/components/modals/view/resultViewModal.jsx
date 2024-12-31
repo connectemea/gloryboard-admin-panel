@@ -35,7 +35,6 @@ function ResultViewModal({ data = {} }) {
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
-        {/* {console.log(data)} */}
         {data.winningRegistrations.map((item, index) => {
           return (
             <div className="flex " key={index}>

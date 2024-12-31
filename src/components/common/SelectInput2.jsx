@@ -26,11 +26,8 @@ function SelectInput2({
     };
     const [optionss, setOptionss] = useState(options);
     useEffect(() => {
-        console.log(category);
         if (category === "female" || category === "male") {
-            console.log(category);
             setOptionss(options.filter(option => option.gender === category));
-            console.log(options);
         } else {
             setOptionss(options);
         }

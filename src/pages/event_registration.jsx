@@ -32,8 +32,6 @@ function EventRegistration() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-    // console.log(data)
-
     
 
     const columns = [
@@ -42,7 +40,6 @@ function EventRegistration() {
             header: "Registred By",
             cell: ({ row }) => (
                 <strong>
-                    {/* {console.log(row.original.participants[0])} */}
                     {!row.original.event?.event_type.is_group == true ? (
                         row.original.participants[0]?.name
                     ) : (
@@ -92,7 +89,6 @@ function EventRegistration() {
                             <EventRegModal editMode={true} initialData={row.original} />
                             <DeleteModal
                                 onDelete={() => {
-                                    console.log(row.original._id);
                                     deleteEventReg(row.original._id);
                                 }}
                             />

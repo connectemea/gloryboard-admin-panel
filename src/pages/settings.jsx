@@ -31,7 +31,6 @@ function Settings() {
                             checked={config.value}
                             onCheckedChange={() => {
                                 const updatedConfig = { _id: config._id, value: !config.value };
-                                console.log("Updating config:", updatedConfig);  // Debugging line
                                 updateConfig(updatedConfig); // Trigger mutation
                             }}
                         />

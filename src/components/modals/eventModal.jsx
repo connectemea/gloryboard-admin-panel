@@ -41,7 +41,6 @@ function EventModal({ editMode = false, initialData = {} }) {
             }
 
             if (editMode) {
-                console.log(values,initialData);
                 updateEvent({ name: values.name, _id: values.id });
             } else {
                 CreateEvent(values);
@@ -181,7 +180,6 @@ function EventModal({ editMode = false, initialData = {} }) {
                                         name="event_type"
                                         value={formik.values.event_type}
                                         onChange={(e) =>
-                                            // console.log(value)
                                             formik.setFieldValue('event_type', e.target.value)
                                         }
                                         onBlur={formik.handleBlur}

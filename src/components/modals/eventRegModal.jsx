@@ -105,7 +105,6 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
 
   //     const helperCount = foundItem?.event_type?.helper_count;
   //     const currentHelpers = formik.values.helpers.length;
-  //     // console.log(currentHelpers, helperCount)
 
   //     let result;
   //     if (currentHelpers === 0 && helperCount === 0) {
@@ -113,7 +112,6 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   //     } else {
   //         result = currentHelpers <= helperCount;
   //     }
-  //     // console.log(result)
   //     return result;
   // };
 
@@ -278,7 +276,6 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                   <div>loading...</div>
                 ) : (
                   <div className="flex items-end gap-3">
-                    {/* {console.log(participants)} */}
                     <SelectInput2
                       label="Participants"
                       value={selectedParticipant}

@@ -26,7 +26,6 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error.response && error.response.status === 401) {
             toast.error("Session Expired")
-            console.log('User is unauthorized. Please check your token or login again.');
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             setTimeout(() => {

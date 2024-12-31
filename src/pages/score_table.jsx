@@ -47,9 +47,6 @@ function ScoreTable() {
         return row;
     });
 
-    console.log(data)
-
-    console.log(TableData)
 
 
     const columns = [
