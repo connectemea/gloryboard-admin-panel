@@ -71,16 +71,16 @@ function EventRegViewModal({ data = {} }) {
                     ))}
                 </div>
 
-                {data.helpers.length > 0 && (
+                {/* {data?.helpers.length > 0 && (
                     <>
                         <span className="font-bold text-white/70">Helpers</span>
                         <div className='border  rounded-md p-2'>
-                            {data.helpers.map((helper, index) => (
+                            {data?.helpers.map((helper, index) => (
                                 <div>{helper.user.name}</div>
                             ))}
                         </div>
                     </>
-                )}
+                )} */}
 
             </DialogContent>
         </Dialog>
