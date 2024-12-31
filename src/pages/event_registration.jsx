@@ -79,7 +79,7 @@ function EventRegistration() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex gap-2">
-                    <EventRegViewModal data={row.original} />
+                    {/* <EventRegViewModal data={row.original} /> */}
                     {auth?.user.user_type !== 'admin' && (
                         <>
                             <EventRegModal editMode={true} initialData={row.original} />
