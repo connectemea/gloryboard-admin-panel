@@ -108,9 +108,13 @@ function EventRegistration() {
 
 
                 <div className="flex gap-2">
-                    {auth?.user.user_type !== 'admin' && (configs && getConfigValue(configs, 'hall_ticket_export')) && (
+                    {auth?.user.user_type !== 'admin' && (configs && getConfigValue(configs, 'hall ticket export')) && (
                         <>
                             <DownloadAllTickets />
+                        </>
+                    )}
+                    {auth?.user.user_type !== 'admin' && (configs && getConfigValue(configs, 'event registration')) && (
+                        <>
                             <EventRegModal />
                         </>
                     )}

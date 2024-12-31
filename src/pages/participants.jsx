@@ -12,14 +12,11 @@ import { AuthContext } from "@/context/authContext";
 import DownloadTicket from "@/components/tickets/DownloadTicket";
 
 function Participants() {
-
   const { data, isLoading, error } = useGetParticipants();
   const { mutate: deleteUser } = useDeleteUser();
 
-
   const { auth } = useContext(AuthContext);
   const { data: configs } = useGetConfig();
-
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -29,12 +26,17 @@ function Participants() {
     return <div className="px-6">Error fetching data</div>;
   }
 
-
   const columns = [
     {
       accessorKey: "image",
       header: "Picture",
-      cell: (info) => <img src={info.getValue()} className="w-10 h-10 object-cover rounded-sm" alt="" />,
+      cell: (info) => (
+        <img
+          src={info.getValue()}
+          className="w-10 h-10 object-cover rounded-sm"
+          alt=""
+        />
+      ),
       enableSorting: false,
     },
     { accessorKey: "userId", header: "User ID", enableSorting: false },
@@ -43,50 +45,75 @@ function Participants() {
       header: "Name",
       cell: (info) => <strong>{info.getValue()}</strong>,
     },
-    { accessorKey: "gender", header: "Gender", enableSorting: true , meta: {
-      filterVariant: 'select',
-    }},
     {
-      accessorKey: auth.user.user_type === "admin" ? "college" : "course", header: auth.user.user_type === "admin" ? "College" : "course",
-       enableSorting: false, meta: {
-        filterVariant: 'select',
-      }
+      accessorKey: "gender",
+      header: "Gender",
+      enableSorting: true,
+      meta: {
+        filterVariant: "select",
+      },
     },
-    { accessorKey: "year_of_study", header: "Year", enableSorting: false, },
-    // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
-    { accessorKey: "phoneNumber", header: "Phone", enableSorting: false, },
-    // { accessorKey: "total_score", header: "Total Score" },
     {
+      accessorKey: auth.user.user_type === "admin" ? "college" : "course",
+      header: auth.user.user_type === "admin" ? "College" : "course",
+      enableSorting: false,
+      meta: {
+        filterVariant: "select",
+      },
+    },
+    { accessorKey: "year_of_study", header: "Year", enableSorting: false },
+    // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
+    { accessorKey: "phoneNumber", header: "Phone", enableSorting: false },
+    // { accessorKey: "total_score", header: "Total Score" },
+  ];
+  if (auth?.user.user_type === "admin") {
+    columns.push({
       accessorKey: "actions",
       header: "Actions",
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-
           <DownloadTicket id={row.original._id} name={row.original.name} />
-          {auth?.user.user_type !== 'admin' && (
-            <>
-              <ParticipantModal editMode={true} initialData={row.original} />
-              <DeleteModal
-                onDelete={() => {
-                  deleteUser(row.original._id);
-                }}
-              />
-            </>
-          )}
         </div>
       ),
-    },
-  ];
+    });
+  }else if(getConfigValue(configs, "participant ticket export") || getConfigValue(configs, "user registration")){
+    columns.push({
+      accessorKey: "actions",
+      header: "Actions",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <div className="flex space-x-2">
+          {
+            getConfigValue(configs, "participant ticket export") ? (
+            <DownloadTicket id={row.original._id} name={row.original.name} />
+          ) : null}
+
+          {auth?.user.user_type !== "admin" &&
+            getConfigValue(configs, "user registration") && (
+              <>
+                <ParticipantModal editMode={true} initialData={row.original} />
+                <DeleteModal
+                  onDelete={() => {
+                    deleteUser(row.original._id);
+                  }}
+                />
+              </>
+            )}
+        </div>
+      ),
+    },);
+  }
 
   return (
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold">Participants</h2>
-        {auth?.user.user_type !== 'admin' && (configs && getConfigValue(configs, 'user_registration')) ? (
+        {auth?.user.user_type !== "admin" &&
+        configs &&
+        getConfigValue(configs, "user registration") ? (
           <ParticipantModal />
         ) : null}
-
       </div>
       <DataTable data={data} columns={columns} />
     </div>
