@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '../ui/button';
 import axiosInstance from '@/api/axiosInstance';
 import { Loader2 } from 'lucide-react';
+import { toast } from "sonner";
 
 function DownloadAllTickets() {
 
@@ -35,7 +36,11 @@ function DownloadAllTickets() {
             toast.success('Tickets exported successfully!');
         } catch (error) {
             console.error('Error exporting tickets:', error);
-            toast.error('Failed to export tickets. Please try again.');
+            toast.error(
+                error.response.status === 404
+                  ? "User with Event registration not found"
+                  : "Failed to export tickets. Please try again."
+              );
         } finally {
             setLoading(false); // Stop the loader
         }
