@@ -15,6 +15,8 @@ import DownloadTickets from "@/components/tickets/DownloadAllTickets";
 import DownloadAllTickets from "@/components/tickets/DownloadAllTickets";
 
 function EventRegistration() {
+
+
     const { data, isLoading, error } = useGetEventRegs();
     const { mutate: deleteEventReg } = useDeleteEventReg();
 
@@ -94,6 +96,8 @@ function EventRegistration() {
         <div className="px-4 flex flex-col ">
             <div className="flex justify-between pb-6">
                 <h2 className="text-2xl font-bold">Event Registration</h2>
+                
+
                 <div className="flex gap-2">
                     {(configs && getConfigValue(configs, 'hall_ticket_export')) ? (
                         <DownloadAllTickets />
