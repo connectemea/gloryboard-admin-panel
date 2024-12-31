@@ -83,7 +83,7 @@ function Modal({ editMode = false, initialData = {} }) {
                         <Button type="submit" className="mr-2" disabled={formik.isSubmitting}>
                             {editMode ? 'Update' : 'Submit'}
                         </Button>
-                        <Button variant="ghost" onClick={handleCloseDialog}>
+                        <Button type="button" variant="ghost" onClick={handleCloseDialog}>
                             Cancel
                         </Button>
                     </div>

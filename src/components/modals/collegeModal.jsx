@@ -33,7 +33,6 @@ function CollegeModal({ editMode = false, initialData = {} }) {
     const handleFormSuccess = () => {
         handleCloseDialog()
         handleCopyModal()
-        queryClient.invalidateQueries(['users']);
     }
 
     const { mutate: createCollege } = useCreateCollege(handleFormSuccess, setIsSubmitting);
@@ -61,7 +60,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
             }
             // editMode ? updateCollege(values) : createCollege({ ...values, user_type: 'organization' });
             if (editMode) {
-                // updateCollege(values);
+                updateCollege(values);
             } else {
                 createCollege({ ...values, user_type: 'organization' });
             }
@@ -96,6 +95,11 @@ function CollegeModal({ editMode = false, initialData = {} }) {
 
     const handleUpdatePassword = () => {
         setUpdatePassword(!updatePassword);
+    }
+
+    const CloseCopyModal = () => {
+        queryClient.invalidateQueries(['users']);
+        handleCloseCopyModal();
     }
 
     return (
@@ -281,7 +285,7 @@ function CollegeModal({ editMode = false, initialData = {} }) {
                 </DialogContent>
             </Dialog>
 
-            <Dialog open={isCopyOpen} onOpenChange={(open) => (open ? handleCopyModal() : handleCloseCopyModal())}>
+            <Dialog open={isCopyOpen} onOpenChange={(open) => (open ? handleCopyModal() : CloseCopyModal())}>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>

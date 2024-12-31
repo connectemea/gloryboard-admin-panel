@@ -54,15 +54,14 @@ export default function DataTable({ data, columns }) {
             </div>
 
             {/* Table Wrapper */}
-            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 ">
-                <ScrollArea className=" h-[calc(100vh-300px)] rounded-md">
-                    <div className="w-full inline-block align-middle max-w-[1440px]  overflow-x-auto ">
-                        <table className="min-w-full divide-y overflow-y-hidden overflow-x-auto">
-                            <thead className="bg-[#0D1E26] sticky left-0 right-0 w-full top-0 z-10">
+            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-hidden">
+                <ScrollArea className="h-[calc(100vh-300px)] rounded-md">
+                    <div className="w-full inline-block align-middle max-w-[1440px] overflow-x-auto">
+                        <table className="min-w-full divide-y h-full relative">
+                            <thead className="bg-[#0D1E26] sticky top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <tr key={headerGroup.id}>
                                         {headerGroup.headers.map((header) => {
-                                            // Get header width from meta if provided
                                             const width = header.column.columnDef.meta?.width || 'auto';
                                             return (
                                                 <th
@@ -106,25 +105,20 @@ export default function DataTable({ data, columns }) {
                                 ))}
                             </thead>
                             <tbody className="divide-y bg-black/40">
-                                {/* Check for empty data */}
                                 {table.getRowModel().rows.length === 0 ? (
-                                    <>
-                                        <tr>
-                                            <td
-                                                colSpan={table.getHeaderGroups()[0].headers.length}
-                                                className="px-4 py-4 text-center text-gray-200 font-semibold"
-                                            >
-                                                <img src={bee} alt="bee" className=" mx-auto" />
-                                                No data available.
-                                            </td>
-                                        </tr>
-
-                                    </>
+                                    <tr>
+                                        <td
+                                            colSpan={table.getHeaderGroups()[0].headers.length}
+                                            className="px-4 py-4 text-center text-gray-200 font-semibold"
+                                        >
+                                            <img src={bee} alt="bee" className="mx-auto" />
+                                            No data available.
+                                        </td>
+                                    </tr>
                                 ) : (
                                     table.getRowModel().rows.map((row) => (
                                         <tr key={row.id} className="hover:bg-[#0D1E26]/10">
                                             {row.getVisibleCells().map((cell) => {
-                                                // Get cell width from meta if provided
                                                 const width = cell.column.columnDef.meta?.width || 'auto';
                                                 return (
                                                     <td
@@ -139,12 +133,14 @@ export default function DataTable({ data, columns }) {
                                                 );
                                             })}
                                         </tr>
-                                    )))}
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>
                 </ScrollArea>
             </div>
+
 
             {/* Mobile View */}
             <div className="block md:hidden">

@@ -218,7 +218,7 @@ function EventModal({ editMode = false, initialData = {} }) {
                         >
                             {editMode ? 'Update' : 'Submit'}
                         </Button>
-                        <Button variant="ghost" onClick={handleCloseDialog}>
+                        <Button type="button" variant="ghost" onClick={handleCloseDialog}>
                             Cancel
                         </Button>
                     </div>

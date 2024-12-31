@@ -68,7 +68,6 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
       editMode
         ? UpdateEventReg({ ...values, id: initialData._id })
         : CreateEventReg(values);
-      handleCloseDialog();
     },
   });
 
@@ -368,7 +367,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
               <Button type="submit" disabled={isSubmitting}>
                 {editMode ? "Update" : "Submit"}
               </Button>
-              <Button variant="ghost" onClick={handleCloseDialog}>
+              <Button type="button" variant="ghost" onClick={handleCloseDialog}>
                 Cancel
               </Button>
             </div>
