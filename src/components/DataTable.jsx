@@ -144,7 +144,7 @@ export default function DataTable({ data, columns }) {
 
             {/* Mobile View */}
             <div className="block md:hidden overflow-auto">
-                <ScrollArea className="h-[500px]  " >
+                <ScrollArea className="h-[500px]  w-fit min-w-full" >
                     {table.getRowModel().rows.map((row) => (
                         <div
                             key={row.id}
