@@ -35,14 +35,14 @@ import ComboxInput from "../common/ComboxInput";
 
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
-  console.log(initialData);
+  // console.log(initialData);
   const { isOpen, openModal, closeModal } = useModel();
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleCloseDialog = () => {
     formik.resetForm();
     // if (!open) {
-      closeModal();
+    closeModal();
     // }
   };
   const [event, setEvent] = useState(null);
@@ -88,7 +88,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   };
 
   useEffect(() => {
-    if (editMode) {
+    if (editMode && isOpen) {
       formik.setFieldValue("event", initialData.event._id);
       formik.setFieldValue("is_group", checkIfGroupItem(initialData.event._id));
       checkIfCategoryItem(initialData.event._id);
@@ -101,8 +101,8 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
         formik.setFieldValue("participants", formattedParticipants);
       }
 
-    }
-  }, [editMode, initialData]);
+    } 
+  }, [editMode, initialData, isOpen]);
 
 
 

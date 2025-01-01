@@ -64,6 +64,15 @@ function Login() {
   };
 
 
+  const LoginAdmin = () => {
+    formik.setFieldValue("email", "aseel@lektik.com");
+    formik.setFieldValue("password", "P@ssw0rd");
+  };
+  const LoginCollege = () => {
+    formik.setFieldValue("email", "emea@gmail.com");
+    formik.setFieldValue("password", "password123");
+  };
+
   return (
     <div
       onMouseMove={handleMouseMove}
@@ -86,6 +95,26 @@ function Login() {
             Welcome back!
           </h2>
           <p className="mb-5 text-sm text-white/50">Login to your account</p>
+
+          {/* for testing dev crediants auto fill */}
+          {/* <div className="flex items-center justify-between mb-6 gap-4">
+            <Button
+              type="button"
+              onClick={LoginAdmin}
+              className="w-1/2"
+            >
+              Admin
+            </Button>
+            <Button
+              type="button"
+              onClick={LoginCollege}
+              className="w-1/2"
+            >
+              College
+            </Button>
+          </div> */}
+
+
           <div>
             <Input
               name="email"
@@ -116,7 +145,7 @@ function Login() {
             {formik.isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
           </Button>
         </form>
-        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto " />
+        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto" />
       </div>
       <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse '>
         <div className='relative w-full z-0'>

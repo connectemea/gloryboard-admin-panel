@@ -144,11 +144,11 @@ export default function DataTable({ data, columns }) {
 
             {/* Mobile View */}
             <div className="block md:hidden overflow-auto">
-                <ScrollArea className="h-[500px] w-fit " >
+                <ScrollArea className="h-[500px]  " >
                     {table.getRowModel().rows.map((row) => (
                         <div
                             key={row.id}
-                            className="mb-4 p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26]"
+                            className="mb-4 w-full p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26] "
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <div
