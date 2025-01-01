@@ -41,7 +41,7 @@ export default function DataTable({ data, columns }) {
     });
 
     return (
-        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg overflow-auto">
+        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg ">
             {/* Global Search */}
             <div className="mb-4">
                 <Input
@@ -54,9 +54,9 @@ export default function DataTable({ data, columns }) {
             </div>
 
             {/* Table Wrapper */}
-            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-hidden">
-                <ScrollArea className="h-[calc(100vh-300px)] rounded-md">
-                    <div className="w-full inline-block align-middle max-w-[1440px] overflow-x-auto">
+            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-auto">
+                <div className="h-[calc(100vh-300px)] rounded-md">
+                    <div className="w-full inline-block align-middle max-w-[1440px] ">
                         <table className="min-w-full divide-y h-full relative">
                             <thead className="bg-[#0D1E26] sticky top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
@@ -138,7 +138,7 @@ export default function DataTable({ data, columns }) {
                             </tbody>
                         </table>
                     </div>
-                </ScrollArea>
+                </div>
             </div>
 
 
