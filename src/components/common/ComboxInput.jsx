@@ -21,30 +21,31 @@ import { useState, useRef, useEffect } from 'react'
 
 function ComboxInput({ label, name, value, onChange, options, disabled, open, setOpen }) {
     const parent = useRef(null)
-  
+
     useEffect(() => {
-      parent.current && autoAnimate(parent.current)
+        parent.current && autoAnimate(parent.current)
     }, [parent])
     return (
         <div className="form-control space-y-2  w-full" ref={parent}>
             {label && <Label className="text-sm text-white/50">{label}</Label>}
             <Button
+                type="button"
                 disabled={disabled}
                 name={name}
                 onClick={() => setOpen(!open)}
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className="w-full justify-between"
+                className="w-full justify-between truncate"
             >
                 {value
                     ? options.find((option) => option.value === value)?.label
-                    : "Select framework..."}
+                    : "Select event..."}
                 <ChevronsUpDown className="opacity-50" />
             </Button>
             {open && (
                 <Command >
-                    <CommandInput placeholder="Search item..." className="h-9" />
+                    <CommandInput placeholder="Search event..." className="h-9 truncate" />
                     <CommandList>
                         <CommandEmpty>No item found.</CommandEmpty>
                         <CommandGroup >
@@ -52,11 +53,12 @@ function ComboxInput({ label, name, value, onChange, options, disabled, open, se
                                 <CommandItem
                                     disabled={disabled}
                                     key={option.value}
-                                    value={option.value}
-                                    onSelect={(currentValue) => {
-                                        onChange(currentValue === value ? "" : currentValue)
-                                        setOpen(false)
+                                    value={option.label}
+                                    onSelect={() => {
+                                        onChange(option.value); 
+                                        setOpen(false);
                                     }}
+                                    className="truncate"
                                 >
                                     {option.label}
                                     <Check

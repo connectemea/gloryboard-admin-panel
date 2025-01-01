@@ -66,7 +66,7 @@ export const collegeValidationSchema = (editMode, updatePassword) =>
 
 export const participantValidationSchema = (editMode) =>
     Yup.object({
-        name: Yup.string().required("Name is required"),
+        name: Yup.string().matches(/\S/, "Name cannot be just whitespace").required("Name is required"),
         gender: Yup.string().required("Gender is required"),
         course: Yup.string().required("Course is required"),
         phoneNumber: Yup.string()

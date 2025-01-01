@@ -35,6 +35,7 @@ import ComboxInput from "../common/ComboxInput";
 
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
+  console.log(initialData);
   const { isOpen, openModal, closeModal } = useModel();
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -204,16 +205,16 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const participantCount = formik.values.participants.length;
-    if (participantCount > selectedItem.max_participants) {
+    if (participantCount > selectedItem?.max_participants) {
       toast.error(
-        `Only ${selectedItem.max_participants} participants are allowed for this event.`
+        `Only ${selectedItem?.max_participants} participants are allowed for this event.`
       );
       return;
     } else if (
-      participantCount < selectedItem.min_participants
+      participantCount < selectedItem?.min_participants
     ) {
       toast.error(
-        `Atleast ${selectedItem.min_participants} participants are required for this event.`
+        `Atleast ${selectedItem?.min_participants} participants are required for this event.`
       );
       return;
     }
@@ -269,6 +270,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                   }}
                   onBlur={formik.handleBlur}
                   options={getEventsOptions(events)}
+                  disabled={editMode}
                 />
 
                 {formik.touched.event && formik.errors.event && (
