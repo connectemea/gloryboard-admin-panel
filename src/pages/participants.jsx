@@ -16,7 +16,7 @@ function Participants() {
   const { mutate: deleteUser } = useDeleteUser();
 
   const { auth } = useContext(AuthContext);
-  const { data: configs } = useGetConfig();
+  const { data: configs  } = useGetConfig();
 
   if (isLoading) {
     return <TableSkeleton />;
