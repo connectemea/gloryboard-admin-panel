@@ -46,18 +46,18 @@ function EventRegViewModal({ data = {}, role }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{data.event?.name}</DialogTitle>
+          <DialogTitle className="truncate max-w-[300px]">{data.event?.name}</DialogTitle>
         </DialogHeader>
 
         <span className="font-bold text-white/70">Participants</span>
         <div className="border  rounded-md p-2">
           {data?.participants.map((participant, index) => (
-            <div key={index} className="flex justify-between">
-              <p>{participant?.name}</p>
+            <div key={index} className="flex justify-between gap-2">
+              <p className="">{participant?.name}</p>
               <span>
                 {role === "admin" ? participant?.college : participant?.course}
               </span>
-              <span>{getYear(participant?.year_of_study)}</span>
+              <span>{getYear(participant?.year_of_study)} </span>
             </div>
           ))}
         </div>

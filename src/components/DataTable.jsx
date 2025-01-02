@@ -41,7 +41,7 @@ export default function DataTable({ data, columns }) {
     });
 
     return (
-        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg overflow-auto">
+        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg ">
             {/* Global Search */}
             <div className="mb-4">
                 <Input
@@ -54,9 +54,9 @@ export default function DataTable({ data, columns }) {
             </div>
 
             {/* Table Wrapper */}
-            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-hidden">
-                <ScrollArea className="h-[calc(100vh-300px)] rounded-md">
-                    <div className="w-full inline-block align-middle max-w-[1440px] overflow-x-auto">
+            <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-auto">
+                <div className="h-[calc(100vh-300px)] rounded-md">
+                    <div className="w-full inline-block align-middle max-w-[1440px] ">
                         <table className="min-w-full divide-y h-full relative">
                             <thead className="bg-[#0D1E26] sticky top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
@@ -126,7 +126,7 @@ export default function DataTable({ data, columns }) {
                                                         className="px-4 py-4 text-gray-200"
                                                         style={{ width }}
                                                     >
-                                                        <div className="truncate">
+                                                        <div className="truncate max-w-[400px]">
                                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                         </div>
                                                     </td>
@@ -138,27 +138,27 @@ export default function DataTable({ data, columns }) {
                             </tbody>
                         </table>
                     </div>
-                </ScrollArea>
+                </div>
             </div>
 
 
             {/* Mobile View */}
-            <div className="block md:hidden">
-                <ScrollArea className="h-[500px]">
+            <div className="block md:hidden overflow-auto">
+                <ScrollArea className="h-[500px]  w-fit min-w-full" >
                     {table.getRowModel().rows.map((row) => (
                         <div
                             key={row.id}
-                            className="mb-4 p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26]"
+                            className="mb-4 w-full p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26] "
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <div
                                     key={cell.id}
                                     className="flex justify-between text-white-200 mb-2 gap-4"
                                 >
-                                    <span className="font-semibold truncate">
+                                    <span className="font-semibold truncate max-w-[300px]">
                                         {flexRender(cell.column.columnDef.header, cell.getContext())}
                                     </span>
-                                    <span className="truncate text-right">
+                                    <span className="truncate text-right max-w-[360px]">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </span>
                                 </div>
@@ -211,18 +211,19 @@ function Filter({ column }) {
 
         return (
             <Select
+                className=" truncate"
                 onValueChange={(value) => column.setFilterValue(value)}
                 defaultValue={columnFilterValue?.toString() || ""}
             >
-                <SelectTrigger className="!h-6 !text-[12px]">
+                <SelectTrigger className="!h-6 !text-[12px] max-w-[200px] truncate">
                     <SelectValue placeholder="All" />
                 </SelectTrigger>
-                <SelectContent>
-                    <SelectItem className="text-xs" value={null} key={'all'}>
+                <SelectContent className="max-w-[250px] truncate">
+                    <SelectItem className="text-xs max-w-[250px] truncate" value={null} key={'all'}>
                         All
                     </SelectItem>
                     {uniqueValues.map((value) => (
-                        <SelectItem className="text-xs" key={value} value={value}>
+                        <SelectItem className="text-xs max-w-[250px] truncate" key={value} value={value}>
                             {value}
                         </SelectItem>
                     ))}

@@ -160,10 +160,9 @@ const DashboardLayout = ({ children }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="container mx-auto py-8 h-full ">
-                            <div className="z-30 relative p-4 h-full">
+                        <div className="container mx-auto py-2 h-full ">
+                            <div className="z-30 relative p-2 h-full">
                                 <Outlet />
-
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>

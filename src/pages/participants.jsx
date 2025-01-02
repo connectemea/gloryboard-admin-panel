@@ -16,7 +16,7 @@ function Participants() {
   const { mutate: deleteUser } = useDeleteUser();
 
   const { auth } = useContext(AuthContext);
-  const { data: configs } = useGetConfig();
+  const { data: configs  } = useGetConfig();
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -48,7 +48,7 @@ function Participants() {
     {
       accessorKey: "gender",
       header: "Gender",
-      enableSorting: true,
+      enableSorting: false,
       meta: {
         filterVariant: "select",
       },
@@ -84,11 +84,7 @@ function Participants() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          {
-            getConfigValue(configs, "participant ticket export") ? (
-            <DownloadTicket id={row.original._id} name={row.original.name} />
-          ) : null}
-
+          <DownloadTicket id={row.original._id} name={row.original.name} />
           {auth?.user.user_type !== "admin" &&
             getConfigValue(configs, "user registration") && (
               <>
@@ -108,7 +104,7 @@ function Participants() {
   return (
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
-        <h2 className="text-2xl font-bold">Participants</h2>
+        <h2 className="text-2xl font-bold ">Participants</h2>
         {auth?.user.user_type !== "admin" &&
         configs &&
         getConfigValue(configs, "user registration") ? (

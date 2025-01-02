@@ -31,13 +31,20 @@ import SelectInput2 from "../common/SelectInput2";
 import { toast } from "sonner";
 import { set } from "date-fns";
 
+import ComboxInput from "../common/ComboxInput";
+
+
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
+  // console.log(initialData);
   const { isOpen, openModal, closeModal } = useModel();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const handleCloseDialog = () => {
-        formik.resetForm();
-        closeModal();
-    };
+  const [open, setOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleCloseDialog = () => {
+    formik.resetForm();
+    // if (!open) {
+    closeModal();
+    // }
+  };
   const [event, setEvent] = useState(null);
   const { mutate: CreateEventReg } = useCreateEventReg(handleCloseDialog, setIsSubmitting);
   const { mutate: UpdateEventReg } = useUpdateEventReg(handleCloseDialog, setIsSubmitting);
@@ -64,7 +71,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
-        setIsSubmitting(true);
+      setIsSubmitting(true);
       editMode
         ? UpdateEventReg({ ...values, id: initialData._id })
         : CreateEventReg(values);
@@ -76,27 +83,27 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   }, [events, formik.values.event]);
 
 
-    const getEventsOptions = (data) => {
-        return data.map((item) => ({ label: item.name, value: item._id }));
-    };
+  const getEventsOptions = (data) => {
+    return data.map((item) => ({ label: item.name, value: item._id }));
+  };
 
-    useEffect(() => {
-        if (editMode) {
-            formik.setFieldValue("event", initialData.event._id);
-            formik.setFieldValue("is_group", checkIfGroupItem(initialData.event._id));
-            checkIfCategoryItem(initialData.event._id);
-    
-            if (initialData?.participants && Array.isArray(initialData?.participants)) {
-                const formattedParticipants = initialData?.participants.map((participant) => ({
-                    user: participant._id,  // Adjusting the structure here
-                }));
-                // console.log(formattedParticipants);
-                formik.setFieldValue("participants", formattedParticipants);
-            }
-    
-        }
-    }, [editMode, initialData]);
-    
+  useEffect(() => {
+    if (editMode && isOpen) {
+      formik.setFieldValue("event", initialData.event._id);
+      formik.setFieldValue("is_group", checkIfGroupItem(initialData.event._id));
+      checkIfCategoryItem(initialData.event._id);
+
+      if (initialData?.participants && Array.isArray(initialData?.participants)) {
+        const formattedParticipants = initialData?.participants.map((participant) => ({
+          user: participant._id,  // Adjusting the structure here
+        }));
+        // console.log(formattedParticipants);
+        formik.setFieldValue("participants", formattedParticipants);
+      }
+
+    } 
+  }, [editMode, initialData, isOpen]);
+
 
 
   const checkIfGroupItem = (id) => {
@@ -198,16 +205,16 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const participantCount = formik.values.participants.length;
-    if (participantCount > selectedItem.max_participants) {
+    if (participantCount > selectedItem?.max_participants) {
       toast.error(
-        `Only ${selectedItem.max_participants} participants are allowed for this event.`
+        `Only ${selectedItem?.max_participants} participants are allowed for this event.`
       );
       return;
     } else if (
-      participantCount < selectedItem.min_participants
+      participantCount < selectedItem?.min_participants
     ) {
       toast.error(
-        `Atleast ${selectedItem.min_participants} participants are required for this event.`
+        `Atleast ${selectedItem?.min_participants} participants are required for this event.`
       );
       return;
     }
@@ -230,7 +237,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[85vh] overflow-hidden flex flex-col">
+      <DialogContent onClick={(e) => e.stopPropagation()} className="max-h-[85vh] overflow-hidden flex flex-col">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle>
             {editMode ? "Edit Record" : "Add New Event Registration"}
@@ -244,24 +251,28 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
         <div className="overflow-y-auto  px-1">
           <form onSubmit={handleFormSubmit} className="space-y-4">
             {!eventIsLoading ? (
-              <div className="space-y-2">
-                <SelectInput
+              <div className="space-y-2 ]">
+                <ComboxInput
                   label="Event"
                   name="event"
+                  open={open}
+                  setOpen={setOpen}
                   value={formik.values.event}
-                  onChange={(e) => {
-                    setEvent(e.target.value);
-                    formik.setFieldValue("event", e.target.value);
+                  onChange={(selectedValue) => {
+                    setEvent(selectedValue);
+                    formik.setFieldValue("event", selectedValue);
                     formik.setFieldValue(
                       "is_group",
-                      checkIfGroupItem(e.target.value)
+                      checkIfGroupItem(selectedValue)
                     );
-                    checkIfCategoryItem(e.target.value);
+                    checkIfCategoryItem(selectedValue);
                     removeAllParticipants();
                   }}
                   onBlur={formik.handleBlur}
                   options={getEventsOptions(events)}
+                  disabled={editMode}
                 />
+
                 {formik.touched.event && formik.errors.event && (
                   <div className="text-red-500 text-sm">
                     {formik.errors.event}

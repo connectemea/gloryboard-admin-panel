@@ -13,11 +13,8 @@ import React, { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
 import DownloadTickets from "@/components/tickets/DownloadAllTickets";
 import DownloadAllTickets from "@/components/tickets/DownloadAllTickets";
-import { useGetUsers } from "@/services/queries/userQueries";
 
 function EventRegistration() {
-
-    const { data: colleges, isLoading: college_loading, error: college_error } = useGetUsers();
     const { data, isLoading, error } = useGetEventRegs();
     const { mutate: deleteEventReg } = useDeleteEventReg();
 
