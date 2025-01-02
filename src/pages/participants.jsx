@@ -84,11 +84,7 @@ function Participants() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          {
-            getConfigValue(configs, "participant ticket export") ? (
-            <DownloadTicket id={row.original._id} name={row.original.name} />
-          ) : null}
-
+          <DownloadTicket id={row.original._id} name={row.original.name} />
           {auth?.user.user_type !== "admin" &&
             getConfigValue(configs, "user registration") && (
               <>
