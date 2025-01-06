@@ -13,6 +13,7 @@ import ScoreTable from "./pages/score_table";
 import College from "./pages/college";
 import Settings from "./pages/settings";
 import NotFound from "./pages/NotFound";
+import RegistrationCount from "./pages/registration_count";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
+          <Route path="/registration-count" element={<RegistrationCount />} />
           <Route path="/score-table" element={<ScoreTable />} />
           <Route path="/participants" element={<Participants />} />
           <Route path="/events" element={<Events />} />
