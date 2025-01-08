@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useFormik } from "formik";
 import {
   DialogHeader,
@@ -32,13 +32,35 @@ import { toast } from "sonner";
 import { set } from "date-fns";
 
 import ComboxInput from "../common/ComboxInput";
-
+import ComboxSelectInput from "../common/ComboxSelectInput";
+import classname from "classnames";
+import autoAnimate from '@formkit/auto-animate'
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
   // console.log(initialData);
   const { isOpen, openModal, closeModal } = useModel();
   const [open, setOpen] = useState(false)
+  const [openParticipants, setOpenParticipants] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const parent = useRef(null)
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+      setOpenParticipants(false)
+      }, 200)
+    }
+  }, [open])
+  useEffect(() => {
+    if (openParticipants) {
+      setTimeout(() => {
+      setOpen(false)
+      }, 200)
+    }
+  }, [openParticipants])
   const handleCloseDialog = () => {
     formik.resetForm();
     // if (!open) {
@@ -57,6 +79,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
     isLoading: participantIsLoading,
     error: participantError,
   } = useGetParticipants();
+  console.log(participants);
   const {
     data: events,
     isLoading: eventIsLoading,
@@ -101,7 +124,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
         formik.setFieldValue("participants", formattedParticipants);
       }
 
-    } 
+    }
   }, [editMode, initialData, isOpen]);
 
 
@@ -249,7 +272,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
           </DialogDescription>
         </DialogHeader>
         <div className="overflow-y-auto  px-1">
-          <form onSubmit={handleFormSubmit} className="space-y-4">
+          <form onSubmit={handleFormSubmit} className="space-y-4" ref={parent}>
             {!eventIsLoading ? (
               <div className="space-y-2 ]">
                 <ComboxInput
@@ -271,6 +294,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                   onBlur={formik.handleBlur}
                   options={getEventsOptions(events)}
                   disabled={editMode}
+
                 />
 
                 {formik.touched.event && formik.errors.event && (
@@ -307,66 +331,77 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
                 {participantIsLoading ? (
                   <div>loading...</div>
                 ) : (
-                  <div className="flex items-end gap-3">
-                    <SelectInput2
+                  <div className={classname("flex items-end gap-3 flex-row",
+                  {'flex-col': openParticipants}
+                  )}>
+                    <ComboxSelectInput
                       label="Participants"
+                      name="participants"
+                      open={openParticipants}
+                      setOpen={setOpenParticipants}
                       value={selectedParticipant}
+                      onChange={(selectedValue) => {
+                        setSelectedParticipant(selectedValue);
+                      }}
                       renderOption={renderOption}
-                      onChange={(e) => setSelectedParticipant(e.target.value)}
                       valueKey="_id"
                       options={participants}
-                      formik={formik.values.participants} // Pass formik to access participant values
-                      category={eventCategory}
+                      formik={formik.values.participants}
+                      search={true}
                     />
-                    {formik.values.participants.length > 0 && (
+                    <div className="flex items-end gap-3">
+                      {formik.values.participants.length > 0 && (
+                        <Button
+                          type="button"
+                          size="icon"
+                          className="cursor-pointer"
+                          variant="outline"
+                          onClick={() => removeAllParticipants()}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
                       <Button
                         type="button"
                         size="icon"
                         className="cursor-pointer"
                         variant="outline"
-                        onClick={() => removeAllParticipants()}
+                        onClick={() => handleAddParticipant()}
                       >
-                        <X className="w-4 h-4" />
+                        <Plus className="w-4 h-4" />
                       </Button>
-                    )}
-                    <Button
-                      type="button"
-                      size="icon"
-                      className="cursor-pointer"
-                      variant="outline"
-                      onClick={() => handleAddParticipant()}
-                    >
-                      <Plus className="w-4 h-4" />
-                    </Button>
+                    </div>
                   </div>
                 )}
               </>
             )}
-
-            {formik.values.participants.length > 0 && (
-              <div className="border rounded-md p-3 space-y-2">
-                {formik.values.participants.map((participant, index) => (
-                  <div
-                    className="flex items-center justify-between"
-                    key={index}
-                  >
-                    <span>{getDetails(participant.user)} </span>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-8 h-8 text-red-500"
-                      size="icon"
-                      onClick={() => {
-                        // Call the delete function and pass the participant data
-                        handleRemoveParticipant(index);
-                      }}
+            <div ref={parent}>
+              {formik.values.participants.length > 0 && (
+                <div className="border rounded-md p-3 space-y-2" ref={parent}>
+                  {formik.values.participants.map((participant, index) => (
+                    <div
+                      className="flex items-center justify-between"
+                      key={index}
+                      ref={parent}
                     >
-                      <Trash />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
+                      <span>{getDetails(participant.user)} </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-8 h-8 text-red-500"
+                        size="icon"
+                        onClick={() => {
+                          // Call the delete function and pass the participant data
+                          handleRemoveParticipant(index);
+                        }}
+                      >
+                        <Trash />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {formik.touched.participants && formik.errors.participants && (
               <div className="text-red-500 text-sm">
