@@ -104,7 +104,7 @@ export const useUpdateUser = (onSuccess,setIsSubmitting) => {
     let toastId; 
 
     return useMutation({
-        mutationFn: (data) =>  axiosInstance.put(`/org/update?id=${data._id}`, data),
+        mutationFn: (data) =>  axiosInstance.put(`/org/update/${data._id}`, data),
         onMutate: () => {
             toastId = toast.loading("Updating user...");
             setIsSubmitting(true);
