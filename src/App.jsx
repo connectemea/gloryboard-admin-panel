@@ -14,6 +14,7 @@ import College from "./pages/college";
 import Settings from "./pages/settings";
 import NotFound from "./pages/NotFound";
 import RegistrationCount from "./pages/registration_count";
+import EventCount from "./pages/event_count";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/registration-count" element={<RegistrationCount />} />
+          <Route path="/event-count" element={<EventCount />} />
           <Route path="/score-table" element={<ScoreTable />} />
           <Route path="/participants" element={<Participants />} />
           <Route path="/events" element={<Events />} />
