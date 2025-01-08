@@ -11,7 +11,7 @@ function SelectInput2({
     renderOption,
     valueKey = "value",
     category = "general",
-    formik // Pass formik here to check for selected participants
+    formik 
 }) {
     const handleSelectChange = (selectedValue) => {
         const selectedOption = options.find(

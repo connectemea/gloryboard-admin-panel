@@ -5,7 +5,6 @@ import DashboardLayout from "./components/layout/dashboardLayout";
 import Participants from "./pages/participants";
 import Events from "./pages/events";
 import Results from "./pages/results";
-import Rep from "./pages/rep";
 import PrivateRoute from "./components/PrivateRoute";
 import EventType from "./pages/event_type";
 import EventRegistration from "./pages/event_registration";
