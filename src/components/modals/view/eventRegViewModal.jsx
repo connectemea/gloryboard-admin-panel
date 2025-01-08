@@ -29,6 +29,8 @@ function EventRegViewModal({ data = {}, role }) {
         return "3rd Year";
       case 4:
         return "4th Year";
+      case 5:
+          return "5th Year";
       default:
         return "Not Specified";
     }
