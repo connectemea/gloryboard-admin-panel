@@ -19,13 +19,14 @@ function ComboboxInput2({
     value,
     onChange,
     options,
-    renderOption,
     valueKey = "value",
     category = "general",
     formik,
-    search = false
+    search = false,
+    renderOption,
+    open,
+    setOpen
 }) {
-    const [open, setOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
     const parent = useRef(null);
@@ -34,48 +35,14 @@ function ComboboxInput2({
         parent.current && autoAnimate(parent.current);
     }, [parent]);
 
-    // useEffect(() => {
-    //     let filtered = options;
-
-        
-    //     // if (category === "female" || category === "male") {
-    //     //     filtered = filtered.filter(option => option.gender === category);
-    //     // }
-
-    //     //  if (searchQuery) {
-    //     // filtered = filtered.filter(option => 
-    //     //     option.name?.toLowerCase().includes("s")
-    //     // );
-    // // }
-        
-    //     if (searchQuery) {
-    //         filtered = filtered.filter(option => 
-    //             option.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    //         );
-    //     }
-
-        
-
-
-
-
-        
-        
-    //     setFilteredOptions(filtered);
-    // }, [category, searchQuery, options, valueKey]);
-
-    const handleSelect = (selectedValue) => {
-        const selectedOption = options.find(
-            (option) => option[valueKey] === selectedValue
-        );
-        onChange({
-            target: {
-                name,
-                value: selectedOption,
-            },
-        });
-        setOpen(false);
-    };
+    const [optionss, setOptionss] = useState(options);
+    useEffect(() => {
+        if (category === "female" || category === "male") {
+            setOptionss(options.filter(option => option.gender === category));
+        } else {
+            setOptionss(options);
+        }
+    }, [category]);
 
     return (
         <div className="form-control space-y-2 w-full" ref={parent}>
@@ -88,18 +55,18 @@ function ComboboxInput2({
                 aria-expanded={open}
                 className="w-full justify-between"
             >
-                {value 
-                    ? (renderOption ? renderOption(value) : (value.label || value[valueKey]))
-                    : `Select ${label}`}
+                {value
+                    ? options.find((option) => option === value)?.name
+                    : `Select ${label}...`}
                 <ChevronsUpDown className="opacity-50" />
             </Button>
             {open && (
                 <Command>
                     {search && (
-                        <CommandInput 
-                            placeholder="Search..." 
-                            // value={searchQuery}
-                            // onValueChange={setSearchQuery}
+                        <CommandInput
+                            placeholder="Search..."
+                        // value={searchQuery}
+                        // onValueChange={setSearchQuery}
                         />
                     )}
                     <CommandList>
@@ -108,11 +75,16 @@ function ComboboxInput2({
                             {filteredOptions.map((option, index) => (
                                 <CommandItem
                                     key={index}
-                                    value={option[valueKey]}
-                                    onSelect={() => handleSelect(option[valueKey])}
+                                    value={option.name}
+                                    onSelect={() => {
+                                        onChange(option);
+                                        setOpen(false);
+                                    }}
                                     disabled={formik?.some(participant => participant.user === option._id)}
                                 >
-                                    {renderOption ? renderOption(option) : (option.label || option[valueKey])}
+                                    {renderOption
+                                        ? renderOption(option)
+                                        : option.name || option[valueKey]}
                                     <Check
                                         className={cn(
                                             "ml-auto",
