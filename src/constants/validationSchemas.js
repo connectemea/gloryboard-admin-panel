@@ -185,7 +185,6 @@ export const eventRegistrationSchema = Yup.object().shape({
             })
         )
         .min(1, 'At least one participant is required')
-        .max(10, 'Maximum 10 participants allowed')
         .required('Participants are required')
 })
 
