@@ -3,24 +3,18 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut, ChartColumnBig, ChartColumnBigIcon, ChartColumnStacked, ChartBarIcon, ChartBar, ChartArea } from 'lucide-react';
+import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut, ChartColumnBig } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
 import ProductLogo from '@/assets/p_logo.svg';
 import Logo from '@/assets/logo.svg';
 
 const routes = [
-    // {
-    //     title: "Registration Count",
-    //     url: "/registration-count",
-    //     icon: ChartColumnBig,
-    //     role: "admin"
-    // },
-    // {
-    //     title: "Events Registrations Count",
-    //     url: "/event-count",
-    //     icon: ChartArea,
-    //     role: "admin"
-    // },
+    {
+        title: "Registration Count",
+        url: "/registration-count",
+        icon: ChartColumnBig,
+        role: "admin"
+    },
     {
         title: "Participants",
         url: "/participants",
@@ -73,25 +67,7 @@ const routes = [
                 icon: CalendarPlus
             }
         ]
-    },
-    {
-        title: "Registrations Counts",
-        groupLabel: "Registrations Counts", 
-        children: [
-            {
-                title: "Participants",
-                url: "/registration-count",
-                icon: ChartColumnBig,
-                role: "admin"
-            },
-            {
-                title: "Events",
-                url: "/event-count",
-                icon: ChartArea,
-                role: "admin"
-            }
-        ]  
-    },
+    }
 ];
 
 const DashboardLayout = ({ children }) => {
@@ -174,7 +150,7 @@ const DashboardLayout = ({ children }) => {
                     </Sidebar>
 
                     {/* Main Content */}
-                    <div className="flex-1 flex-grow min-h-screen ">
+                    <div className="flex-1 flex-grow h-screen overflow-y-hidden">
                         <div className="border-b shadow sticky top-0 z-40 bg-background">
                             <div className="container mx-auto py-4 flex justify-between px-6 items-center">
                                 <SidebarTrigger />
@@ -190,8 +166,8 @@ const DashboardLayout = ({ children }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="container mx-auto py-2  h-full ">
-                            <div className="z-30 relative p-2 h-full ">
+                        <div className="container mx-auto py-2 h-full ">
+                            <div className="z-30 relative p-2 h-full">
                                 <Outlet />
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
