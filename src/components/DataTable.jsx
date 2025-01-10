@@ -45,7 +45,7 @@ export default function DataTable({ data, columns }) {
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        // getPaginationRowModel: getPaginationRowModel(), // Enable frontend pagination
+        getPaginationRowModel: getPaginationRowModel(), // Enable frontend pagination
     });
 
     return (
