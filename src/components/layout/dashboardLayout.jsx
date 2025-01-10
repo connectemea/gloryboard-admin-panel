@@ -6,7 +6,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { Calendar, CalendarCog, CalendarPlus, SquareUserRound, Star, Telescope, Users, Settings, LogOut, ChartColumnBig, ChartColumnBigIcon, ChartColumnStacked, ChartBarIcon, ChartBar, ChartArea } from 'lucide-react';
 import { AuthContext } from '@/context/authContext';
 import ProductLogo from '@/assets/p_logo.svg';
-import Logo from '@/assets/logo.svg';
+import { getZoneDetails } from '@/utils/configZone';
+// import Logo from '@/assets/logo.svg';
 
 const routes = [
     // {
@@ -98,6 +99,8 @@ const DashboardLayout = ({ children }) => {
     const location = useLocation();
     const { logout, auth } = useContext(AuthContext);
 
+    const zoneDetails = getZoneDetails();
+
     // Helper function to filter routes, including nested ones
     const filterRoutes = (routes) => {
         return routes
@@ -152,11 +155,11 @@ const DashboardLayout = ({ children }) => {
         <>
             <SidebarProvider>
                 <div className="flex h-screen w-full">
-                    <Sidebar className="z-50 bg-[#0D1E26]">
+                    <Sidebar className="z-50 ">
                         <SidebarHeader className="z-50">
                             <div className="px-4 py-2 text-center z-50">
                                 <h3 className="text-lg font-medium leading-none py-2">
-                                    <img src={Logo} alt="Logo" className="h-10 mx-auto" />
+                                    <img src={zoneDetails?.logo} alt="Logo" className="h-10 mx-auto" />
                                     {/* C Zone */}
                                 </h3>
                             </div>
@@ -196,10 +199,10 @@ const DashboardLayout = ({ children }) => {
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
                                 <div className='relative w-full z-0'>
-                                    <div className='rounded-full w-72 h-48 z-0 bg-[#0CA5EA] blur-[115px] absolute top-20 right-[400px]' />
+                                    <div className='rounded-full w-72 h-48 z-0 bg-[lightGray] blur-[115px] absolute top-20 right-[400px] opacity-30' />
                                 </div>
                                 <div className='relative w-full z-0'>
-                                    <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[115px] absolute left-0 bottom-0' />
+                                    <div className='rounded-full w-48 h-48 bg-[lightGray] blur-[115px] absolute left-0 bottom-0 opacity-30' />
                                 </div>
                             </div>
                         </div>

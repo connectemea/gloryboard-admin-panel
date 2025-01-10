@@ -25,11 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             },
           }}
         />
-       
           <AuthProvider>
             <App />
           </AuthProvider>
-       
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>

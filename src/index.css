@@ -48,6 +48,30 @@ body {
 }
 
 
+/* :root {
+  --background: 170 38% 10%;
+  --foreground: 170 5% 90%;
+  --card: 170 38% 10%;
+  --card-foreground: 170 5% 90%;
+  --popover: 170 38% 5%;
+  --popover-foreground: 170 5% 90%;
+  --primary: 170 66% 28%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 170 30% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 132 30% 25%;
+  --muted-foreground: 170 5% 60%;
+  --accent: 132 30% 25%;
+  --accent-foreground: 170 5% 90%;
+  --destructive: 0 50% 38%;
+  --destructive-foreground: 170 5% 90%;
+  --border: 170 30% 38%;
+  --input: 170 30% 38%;
+  --ring: 170 66% 28%;
+  --radius: 0rem;
+} */
+
+
 @layer base {
   * {
     @apply border-border;
