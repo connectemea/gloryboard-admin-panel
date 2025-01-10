@@ -45,11 +45,11 @@ export default function DataTable({ data, columns }) {
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(), // Enable frontend pagination
+        // getPaginationRowModel: getPaginationRowModel(), // Enable frontend pagination
     });
 
     return (
-        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg">
+        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg overflow-auto mb-6">
             {/* Global Search */}
             <div className="mb-4">
                 <Input
@@ -63,7 +63,7 @@ export default function DataTable({ data, columns }) {
 
             {/* Table Wrapper */}
             <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-auto">
-                <div className="h-[calc(100vh-300px)] rounded-md">
+                <div className="h-full rounded-md overflow-auto">
                     <div className="w-full inline-block align-middle max-w-[1440px]">
                         <table className="min-w-full divide-y h-full relative">
                             <thead className="bg-[#0D1E26] sticky top-0 z-10">
@@ -100,6 +100,11 @@ export default function DataTable({ data, columns }) {
                                                                 )}
                                                             </span>
                                                         )}
+                                                          {header.column.getCanFilter() ? (
+                                                            <div className="shrink-0">
+                                                                <Filter column={header.column} />
+                                                            </div>
+                                                        ) : null}
                                                     </div>
                                                 </th>
                                             );

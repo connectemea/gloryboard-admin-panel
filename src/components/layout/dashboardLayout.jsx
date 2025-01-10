@@ -174,7 +174,7 @@ const DashboardLayout = ({ children }) => {
                     </Sidebar>
 
                     {/* Main Content */}
-                    <div className="flex-1 flex-grow h-screen overflow-y-hidden">
+                    <div className="flex-1 flex-grow min-h-screen ">
                         <div className="border-b shadow sticky top-0 z-40 bg-background">
                             <div className="container mx-auto py-4 flex justify-between px-6 items-center">
                                 <SidebarTrigger />
@@ -190,8 +190,8 @@ const DashboardLayout = ({ children }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="container mx-auto py-2 h-full ">
-                            <div className="z-30 relative p-2 h-full">
+                        <div className="container mx-auto py-2  h-full ">
+                            <div className="z-30 relative p-2 h-full ">
                                 <Outlet />
                             </div>
                             <div className='fixed w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse'>
