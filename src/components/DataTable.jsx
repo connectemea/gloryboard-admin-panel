@@ -3,10 +3,11 @@ import {
     getCoreRowModel,
     getSortedRowModel,
     getFilteredRowModel,
+    getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "./ui/input";
 import {
     Select,
@@ -16,32 +17,39 @@ import {
     SelectValue,
 } from "./ui/select";
 import { ScrollArea } from "./ui/scroll-area";
-import { AuthContext } from '@/context/authContext'
+import { AuthContext } from '@/context/authContext';
 import { useContext } from "react";
-import bee from '@/assets/bee.gif'
+import bee from '@/assets/bee.gif';
 
 
 export default function DataTable({ data, columns }) {
-    const [globalFilter, setGlobalFilter] = React.useState("");
-    const [sorting, setSorting] = React.useState([]);
+    const [globalFilter, setGlobalFilter] = useState("");
+    const [sorting, setSorting] = useState([]);
+    const [pagination, setPagination] = useState({
+        pageIndex: 0, //initial page index
+        pageSize: 10, //default page size
+    });
     const { auth } = useContext(AuthContext);
     const role = auth.user.user_type;
     const table = useReactTable({
         data,
         columns,
+        onPaginationChange: setPagination,
         state: {
             globalFilter,
             sorting,
+            pagination,
         },
         onGlobalFilterChange: setGlobalFilter,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(), // Enable frontend pagination
     });
 
     return (
-        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg ">
+        <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg">
             {/* Global Search */}
             <div className="mb-4">
                 <Input
@@ -56,7 +64,7 @@ export default function DataTable({ data, columns }) {
             {/* Table Wrapper */}
             <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-auto">
                 <div className="h-[calc(100vh-300px)] rounded-md">
-                    <div className="w-full inline-block align-middle max-w-[1440px] ">
+                    <div className="w-full inline-block align-middle max-w-[1440px]">
                         <table className="min-w-full divide-y h-full relative">
                             <thead className="bg-[#0D1E26] sticky top-0 z-10">
                                 {table.getHeaderGroups().map((headerGroup) => (
@@ -92,11 +100,6 @@ export default function DataTable({ data, columns }) {
                                                                 )}
                                                             </span>
                                                         )}
-                                                        {header.column.getCanFilter() ? (
-                                                            <div className="shrink-0">
-                                                                <Filter column={header.column} />
-                                                            </div>
-                                                        ) : null}
                                                     </div>
                                                 </th>
                                             );
@@ -138,17 +141,63 @@ export default function DataTable({ data, columns }) {
                             </tbody>
                         </table>
                     </div>
+                    <div className="flex justify-between items-center p-4">
+                        <button
+                            onClick={() => table.firstPage()}
+                            disabled={!table.getCanPreviousPage()}
+                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        >
+                            {'<<'}
+                        </button>
+                        <button
+                            onClick={() => table.previousPage()}
+                            disabled={!table.getCanPreviousPage()}
+                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        >
+                            {'<'}
+                        </button>
+                        <span>
+                            Page {table.getState().pagination.pageIndex + 1} of{' '}
+                            {table.getPageCount()}
+                        </span>
+                        <button
+                            onClick={() => table.nextPage()}
+                            disabled={!table.getCanNextPage()}
+                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        >
+                            {'>'}
+                        </button>
+                        <button
+                            onClick={() => table.lastPage()}
+                            disabled={!table.getCanNextPage()}
+                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        >
+                            {'>>'}
+                        </button>
+                        <select
+                            className="!text-white bg-[#0CA5EA] px-2 py-[2px] rounded-md cursor-pointer border"
+                            value={table.getState().pagination.pageSize}
+                            onChange={(e) =>
+                                table.setPageSize(Number(e.target.value))
+                            }
+                        >
+                            {[2, 10, 20, 30, 40, 50].map((pageSize) => (
+                                <option key={pageSize} value={pageSize}>
+                                    {pageSize}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
 
-
             {/* Mobile View */}
             <div className="block md:hidden overflow-auto">
-                <ScrollArea className="h-[500px]  w-fit min-w-full" >
+                <ScrollArea className="h-[500px] w-fit min-w-full">
                     {table.getRowModel().rows.map((row) => (
                         <div
                             key={row.id}
-                            className="mb-4 w-full p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26] "
+                            className="mb-4 w-full p-4 bg-[#0D1E26]/20 rounded-lg border border-[#0D1E26]"
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <div
@@ -156,20 +205,77 @@ export default function DataTable({ data, columns }) {
                                     className="flex justify-between text-white-200 mb-2 gap-4"
                                 >
                                     <span className="font-semibold truncate max-w-[300px]">
-                                        {flexRender(cell.column.columnDef.header, cell.getContext())}
+                                        {flexRender(
+                                            cell.column.columnDef.header,
+                                            cell.getContext()
+                                        )}
                                     </span>
                                     <span className="truncate text-right max-w-[360px]">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
                                     </span>
                                 </div>
                             ))}
                         </div>
                     ))}
                 </ScrollArea>
+                <div className="flex justify-between items-center p-4 select-none">
+                    <button
+                        onClick={() => table.firstPage()}
+                        disabled={!table.getCanPreviousPage()}
+                       className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                    >
+                        {'<<'}
+                    </button>
+                    <button
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out"
+                    >
+                        {'<'}
+                    </button>
+                    <span>
+                        Page {table.getState().pagination.pageIndex + 1} of{' '}
+                        {table.getPageCount()}
+                    </span>
+                    <button
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                       className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                    >
+                        {'>'}
+                    </button>
+                    <button
+                        onClick={() => table.lastPage()}
+                        disabled={!table.getCanNextPage()}
+                        className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                    >
+                        {'>>'}
+                    </button>
+                    <Select
+                        className="!text-white bg-[#0CA5EA] px-2 py-[2px] rounded-md cursor-pointer border"
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) =>
+                            table.setPageSize(Number(e.target.value))
+                        }
+                    >
+                        <SelectContent className="max-w-[250px] truncate">
+                            {[2, 10, 20, 30, 40, 50].map((pageSize) => (
+                                <SelectItem key={pageSize} value={pageSize}>
+                                    {pageSize}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                  
+                </div>
             </div>
         </div>
     );
 }
+
 
 function Filter({ column }) {
     const columnFilterValue = column.getFilterValue();
@@ -244,6 +350,7 @@ function Filter({ column }) {
         );
     }
 }
+
 
 function DebouncedInput({
     value: initialValue,
