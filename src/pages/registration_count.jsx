@@ -43,6 +43,8 @@ function RegistrationCount() {
 
     const totalRegistrations = collegeRegistrations.reduce((total, reg) => total + reg.totalReg, 0);
 
+
+
     const columns = [
         {
             accessorKey: "college",
@@ -59,11 +61,11 @@ function RegistrationCount() {
 
     return (
         <div className="px-4 ">
-            <h2 className="text-2xl font-bold pb-6">Registration Count</h2>
-            <DataTable data={collegeRegistrations} columns={columns} />
-            <div className='mt-4 flex justify-end px-4'>
-                <span className='text-xl font-semibold opacity-75'>Total Registrations: {totalRegistrations}</span>
-            </div>
+            <h2 className="text-2xl font-bold pb-6">Participants Registration Count</h2>
+                    <DataTable data={collegeRegistrations} columns={columns} />
+                    <div className='mt-4 flex justify-end px-4'>
+                        <span className='text-xl font-semibold opacity-75'>Total Registrations: {totalRegistrations}</span>
+                    </div>
         </div>
     );
 }
