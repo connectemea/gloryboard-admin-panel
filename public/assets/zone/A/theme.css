@@ -1,0 +1,22 @@
+:root {
+  --background: 337 43% 10%;
+  --foreground: 337 5% 90%;
+  --card: 337 43% 10%;
+  --card-foreground: 337 5% 90%;
+  --popover: 337 43% 5%;
+  --popover-foreground: 337 5% 90%;
+  --primary: 337 65.2% 34.9%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 337 30% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 299 30% 25%;
+  --muted-foreground: 337 5% 60%;
+  --accent: 299 30% 25%;
+  --accent-foreground: 337 5% 90%;
+  --destructive: 0 50% 30%;
+  --destructive-foreground: 337 5% 90%;
+  --border: 337 30% 29%;
+  --input: 337 30% 29%;
+  --ring: 337 65.2% 34.9%;
+  --radius: 0.5rem;
+  }

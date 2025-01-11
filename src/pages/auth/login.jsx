@@ -10,8 +10,9 @@ import { Loader2 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import LoginHead from '@/assets/login_head.svg';
+// import LoginHead from '@/assets/login_head.svg';
 import ProductLogo from '@/assets/p_logo2.svg';
+import { getZoneDetails } from "@/utils/configZone";
 
 function Login() {
   // const [email, setEmail] = useState("");
@@ -19,6 +20,9 @@ function Login() {
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
+
+  const zoneDetails = getZoneDetails();
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,7 +54,7 @@ function Login() {
     const y = (e.clientY / window.innerHeight) * 40;
     document.querySelector(
       ".login-background"
-    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #294d708d, #00000071)`;
+    ).style.background = `radial-gradient(circle at ${x}% ${y}%, #ffffff10, #00000071)`;
 
     // Logo movement effect
     const logo = document.querySelector(".floating-logo");
@@ -76,7 +80,7 @@ function Login() {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="flex items-center flex-col justify-center h-screen relative login-background select-none"
+      className="flex items-center flex-col justify-center h-screen relative login-background !bg-background select-none"
     >
       <div className="relative w-full max-w-sm" >
         {/* <img 
@@ -89,7 +93,7 @@ function Login() {
           onSubmit={formik.handleSubmit}
           className="border border-gray-400 rounded-2xl p-8  shadow-md w-full bg-[#0d1e26aa]  z-30 relative mb-10"
         >
-          <img src={LoginHead} alt="Login" className="mx-auto mt-1 mb-4 h-[100px]" />
+          <img src={zoneDetails?.loginHead} alt="Login" className="mx-auto mt-1 mb-4 h-[100px]" />
           <div className="bg-transparent absolute top-0 left-0 w-full  z-0 h-[150px]" />
           <h2 className="text-4xl font-bold text-left text-primary">
             Welcome back!
@@ -147,12 +151,12 @@ function Login() {
         </form>
         <img src={ProductLogo} alt="Logo" className="h-10  mx-auto" />
       </div>
-      <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-30 animate-pulse '>
+      <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-5 animate-pulse '>
         <div className='relative w-full z-0'>
-          <div className='rounded-full w-48 h-48 z-0 bg-[#0CA5EA] blur-[125px] absolute top-10 right-[50px]' />
+          <div className='rounded-full w-48 h-48 z-0 bg-[lightgray] blur-[125px] absolute top-10 right-[50px] opacity-40' />
         </div>
         <div className='relative w-full z-0'>
-          <div className='rounded-full w-48 h-48 bg-[#0CA5EA] blur-[125px] absolute left-[50px] bottom-10' />
+          <div className='rounded-full w-48 h-48 bg-[lightgray] blur-[125px] absolute left-[50px] bottom-10 opacity-40' />
         </div>
       </div>
     </div>

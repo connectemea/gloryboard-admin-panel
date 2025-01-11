@@ -7,6 +7,8 @@
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
+  background: #000000;
+  color: white;
 }
 
 body {
@@ -19,12 +21,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #0D1E26;
+  /* background: var(--primary); */
   transition: background 0.3s ease-in-out;
 }
 
 
-:root {
+/* :root {
   --background: 199 50% 10%;
   --foreground: 199 5% 100%;
   --card: 199 50% 10%;
@@ -45,7 +47,8 @@ body {
   --input: 199 30% 50%;
   --ring: 199 88.7% 48.4%;
   --radius: 0.5rem;
-}
+} */
+
 
 
 @layer base {
