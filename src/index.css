@@ -7,6 +7,8 @@
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
+  background: #000000;
+  color: white;
 }
 
 body {
@@ -19,11 +21,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #0D1E26;
+  /* background: var(--primary); */
   transition: background 0.3s ease-in-out;
 }
 
-
+/* 
 :root {
   --background: 199 50% 10%;
   --foreground: 199 5% 100%;
@@ -45,31 +47,8 @@ body {
   --input: 199 30% 50%;
   --ring: 199 88.7% 48.4%;
   --radius: 0.5rem;
-}
-
-
-/* :root {
-  --background: 170 38% 10%;
-  --foreground: 170 5% 90%;
-  --card: 170 38% 10%;
-  --card-foreground: 170 5% 90%;
-  --popover: 170 38% 5%;
-  --popover-foreground: 170 5% 90%;
-  --primary: 170 66% 28%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 170 30% 20%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 132 30% 25%;
-  --muted-foreground: 170 5% 60%;
-  --accent: 132 30% 25%;
-  --accent-foreground: 170 5% 90%;
-  --destructive: 0 50% 38%;
-  --destructive-foreground: 170 5% 90%;
-  --border: 170 30% 38%;
-  --input: 170 30% 38%;
-  --ring: 170 66% 28%;
-  --radius: 0rem;
 } */
+
 
 
 @layer base {

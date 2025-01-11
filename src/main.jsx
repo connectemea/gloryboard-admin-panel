@@ -6,9 +6,18 @@ import "./index.css";
 import { AuthProvider } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import { getZoneDetails } from "./utils/configZone";
 // import { DepartmentOptionsProvider } from "./context/departmentContext";
 
+
 const queryClient = new QueryClient();
+
+const zoneDetails = getZoneDetails();
+try {
+  import(/* @vite-ignore */ zoneDetails?.theme);
+} catch (error) {
+  console.log(error);
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
