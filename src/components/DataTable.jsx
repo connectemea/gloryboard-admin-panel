@@ -20,7 +20,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { AuthContext } from '@/context/authContext';
 import { useContext } from "react";
 import bee from '@/assets/bee.gif';
-import { Button } from "./ui/button";
 
 
 export default function DataTable({ data, columns }) {
