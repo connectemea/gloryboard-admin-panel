@@ -12,12 +12,12 @@ import { getZoneDetails } from "./utils/configZone";
 
 const queryClient = new QueryClient();
 
-const zoneDetails = getZoneDetails();
-try {
-  import(/* @vite-ignore */ zoneDetails?.theme);
-} catch (error) {
-  console.log(error);
-}
+// const zoneDetails = getZoneDetails();
+// try {
+//   import(/* @vite-ignore */ zoneDetails?.theme);
+// } catch (error) {
+//   console.log(error);
+// }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
