@@ -8,19 +8,19 @@ export const getZoneDetails = () => {
             return {
                 logo : "/assets/zone/C/logo.svg",
                 loginHead : "/assets/zone/C/login_head.svg",
-                // theme: "/assets/zone/C/theme.css"
+                theme: "/assets/zone/C/theme.css"
             } 
         case "A":
                 return {
                     logo : "/assets/zone/A/logo.png",
                     loginHead : "/assets/zone/A/logo.png",
-                    // theme: "/assets/zone/A/theme.css"
+                    theme: "/assets/zone/A/theme.css"
                 } 
         default:
             return {
                 logo : "/assets/zone/Default/logo.png",
                 loginHead : "/assets/zone/Default/logo.png",
-                // theme: "/assets/zone/Default/theme.css"
+                theme: "/assets/zone/Default/theme.css"
             } 
     } 
 }
