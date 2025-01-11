@@ -6,7 +6,7 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
 import { Input } from "./ui/input";
 import {
@@ -20,14 +20,15 @@ import { ScrollArea } from "./ui/scroll-area";
 import { AuthContext } from '@/context/authContext';
 import { useContext } from "react";
 import bee from '@/assets/bee.gif';
+import { Button } from "./ui/button";
 
 
 export default function DataTable({ data, columns }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState([]);
     const [pagination, setPagination] = useState({
-        pageIndex: 0, 
-        pageSize: 10, 
+        pageIndex: 0,
+        pageSize: 10,
     });
     const { auth } = useContext(AuthContext);
     const role = auth.user.user_type;
@@ -100,7 +101,7 @@ export default function DataTable({ data, columns }) {
                                                                 )}
                                                             </span>
                                                         )}
-                                                          {header.column.getCanFilter() ? (
+                                                        {header.column.getCanFilter() ? (
                                                             <div className="shrink-0">
                                                                 <Filter column={header.column} />
                                                             </div>
@@ -146,41 +147,42 @@ export default function DataTable({ data, columns }) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="flex justify-between items-center p-4">
+                    <div className="flex justify-between items-center px-4 py-2">
                         <button
                             onClick={() => table.firstPage()}
                             disabled={!table.getCanPreviousPage()}
-                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                            className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                         >
-                            {'<<'}
+                            <ChevronsLeft size={16} />
                         </button>
                         <button
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
-                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                            className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                         >
-                            {'<'}
+                            <ChevronLeft size={16} />
                         </button>
-                        <span>
+                        <span className="text-muted-foreground text-xs" >
                             Page {table.getState().pagination.pageIndex + 1} of{' '}
                             {table.getPageCount()}
                         </span>
                         <button
+                            size="icon"
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
-                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                            className="text-white !p-0 disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                         >
-                            {'>'}
+                            <ChevronRight size={16} />
                         </button>
                         <button
                             onClick={() => table.lastPage()}
                             disabled={!table.getCanNextPage()}
-                           className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                            className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                         >
-                            {'>>'}
+                            <ChevronsRight size={16} />
                         </button>
                         <select
-                            className="!text-white bg-[#0CA5EA] px-2 py-[2px] rounded-md cursor-pointer border"
+                            className="!text-white bg-[black] text-xs px-2 py-[2px] rounded-md cursor-pointer border"
                             value={table.getState().pagination.pageSize}
                             onChange={(e) =>
                                 table.setPageSize(Number(e.target.value))
@@ -230,7 +232,7 @@ export default function DataTable({ data, columns }) {
                     <button
                         onClick={() => table.firstPage()}
                         disabled={!table.getCanPreviousPage()}
-                       className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
                         {'<<'}
                     </button>
@@ -248,7 +250,7 @@ export default function DataTable({ data, columns }) {
                     <button
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                       className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
+                        className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
                         {'>'}
                     </button>
@@ -274,7 +276,7 @@ export default function DataTable({ data, columns }) {
                             ))}
                         </SelectContent>
                     </Select>
-                  
+
                 </div>
             </div>
         </div>
