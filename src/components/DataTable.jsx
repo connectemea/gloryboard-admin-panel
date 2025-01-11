@@ -233,16 +233,16 @@ export default function DataTable({ data, columns }) {
                         disabled={!table.getCanPreviousPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
-                        {'<<'}
+                    <ChevronsLeft size={16} />
                     </button>
                     <button
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out"
                     >
-                        {'<'}
+                       <ChevronLeft size={16} />
                     </button>
-                    <span>
+                    <span className="text-muted-foreground text-xs" >
                         Page {table.getState().pagination.pageIndex + 1} of{' '}
                         {table.getPageCount()}
                     </span>
@@ -251,14 +251,14 @@ export default function DataTable({ data, columns }) {
                         disabled={!table.getCanNextPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
-                        {'>'}
+                      <ChevronRight size={16} />
                     </button>
                     <button
                         onClick={() => table.lastPage()}
                         disabled={!table.getCanNextPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
-                        {'>>'}
+                        <ChevronsRight size={16} />
                     </button>
                     <Select
                         className="!text-white bg-[#0CA5EA] px-2 py-[2px] rounded-md cursor-pointer border"
