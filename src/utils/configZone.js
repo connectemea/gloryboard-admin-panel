@@ -10,6 +10,12 @@ export const getZoneDetails = () => {
                 loginHead : "/assets/zone/C/login_head.svg",
                 theme: "/assets/zone/C/theme.css"
             } 
+        case "D":
+                return {
+                    logo : "/assets/zone/D/logo.png",
+                    loginHead : "/assets/zone/D/logo.png",
+                    theme: "/assets/zone/D/theme.css"
+                } 
         case "A":
                 return {
                     logo : "/assets/zone/A/logo.png",
