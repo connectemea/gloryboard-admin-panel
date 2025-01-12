@@ -171,7 +171,9 @@ const DashboardLayout = ({ children }) => {
                         </SidebarContent>
                         <SidebarFooter className="z-50">
                             <div className="absolute bottom-0 left-0 right-0 mx-auto flex justify-center">
+                                <a href="https://www.instagram.com/gloryboard_/" target='_blank' >
                                 <img src={ProductLogo} alt="Logo" className="h-12 mt-2" />
+                                </a>
                             </div>
                         </SidebarFooter>
                     </Sidebar>
