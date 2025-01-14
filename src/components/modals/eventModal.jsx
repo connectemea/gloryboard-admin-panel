@@ -225,12 +225,12 @@ function EventModal({ editMode = false, initialData = {} }) {
                             className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#0c0B0E] text-white focus:outline-none focus:ring-2 focus:ring-[#fff] shadow-md 
     [appearance:textfield] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert"
                             type="datetime-local"
-                            value={formik.values.start_time ? formik.values.start_time.slice(0, 16) : ""}  
+                            value={formik.values.start_time ? formik.values.start_time.slice(0, 16) : ""}
                             onChange={(e) => {
                                 console.log(e.target.value);
-                                const date = new Date(e.target.value);  
+                                const date = new Date(e.target.value);
                                 const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
-                                formik.setFieldValue('start_time', utcDate.toISOString().slice(0, 19).replace('T', ' ')); 
+                                formik.setFieldValue('start_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
                             }}
                         />
                         {formik.touched.start_time && formik.errors.start_time && (
@@ -242,16 +242,16 @@ function EventModal({ editMode = false, initialData = {} }) {
 
                     <div className="relative mt-4">
                         <label className="block text-white/70 text-sm mb-1">End Time</label>
-                       <input
+                        <input
                             className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#0c0B0E] text-white focus:outline-none focus:ring-2 focus:ring-[#fff] shadow-md 
     [appearance:textfield] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert"
                             type="datetime-local"
-                            value={formik.values.end_time ? formik.values.end_time.slice(0, 16) : ""}  
+                            value={formik.values.end_time ? formik.values.end_time.slice(0, 16) : ""}
                             onChange={(e) => {
                                 console.log(e.target.value);
-                                const date = new Date(e.target.value); 
+                                const date = new Date(e.target.value);
                                 const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
-                                formik.setFieldValue('end_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));  
+                                formik.setFieldValue('end_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
                             }}
                         />
                         {formik.touched.end_time && formik.errors.end_time && (
