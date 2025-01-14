@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import DataTable from "@/components/DataTable";
 import ParticipantModal from "@/components/modals/participantModal";
 import { useGetParticipants } from "@/services/queries/participantQueries";
@@ -6,17 +6,18 @@ import DeleteModal from "@/components/common/DeleteModal";
 import { useDeleteUser } from "@/services/mutation/userMutations";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { getConfigValue } from "@/utils/configUtils";
-import { Avatar } from "@/components/ui/avatar";
 import { useGetConfig } from "@/services/queries/configQueries";
 import { AuthContext } from "@/context/authContext";
 import DownloadTicket from "@/components/tickets/DownloadTicket";
+import SelectInput from "@/components/common/SelectInput";
 
 function Participants() {
   const { data, isLoading, error } = useGetParticipants();
   const { mutate: deleteUser } = useDeleteUser();
+  const [selectedGender, setSelectedGender] = useState("all");
 
   const { auth } = useContext(AuthContext);
-  const { data: configs  } = useGetConfig();
+  const { data: configs } = useGetConfig();
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -25,6 +26,10 @@ function Participants() {
   if (error) {
     return <div className="px-6">Error fetching data</div>;
   }
+
+  const filteredData = selectedGender === "all"
+    ? data
+    : data.filter(participant => participant.gender.toLowerCase() === selectedGender);
 
   const columns = [
     {
@@ -49,9 +54,6 @@ function Participants() {
       accessorKey: "gender",
       header: "Gender",
       enableSorting: false,
-      meta: {
-        filterVariant: "select",
-      },
     },
     {
       accessorKey: auth.user.user_type === "admin" ? "college" : "course",
@@ -77,7 +79,7 @@ function Participants() {
         </div>
       ),
     });
-  }else if(getConfigValue(configs, "participant ticket export") || getConfigValue(configs, "user registration")){
+  } else if (getConfigValue(configs, "participant ticket export") || getConfigValue(configs, "user registration")) {
     columns.push({
       accessorKey: "actions",
       header: "Actions",
@@ -105,13 +107,25 @@ function Participants() {
     <div className="px-4 flex flex-col ">
       <div className="flex justify-between pb-6">
         <h2 className="text-2xl font-bold ">Participants</h2>
-        {auth?.user.user_type !== "admin" &&
-        configs &&
-        getConfigValue(configs, "user registration") ? (
-          <ParticipantModal />
-        ) : null}
+        <div className="flex gap-2">
+          <SelectInput
+            options={[
+              { value: "all", label: "All" },
+              { value: "male", label: "Male" },
+              { value: "female", label: "Female" },
+            ]}
+            value={selectedGender}
+            onChange={(e) => setSelectedGender(e.target.value)}
+          />
+          {auth?.user.user_type !== "admin" &&
+            configs &&
+            getConfigValue(configs, "user registration") ? (
+            <ParticipantModal />
+
+          ) : null}
+        </div>
       </div>
-      <DataTable data={data} columns={columns} />
+      <DataTable data={filteredData} columns={columns} />
     </div>
   );
 }

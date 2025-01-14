@@ -10,18 +10,6 @@ import { getZoneDetails } from '@/utils/configZone';
 // import Logo from '@/assets/logo.svg';
 
 const routes = [
-    // {
-    //     title: "Registration Count",
-    //     url: "/registration-count",
-    //     icon: ChartColumnBig,
-    //     role: "admin"
-    // },
-    // {
-    //     title: "Events Registrations Count",
-    //     url: "/event-count",
-    //     icon: ChartArea,
-    //     role: "admin"
-    // },
     {
         title: "Participants",
         url: "/participants",
