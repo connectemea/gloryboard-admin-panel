@@ -233,14 +233,14 @@ export default function DataTable({ data, columns }) {
                         disabled={!table.getCanPreviousPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
-                    <ChevronsLeft size={16} />
+                        <ChevronsLeft size={16} />
                     </button>
                     <button
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out"
                     >
-                       <ChevronLeft size={16} />
+                        <ChevronLeft size={16} />
                     </button>
                     <span className="text-muted-foreground text-xs" >
                         Page {table.getState().pagination.pageIndex + 1} of{' '}
@@ -251,7 +251,7 @@ export default function DataTable({ data, columns }) {
                         disabled={!table.getCanNextPage()}
                         className="text-white disabled:!text-gray-500 cursor-pointer hover:text-[#0CA5EA] transition-all ease-in-out disabled:cursor-not-allowed"
                     >
-                      <ChevronRight size={16} />
+                        <ChevronRight size={16} />
                     </button>
                     <button
                         onClick={() => table.lastPage()}
@@ -331,11 +331,11 @@ function Filter({ column }) {
                     <SelectValue placeholder="All" />
                 </SelectTrigger>
                 <SelectContent className="max-w-[250px] truncate">
-                    <SelectItem className="text-xs max-w-[250px] truncate" value={null} key={'all'}>
+                    <SelectItem className="text-xs max-w-[250px] truncate" value={null} key={0}>
                         All
                     </SelectItem>
-                    {uniqueValues.map((value) => (
-                        <SelectItem className="text-xs max-w-[250px] truncate" key={value} value={value}>
+                    {uniqueValues.map((value, index) => (
+                        <SelectItem className="text-xs max-w-[250px] truncate" key={index + 1} value={value}>
                             {value}
                         </SelectItem>
                     ))}
