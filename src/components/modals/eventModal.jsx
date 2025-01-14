@@ -24,7 +24,6 @@ function EventModal({ editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel();
     const { data: eventTypes, isLoading: eventTypesLoading, error } = useGetEventTypes();
 
-    console.log(initialData);
 
     const { mutate: CreateEvent } = useCreateEvent(setIsSubmitting)
     const { mutate: updateEvent } = useUpdateEvent(setIsSubmitting);

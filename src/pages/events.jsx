@@ -5,7 +5,7 @@ import React from 'react'
 import { useGetEvents } from '@/services/queries/eventsQueries';
 import TableSkeleton from '@/components/skeleton/TableSkeleton';
 import { useDeleteEvent } from '@/services/mutation/eventMutations';
-
+import DownloadTicket from "@/components/tickets/DownloadTicket";
 function Events() {
 
     const { data, isLoading, error } = useGetEvents();
@@ -23,16 +23,22 @@ function Events() {
 
 
     const columns = [
-        { accessorKey: 'name', header: 'Name', cell: info => <strong>{info.getValue()}</strong> , enableSorting: false  },
-        { accessorKey: 'event_type.name', header: 'Type', enableSorting: false , meta: {
-            filterVariant: "select",
-        } },
-        { accessorKey: 'event_category', header: 'Category', enableSorting: false , meta: {
-            filterVariant: "select",
-        }},
-        { accessorKey: 'result_category', header: 'Result Category', enableSorting: false, meta: {
-            filterVariant: "select",
-        } },
+        { accessorKey: 'name', header: 'Name', cell: info => <strong>{info.getValue()}</strong>, enableSorting: false },
+        {
+            accessorKey: 'event_type.name', header: 'Type', enableSorting: false, meta: {
+                filterVariant: "select",
+            }
+        },
+        {
+            accessorKey: 'event_category', header: 'Category', enableSorting: false, meta: {
+                filterVariant: "select",
+            }
+        },
+        {
+            accessorKey: 'result_category', header: 'Result Category', enableSorting: false, meta: {
+                filterVariant: "select",
+            }
+        },
         { accessorKey: 'min_participants', header: 'Min', enableSorting: false },
         { accessorKey: 'max_participants', header: 'Max', enableSorting: false },
         {
@@ -47,6 +53,7 @@ function Events() {
                             deleteEvent(row.original._id);
                         }}
                     />
+                    <DownloadTicket id={row.original._id} name={row.original.name} type={'event'}/>
                 </div>
             ),
         },
