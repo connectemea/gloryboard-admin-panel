@@ -149,8 +149,10 @@ function Login() {
             {formik.isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
           </Button>
         </form>
-        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto" />
       </div>
+      <a href="https://www.instagram.com/gloryboard_/" target="_blank" className="z-30" >
+        <img src={ProductLogo} alt="Logo" className="h-10  mx-auto" />
+      </a>
       <div className='absolute w-full flex min-h-screen flex-col justify-between top-0 bottom-0 z-0 opacity-5 animate-pulse '>
         <div className='relative w-full z-0'>
           <div className='rounded-full w-48 h-48 z-0 bg-[lightgray] blur-[125px] absolute top-10 right-[50px] opacity-40' />
