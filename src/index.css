@@ -65,7 +65,8 @@ body {
 * {
   scrollbar-width: thin;
   /* For Firefox */
-  scrollbar-color: #0D1E26 transparent;
+  scrollbar-color: #323232 transparent;
+ 
   /* For Firefox */
 }
 

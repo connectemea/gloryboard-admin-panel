@@ -55,6 +55,8 @@ export const eventInitalValue = {
     result_category: "none",
     min_participants: 1,
     max_participants: 1,
+    start_time: "",
+    end_time: "",
     // date: null
 };
 

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Pencil, Plus } from 'lucide-react';
+import { Pencil, Plus, CalendarIcon } from 'lucide-react';
 import { useModel } from '@/hooks/useModel';
 import SelectInput from '../common/SelectInput';
 import { useGetEventTypes } from '@/services/queries/eventTypeQueries';
@@ -31,7 +31,7 @@ function EventModal({ editMode = false, initialData = {} }) {
 
     // Initial form values
     const formik = useFormik({
-        initialValues: editMode ? { name: initialData.name, id: initialData._id } : eventInitalValue, // Only set the name in editMode
+        initialValues: editMode ? { name: initialData.name, start_time: initialData.start_time, end_time: initialData.end_time, id: initialData._id } : eventInitalValue, // Only set the name in editMode
         validationSchema: eventValidationSchema(editMode),
         validateOnBlur: false,
         onSubmit: (values) => {
@@ -41,7 +41,12 @@ function EventModal({ editMode = false, initialData = {} }) {
             }
 
             if (editMode) {
-                updateEvent({ name: values.name, _id: values.id });
+                updateEvent({
+                    name: values.name,
+                    start_time: values.start_time,
+                    end_time: values.end_time,
+                    _id: values.id
+                });
             } else {
                 CreateEvent(values);
             }
@@ -98,11 +103,13 @@ function EventModal({ editMode = false, initialData = {} }) {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+
                     {formik.touched.name && formik.errors.name && (
                         <div className="text-red-500 text-sm">
                             {formik.errors.name}
                         </div>
                     )}
+
                     {!editMode && (
                         <div className='space-y-2'>
 
@@ -210,6 +217,49 @@ function EventModal({ editMode = false, initialData = {} }) {
                     )} */}
                         </div>
                     )}
+
+                    <div className="relative">
+                        <label className="block text-white/70 text-sm mb-1">Start Time</label>
+                        <input
+                            className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#0c0B0E] text-white focus:outline-none focus:ring-2 focus:ring-[#fff] shadow-md 
+    [appearance:textfield] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert"
+                            type="datetime-local"
+                            value={formik.values.start_time ? formik.values.start_time.slice(0, 16) : ""}
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                const date = new Date(e.target.value);
+                                const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+                                formik.setFieldValue('start_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
+                            }}
+                        />
+                        {formik.touched.start_time && formik.errors.start_time && (
+                            <div className="text-red-500 text-sm mt-1">
+                                {formik.errors.start_time}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="relative mt-4">
+                        <label className="block text-white/70 text-sm mb-1">End Time</label>
+                        <input
+                            className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#0c0B0E] text-white focus:outline-none focus:ring-2 focus:ring-[#fff] shadow-md 
+    [appearance:textfield] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert"
+                            type="datetime-local"
+                            value={formik.values.end_time ? formik.values.end_time.slice(0, 16) : ""}
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                const date = new Date(e.target.value);
+                                const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+                                formik.setFieldValue('end_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
+                            }}
+                        />
+                        {formik.touched.end_time && formik.errors.end_time && (
+                            <div className="text-red-500 text-sm mt-1">
+                                {formik.errors.end_time}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="!mt-4 flex justify-end">
                         <Button
                             type="submit"
@@ -222,8 +272,6 @@ function EventModal({ editMode = false, initialData = {} }) {
                             Cancel
                         </Button>
                     </div>
-
-
 
                 </form>
             </DialogContent>

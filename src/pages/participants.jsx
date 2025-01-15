@@ -75,7 +75,7 @@ function Participants() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          <DownloadTicket id={row.original._id} name={row.original.name} />
+          <DownloadTicket id={row.original._id} name={row.original.name} type={'participant'}/>
         </div>
       ),
     });
@@ -86,7 +86,7 @@ function Participants() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          <DownloadTicket id={row.original._id} name={row.original.name} />
+          <DownloadTicket id={row.original._id} name={row.original.name} type={'participant'}/>
           {auth?.user.user_type !== "admin" &&
             getConfigValue(configs, "user registration") && (
               <>

@@ -12,15 +12,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function DownloadTicket({ id, name }) {
+function DownloadTicket({ id, name , type }) {
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const APIendpoint = type === "event" ? `admin/participants-list/${id}` : `org/ticket/${id}`;
   const handleDownloadTicket = async () => {
     setLoading(true); // Start the loader
     try {
       // Fetch the PDF file as a blob
-      const response = await axiosInstance.get(`org/ticket/${id}`, {
+      const response = await axiosInstance.get(`${APIendpoint}`, {
         responseType: "blob", // Ensure the response is treated as binary data
       });
 

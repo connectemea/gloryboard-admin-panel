@@ -165,6 +165,8 @@ export const eventValidationSchema = (editMode) => Yup.object({
             ),
 
     result_category: editMode ? Yup.string() : Yup.string().required("Result Category is required"),
+    start_time: Yup.date().optional(),
+    end_time: Yup.date().optional(),
 });
 
 
