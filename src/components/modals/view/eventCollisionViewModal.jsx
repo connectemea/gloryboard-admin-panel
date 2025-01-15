@@ -39,6 +39,7 @@ function EventCollisionViewModal({ data = [] }) {
 
         <span className="font-bold text-white/70">Participants</span>
 
+        <div className="overflow-y-auto space-y-2 max-h-[400px]">
         {data.map((participant, index) => (
           <div key={index} className="border rounded-md p-2">
             <div className="flex items-center gap-2">
@@ -58,17 +59,48 @@ function EventCollisionViewModal({ data = [] }) {
             </div>
           </div>
         ))}
+        {data.map((participant, index) => (
+          <div key={index} className="border rounded-md p-2">
+            <div className="flex items-center gap-2">
+            <div>{participant.participant_name}</div>
+            <span className="text-gray-500 text-xs">
+              {participant.course} {participant.year_of_study}yr{" "}
+            </span>
+            </div>
+            <span className="text-gray-500 ">{participant.college}</span>
+            <div className="">
+              <span className=" text-white/70 pb-2 pr-2">Collisions Events:</span>
+              <div className="pl-2 flex flex-col text-red-500">
+                {participant.collisions.map((event, index) => (
+                  <div key={index}>{event}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+         {data.map((participant, index) => (
+          <div key={index} className="border rounded-md p-2">
+            <div className="flex items-center gap-2">
+            <div>{participant.participant_name}</div>
+            <span className="text-gray-500 text-xs">
+              {participant.course} {participant.year_of_study}yr{" "}
+            </span>
+            </div>
+            <span className="text-gray-500 ">{participant.college}</span>
+            <div className="">
+              <span className=" text-white/70 pb-2 pr-2">Collisions Events:</span>
+              <div className="pl-2 flex flex-col text-red-500">
+                {participant.collisions.map((event, index) => (
+                  <div key={index}>{event}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+        </div>
 
-        {/* {data?.helpers.length > 0 && (
-                    <>
-                        <span className="font-bold text-white/70">Helpers</span>
-                        <div className='border  rounded-md p-2'>
-                            {data?.helpers.map((helper, index) => (
-                                <div>{helper.user.name}</div>
-                            ))}
-                        </div>
-                    </>
-                )} */}
+        
+
       </DialogContent>
     </Dialog>
   );
