@@ -75,10 +75,13 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
   const [selectedParticipant, setSelectedParticipant] = useState(null);
 
   const {
-    data: participants,
+    data: participantsData,
     isLoading: participantIsLoading,
     error: participantError,
-  } = useGetParticipants();
+  } = useGetParticipants(1,99999);
+
+  const participants = participantsData?.users
+
   console.log(participants);
   const {
     data: events,

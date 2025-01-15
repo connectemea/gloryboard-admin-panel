@@ -15,12 +15,12 @@ const routes = [
         url: "/participants",
         icon: Users
     },
-    {
-        title: "Schedule Overlap",
-        url: "/schedule-overlap",
-        role: "admin",
-        icon: WandSparkles
-    },
+    // {
+    //     title: "Schedule Overlap",
+    //     url: "/schedule-overlap",
+    //     role: "admin",
+    //     icon: WandSparkles
+    // },
     // {
     //     title: "Results",
     //     url: "/results",
