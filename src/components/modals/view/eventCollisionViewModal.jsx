@@ -59,44 +59,6 @@ function EventCollisionViewModal({ data = [] }) {
             </div>
           </div>
         ))}
-        {data.map((participant, index) => (
-          <div key={index} className="border rounded-md p-2">
-            <div className="flex items-center gap-2">
-            <div>{participant.participant_name}</div>
-            <span className="text-gray-500 text-xs">
-              {participant.course} {participant.year_of_study}yr{" "}
-            </span>
-            </div>
-            <span className="text-gray-500 ">{participant.college}</span>
-            <div className="">
-              <span className=" text-white/70 pb-2 pr-2">Collisions Events:</span>
-              <div className="pl-2 flex flex-col text-red-500">
-                {participant.collisions.map((event, index) => (
-                  <div key={index}>{event}</div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-         {data.map((participant, index) => (
-          <div key={index} className="border rounded-md p-2">
-            <div className="flex items-center gap-2">
-            <div>{participant.participant_name}</div>
-            <span className="text-gray-500 text-xs">
-              {participant.course} {participant.year_of_study}yr{" "}
-            </span>
-            </div>
-            <span className="text-gray-500 ">{participant.college}</span>
-            <div className="">
-              <span className=" text-white/70 pb-2 pr-2">Collisions Events:</span>
-              <div className="pl-2 flex flex-col text-red-500">
-                {participant.collisions.map((event, index) => (
-                  <div key={index}>{event}</div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
         </div>
 
         
