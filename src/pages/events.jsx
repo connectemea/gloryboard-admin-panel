@@ -6,6 +6,7 @@ import { useGetEvents } from '@/services/queries/eventsQueries';
 import TableSkeleton from '@/components/skeleton/TableSkeleton';
 import { useDeleteEvent } from '@/services/mutation/eventMutations';
 import DownloadTicket from "@/components/tickets/DownloadTicket";
+import EventViewModal from '@/components/modals/view/eventViewModal';
 function Events() {
 
     const { data, isLoading, error } = useGetEvents();
@@ -47,13 +48,14 @@ function Events() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex space-x-2">
+                    <EventViewModal data={row.original} />
+                    <DownloadTicket id={row.original._id} name={row.original.name} type={'event'}/>
                     <EventModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
                             deleteEvent(row.original._id);
                         }}
                     />
-                    <DownloadTicket id={row.original._id} name={row.original.name} type={'event'}/>
                 </div>
             ),
         },
