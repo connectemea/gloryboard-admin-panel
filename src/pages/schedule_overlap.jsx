@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import DataTable from '@/components/DataTable';
 import EventCollisionViewModal from '@/components/modals/view/eventCollisionViewModal';
 import TableSkeleton from '@/components/skeleton/TableSkeleton';
 import { useGetEventRegs } from '@/services/queries/eventRegQueries';
 import { findCollidingEvents, getParticipantsByEvents, getParticipantsCountByEvent } from '@/utils/eventCollisionUtils';
+import { useGetEvents } from '@/services/queries/eventsQueries';
 
 
 const columns = [
@@ -16,7 +17,7 @@ const columns = [
     {
         accessorKey: 'participant_count',
         header: 'No. of Participants',
-        enableSorting: false,
+        enableSorting: true,
     },
     {
         accessorKey: 'info',
@@ -27,18 +28,21 @@ const columns = [
 ];
 
 const ScheduleOverlap = () => {
+
     const { data: eventRegs, isLoading, error } = useGetEventRegs();
+    const { data: events, isLoading: isLoadingEvents, error: errorEvents } = useGetEvents();
 
     const collisionData = useMemo(() => {
-        if (!eventRegs) return [];
-
-        const collidingEvents = findCollidingEvents(eventRegs);
+        if (!eventRegs || !events) return [];
+        const collidingEvents = findCollidingEvents(events);
         const participants = getParticipantsByEvents(eventRegs);
+    
         return getParticipantsCountByEvent(collidingEvents, participants);
-    }, [eventRegs]);
+    }, [eventRegs, events]);    
+    
 
-    if (isLoading) return <TableSkeleton />;
-    if (error) return <div className="px-6">Error fetching data</div>;
+    if (isLoading || isLoadingEvents) return <TableSkeleton />;
+    if (error || errorEvents) return <div className="px-6">Error fetching data</div>;
 
     return (
         <div className="px-4 flex flex-col">

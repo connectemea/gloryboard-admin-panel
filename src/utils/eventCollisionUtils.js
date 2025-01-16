@@ -7,20 +7,20 @@ export const findCollidingEvents = (events) => {
         events.forEach((otherEvent, j) => {
             if (i === j) return;
 
-            const currentStart = new Date(currentEvent.event.start_time);
-            const currentEnd = new Date(currentEvent.event.end_time);
-            const otherStart = new Date(otherEvent.event.start_time);
-            const otherEnd = new Date(otherEvent.event.end_time);
+            const currentStart = new Date(currentEvent.start_time);
+            const currentEnd = new Date(currentEvent.end_time);
+            const otherStart = new Date(otherEvent.start_time);
+            const otherEnd = new Date(otherEvent.end_time);
 
             if (hasTimeOverlap(currentStart, currentEnd, otherStart, otherEnd)) {
-                collidingEvents.set(otherEvent.event._id, otherEvent.event.name);
+                collidingEvents.set(otherEvent._id, otherEvent.name);
             }
         });
 
         if (collidingEvents.size > 0) {
             collisions.push({
-                event_name: currentEvent.event.name,
-                event_id: currentEvent.event._id,
+                event_name: currentEvent.name,
+                event_id: currentEvent._id,
                 collied_events: Array.from(collidingEvents.entries()).map(([id, name]) => ({
                     event_id: id,
                     event_name: name,
