@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import DataTable from '@/components/DataTable';
 import EventCollisionViewModal from '@/components/modals/view/eventCollisionViewModal';
 import TableSkeleton from '@/components/skeleton/TableSkeleton';

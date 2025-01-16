@@ -29,7 +29,7 @@ function EventRegistration() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-    
+
 
     const columns = [
         {
@@ -52,23 +52,23 @@ function EventRegistration() {
             accessorKey: auth.user.user_type === "admin" ? "college" : "course",
             header: auth.user.user_type === "admin" ? "College" : "Course/group",
             cell: ({ row }) => (
-              <strong>
-                {auth.user.user_type === "admin" ? (
-                  row.original.participants[0]?.college
-                ) : (
-                  !row.original.event?.event_type.is_group ? row.original.participants[0]?.course : (
-                    <div className="flex items-center gap-2">
-                      {row.original.group_name} <Users2 size={16} className="" />
-                    </div>
-                  )
-                )}
-              </strong>
+                <strong>
+                    {auth.user.user_type === "admin" ? (
+                        row.original.participants[0]?.college
+                    ) : (
+                        !row.original.event?.event_type.is_group ? row.original.participants[0]?.course : (
+                            <div className="flex items-center gap-2">
+                                {row.original.group_name} <Users2 size={16} className="" />
+                            </div>
+                        )
+                    )}
+                </strong>
             ),
             enableSorting: false,
             meta: auth.user.user_type === "admin" ? {
-              filterVariant: "select",
-            }:undefined,
-          },
+                filterVariant: "select",
+            } : undefined,
+        },
         {
             accessorKey: "event.name", header: "Event", enableSorting: false, meta: {
                 filterVariant: "select",

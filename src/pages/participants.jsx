@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import DataTableNoPage from "@/components/DataTableNoPage";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { debounce, set } from "lodash";
+import { debounce } from "lodash";
 
 function Participants() {
 
@@ -36,7 +36,7 @@ function Participants() {
     debounce((value) => {
         setPage(1);
         setSearch(value);
-    }, 300), // Adjust the debounce delay as needed
+    }, 1000), // Adjust the debounce delay as needed
     []
 );
 
