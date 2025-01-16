@@ -55,10 +55,13 @@ function ComboxInput({ label, name, value, onChange, options, disabled, open, se
                                     key={option.value}
                                     value={option.label}
                                     onSelect={() => {
-                                        onChange(option.value); 
+                                        onChange(option.value);
                                         setOpen(false);
                                     }}
-                                    className="truncate"
+                                    className="truncate max-w-[500px] text-ellipsis cursor-pointer"
+                                    style={{
+                                        overflowWrap: "anywhere",
+                                    }}
                                 >
                                     {option.label}
                                     <Check

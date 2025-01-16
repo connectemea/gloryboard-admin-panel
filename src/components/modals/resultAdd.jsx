@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import {
-    DialogHeader,
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader, Loader2, Pencil, Plus, Trash } from "lucide-react";
 import { useModel } from "@/hooks/useModel";
@@ -21,10 +13,9 @@ import { toast } from "sonner";
 import SelectInput2 from "../common/SelectInput2";
 import { useCreateResult, useUpdateResult } from "@/services/mutation/resultMutations ";
 import { Separator } from "../ui/separator";
-import ComboxSelectInput from "../common/ComboxSelectInput";
-import ComboxInput from "../common/ComboxInput";
+import Combobox from "../common/RealComboxInput";
 
-function ResultModal({ eventsData, editMode = false, initialData = {} }) {
+function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     const { isOpen, openModal, closeModal } = useModel();
     const [PublishedEvent, setPublishedEvent] = useState([]);
     const [selectedEventReg, setSelectedEventReg] = useState(null);
@@ -222,66 +213,33 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
     }
 
     return (
-        <Dialog
-            open={isOpen}
-            onOpenChange={(open) => (open ? openModal() : handleCloseDialog())}
-        >
-            <DialogTrigger asChild>
-                {!editMode ? (
-                    <Button>
-                        <Plus className="mr-1" /> Add
-                    </Button>
-                ) : (
-                    <Button variant="outline" className="w-8 h-8" size="icon">
-                        <Pencil />
-                    </Button>
-                )}
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>
-                        {editMode ? "Edit Result" : "Add New Result"}
-                    </DialogTitle>
-                    <DialogDescription>
-                        {editMode
-                            ? "Update the result details"
-                            : "Fill out the form to create a new result"}
-                    </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={formik.handleSubmit} className="space-y-2">
-                    {!eventsLoading ? (
-                        // <SelectInput
-                        //     label="Event"
-                        //     name="event"
-                        //     value={formik.values.event}
-                        //     onChange={(e) => {
-                        //         getEventRegsByEvent(e.target.value);
-                        //         formik.setFieldValue("event", e.target.value);
-                        //     }}
-                        //     onBlur={formik.handleBlur}
-                        //     options={getEventOptions(events)}
-                        //     disabled={editMode}
-                        // />
-                        <div className="max-w-full">
+        <div className="border rounded-md py-10">
+            <section className="max-w-[800px] m-auto h-[calc(100vh-250px)] rounded-md overflow-auto">
 
-                            <ComboxInput
+                <h1 className="font-bold text-lg">
+
+                    {editMode ? "Edit Result" : "Add New Result"}
+                </h1>
+                <h2 className="text-muted-foreground">
+                    {editMode
+                        ? "Update the result details"
+                        : "Fill out the form to create a new result"}
+                </h2>
+                <form onSubmit={formik.handleSubmit} className="space-y-2 mt-6 p-2">
+                    {!eventsLoading ? (
+
+                        <div className="max-w-full">
+                            <Combobox
                                 label="Event"
                                 name="event"
-                                open={open}
-                                setOpen={setOpen}
                                 value={formik.values.event}
+                                options={getEventOptions(events)}
                                 onChange={(selectedValue) => {
                                     getEventRegsByEvent(selectedValue);
                                     formik.setFieldValue("event", selectedValue);
-                                    // formik.setFieldValue(
-                                    //     "is_group",
-                                    //     checkIfGroupItem(selectedValue)
-                                    // );
-                                    // checkIfCategoryItem(selectedValue);
                                     removeAllParticipants();
                                 }}
                                 onBlur={formik.handleBlur}
-                                options={getEventOptions(events)}
                                 disabled={editMode}
                             />
                         </div>
@@ -361,9 +319,9 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
                         </Button>
                     </div>
                 </form>
-            </DialogContent>
-        </Dialog>
+            </section>
+        </div>
     );
 }
 
-export default ResultModal;
+export default ResultAdd;

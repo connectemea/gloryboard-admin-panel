@@ -21,18 +21,18 @@ const routes = [
         role: "admin",
         icon: WandSparkles
     },
-    // {
-    //     title: "Results",
-    //     url: "/results",
-    //     role: "admin",
-    //     icon: Star
-    // },
-    // {
-    //     title: "Score Table",
-    //     url: "/score-table",
-    //     role: "admin",
-    //     icon: Telescope
-    // },
+    {
+        title: "Results",
+        url: "/results",
+        role: "admin",
+        icon: Star
+    },
+    {
+        title: "Score Table",
+        url: "/score-table",
+        role: "admin",
+        icon: Telescope
+    },
     {
         title: "College",
         url: "/college",
