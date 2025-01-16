@@ -54,11 +54,14 @@ function EventViewModal({ data = {} }) {
             <span className="font-semibold text-white/70 pr-2">Participants Limit: </span>
             <p className="text-white/70 text-sm">{`${data.min_participants} - ${data.max_participants}`}</p>
           </div>
-          <div className="flex items-center">
-            <span className="font-semibold text-white/70 pr-2">Scheduled Time: </span>
-            <p className="text-white/70 text-sm">{`${convertToDateTime(data.start_time)} - ${convertToDateTime(data.end_time)}`}</p>
-          </div>
+          {data?.start_time &&
+            <div className="flex items-center">
+              <span className="font-semibold text-white/70 pr-2">Scheduled Time: </span>
+              <p className="text-white/70 text-sm">{`${convertToDateTime(data?.start_time)} - ${convertToDateTime(data?.end_time)}`}</p>
+            </div>
+          }
         </div>
+
 
 
       </DialogContent>
