@@ -20,7 +20,6 @@ function EventViewModal({ data = {} }) {
     closeModal();
   };
 
-  console.log(data)
 
   return (
     <Dialog
