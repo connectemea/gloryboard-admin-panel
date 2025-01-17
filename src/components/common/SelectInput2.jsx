@@ -11,7 +11,7 @@ function SelectInput2({
     renderOption,
     valueKey = "value",
     category = "general",
-    formik 
+    formik
 }) {
     const handleSelectChange = (selectedValue) => {
         const selectedOption = options.find(
@@ -49,7 +49,10 @@ function SelectInput2({
                         <SelectItem
                             key={index}
                             value={option[valueKey]}
-                            disabled={formik?.some(participant => participant.user === option._id)}
+                            disabled={Array.isArray(formik?.values?.winningRegistrations) &&
+                                formik.values.winningRegistrations.some(
+                                    participant => participant.eventRegistration === option._id
+                                )}
                         >
                             {renderOption
                                 ? renderOption(option)
