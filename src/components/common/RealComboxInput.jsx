@@ -57,7 +57,7 @@ function Combobox({ label, name, value, onChange, options, disabled, renderOptio
                                             value === item.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {renderOption ? renderOption(item) : item.label} {item.value}
+                                    {renderOption ? renderOption(item) : item.label}
                                 </CommandItem>
                             ))}
                         </CommandGroup>
