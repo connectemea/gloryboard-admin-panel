@@ -118,7 +118,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
             if (editMode) {
                 const existingIds = formik.values.winningRegistrations.map(reg => reg.eventRegistration);
                 const filteredRegs = allEventRegs.filter(reg => !existingIds.includes(reg._id));
-                console.log(filteredRegs);
+                // console.log(filteredRegs);
                 setFilteredEventRegs(filteredRegs);
             } else {
                 setFilteredEventRegs(allEventRegs);
