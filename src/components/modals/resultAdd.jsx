@@ -35,12 +35,12 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             getEventRegsByEvent(initialData.event._id);
 
             // Map winning registrations
-            console.log(initialData.winningRegistrations);
+            // console.log(initialData.winningRegistrations);
             const mappedWinningRegs = initialData.winningRegistrations.map(reg => ({
                 eventRegistration: reg.eventRegistration._id,
                 position: reg.position
             }));
-            console.log(initialData);
+            // console.log(initialData);
             formik.setValues({
                 event: initialData.event._id,
                 winningRegistrations: mappedWinningRegs
@@ -124,16 +124,16 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                 disabled: false
             }));
             
-            console.log(formattedEventRegs);
+            // console.log(formattedEventRegs);
             if (editMode) {
                 const existingIds = formik.values.winningRegistrations.map(reg => reg.eventRegistration);
-                console.log(existingIds);
+                // console.log(existingIds);
                 const filteredRegs = formattedEventRegs.filter(reg => !existingIds.includes(reg.value));
                 setFilteredEventRegs(filteredRegs);
             } else {
                 setFilteredEventRegs(formattedEventRegs);
             }
-            console.log(formattedEventRegs);
+            // console.log(formattedEventRegs);
             setEventRegsOptions(formattedEventRegs);
 
             if (!allEventRegs.length) {
@@ -188,7 +188,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
         }
     
         const currentArray = formik.values.winningRegistrations || [];
-        console.log(currentArray);
+        // console.log(currentArray);
     
         // Check if selected registration is already added
         const isDuplicate = currentArray.some(
@@ -209,7 +209,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                 )
             );
         } else {
-            console.log("Duplicate");
+            // console.log("Duplicate");
             toast.error("Registration already selected");
         }
     
@@ -325,7 +325,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                             key={index}
                             className="flex items-center w-full justify-between border p-2 rounded-md"
                         >
-                            {console.log(participant.label)}
+                            {/* {console.log(participant.label)} */}
                             <div className="space-x-2">
                                 <span>{getNameEventReg(participant.eventRegistration)}</span>
                                 <span>{getPositionName(participant.position)}</span>
