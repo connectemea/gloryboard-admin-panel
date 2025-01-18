@@ -100,9 +100,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
         const foundItem = eventRegsOptions?.find(item => item.value === id);
         // console.log(eventRegsOptions);
         // console.log(foundItem);
-        return foundItem?.is_group === false
-            ? foundItem?.label
-            : foundItem?.group_name;
+        return foundItem?.label
     };
 
     const getEventRegsByEvent = async (eventId) => {
