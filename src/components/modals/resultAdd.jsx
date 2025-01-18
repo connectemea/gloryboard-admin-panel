@@ -164,7 +164,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                             </span>
                         </span>
                     ) : (
-                        option?.group_name || 'No Group Name'
+                        option?.label || 'No Group Name'
                     )}
                 </span>
             </div>
