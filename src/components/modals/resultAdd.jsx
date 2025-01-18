@@ -114,7 +114,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
 
             // Formatting the data as { value, label }
             const formattedEventRegs = allEventRegs.map(reg => ({
-                value: reg.event.event_type.is_group === false ? reg.participants[0].user._id : reg._id,
+                value: reg._id,
                 label: reg.event.event_type.is_group === false ? reg.participants.map(p => p.user.name).join(", ") : reg.group_name, // Joining names in case of multiple participants
                 is_group: reg.event.event_type.is_group,
             }));
