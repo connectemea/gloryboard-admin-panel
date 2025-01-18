@@ -226,7 +226,6 @@ function EventModal({ editMode = false, initialData = {} }) {
                             type="datetime-local"
                             value={formik.values.start_time ? formik.values.start_time.slice(0, 16) : ""}
                             onChange={(e) => {
-                                console.log(e.target.value);
                                 const date = new Date(e.target.value);
                                 const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
                                 formik.setFieldValue('start_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
@@ -247,7 +246,6 @@ function EventModal({ editMode = false, initialData = {} }) {
                             type="datetime-local"
                             value={formik.values.end_time ? formik.values.end_time.slice(0, 16) : ""}
                             onChange={(e) => {
-                                console.log(e.target.value);
                                 const date = new Date(e.target.value);
                                 const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
                                 formik.setFieldValue('end_time', utcDate.toISOString().slice(0, 19).replace('T', ' '));
