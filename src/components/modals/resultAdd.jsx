@@ -115,18 +115,25 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             // Formatting the data as { value, label }
             const formattedEventRegs = allEventRegs.map(reg => ({
                 value: reg._id,
-                label: reg.event.event_type.is_group === false ? reg.participants.map(p => p.user.name).join(", ") : reg.group_name, // Joining names in case of multiple participants
+                label: reg.event.event_type.is_group
+                    ? reg.participants[0]?.user?.collegeId?.name
+                    : reg.participants[0]?.user?.name,
                 is_group: reg.event.event_type.is_group,
+                college: reg.participants[0]?.user?.collegeId?.name, 
+                year_of_study: reg.participants[0]?.user?.year_of_study, 
+                disabled: false
             }));
-
+            
+            console.log(formattedEventRegs);
             if (editMode) {
                 const existingIds = formik.values.winningRegistrations.map(reg => reg.eventRegistration);
+                console.log(existingIds);
                 const filteredRegs = formattedEventRegs.filter(reg => !existingIds.includes(reg.value));
                 setFilteredEventRegs(filteredRegs);
             } else {
                 setFilteredEventRegs(formattedEventRegs);
             }
-
+            console.log(formattedEventRegs);
             setEventRegsOptions(formattedEventRegs);
 
             if (!allEventRegs.length) {
@@ -149,9 +156,9 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                     {!isGroupEvent ? (
                         <span>
                             {option?.label || 'No Name'}
-                            {/* <span className="text-gray-500 text-xs font-normal ml-2">
-                                {console.log(participant) || 'No Department'}
-                            </span> */}
+                            <span className="text-gray-500 text-xs font-normal ml-2">
+                                {option?.college || 'No Department'}
+                            </span>
                             <span className="text-gray-500 text-xs font-normal ml-2">
                                 {option?.year_of_study + 'year' || 'No Year'}
                             </span>
@@ -179,45 +186,60 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             toast.error("Please select both registration and position");
             return;
         }
+    
         const currentArray = formik.values.winningRegistrations || [];
         console.log(currentArray);
+    
+        // Check if selected registration is already added
         const isDuplicate = currentArray.some(
             item => item.eventRegistration === selectedEventReg
         );
+    
         if (!isDuplicate) {
             formik.setFieldValue("winningRegistrations", [
                 ...currentArray,
                 { eventRegistration: selectedEventReg, position: selectedPosition }
             ]);
-
+    
             setFilteredEventRegs(prev =>
-                prev.filter(option => option.value !== selectedEventReg)
+                prev.map(option =>
+                    option.value === selectedEventReg
+                        ? { ...option, disabled: true } 
+                        : option
+                )
             );
         } else {
             console.log("Duplicate");
             toast.error("Registration already selected");
         }
+    
         setSelectedEventReg(null);
         setSelectedPosition(null);
     };
+    
 
     const handleDeleteWinningRegistration = (participant, index) => {
         const updatedParticipants = formik.values.winningRegistrations.filter(
             (_, i) => i !== index
         );
         formik.setFieldValue("winningRegistrations", updatedParticipants);
-
+    
+        // Find the removed option in eventRegsOptions
         const removedOption = eventRegsOptions.find(
-            option => option._id === participant.eventRegistration
+            option => option.value === participant.eventRegistration
         );
-
-        if (
-            removedOption &&
-            !filteredEventRegs.some(option => option._id === removedOption._id)
-        ) {
-            setFilteredEventRegs(prev => [...prev, removedOption]);
+    
+        if (removedOption) {
+            setFilteredEventRegs(prev =>
+                prev.map(option =>
+                    option.value === removedOption.value
+                        ? { ...option, disabled: false } 
+                        : option
+                )
+            );
         }
     };
+    
 
     const removeAllParticipants = () => {
         formik.setFieldValue("winningRegistrations", []);
@@ -225,7 +247,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     }
 
     return (
-        <div className="border rounded-md py-10">
+        <div className="border rounded-md py-10 px-6">
             <section className="max-w-[800px] m-auto h-[calc(100vh-250px)] rounded-md overflow-auto">
 
                 <h1 className="font-bold text-lg">

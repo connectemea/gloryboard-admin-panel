@@ -36,7 +36,7 @@ function Combobox({ label, name, value, onChange, options, disabled, renderOptio
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className=" max-w-[330px] sm:max-w-[500px] sm:min-w-full  lg:max-w-[600px] p-0 lg:min-w-[600px]">
+            <PopoverContent className="w-full max-w-[330px] sm:max-w-[500px]  lg:max-w-[600px] p-0 ">
                 <Command>
                     <CommandInput placeholder={`Seach ${label}...`} />
                     <CommandList>
@@ -50,6 +50,7 @@ function Combobox({ label, name, value, onChange, options, disabled, renderOptio
                                         onChange(item.value);
                                         setOpen(false)
                                     }}
+                                    disabled={item?.disabled}
                                 >
                                     <Check
                                         className={cn(
