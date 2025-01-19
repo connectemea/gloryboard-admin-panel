@@ -323,7 +323,6 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                             key={index}
                             className="flex items-center w-full justify-between border p-2 rounded-md"
                         >
-                            {/* {console.log(participant.label)} */}
                             <div className="space-x-2">
                                 <span>{getNameEventReg(participant.eventRegistration)}</span>
                                 <span>{getPositionName(participant.position)}</span>

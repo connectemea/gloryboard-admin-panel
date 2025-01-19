@@ -190,7 +190,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
                 prev.filter(option => option._id !== selectedEventReg._id)
             );
         } else {
-            console.log("Duplicate");
+    
             toast.error("Registration already selected");
         }
 
