@@ -13,7 +13,7 @@ import { Award, Eye } from "lucide-react";
 
 function ResultViewModal({ data = {} }) {
   const { isOpen, openModal, closeModal } = useModel();
-
+  console.log(data);
   const handleCloseDialog = () => {
     // formik.resetForm();
     closeModal();
@@ -44,7 +44,7 @@ function ResultViewModal({ data = {} }) {
                 {item.position} <Award />{" "}
               </span>
               {!data.event?.event_type.is_group == true
-                ? <span>{item.eventRegistration?.participants[0].user.name} <span className="text-gray-500 text-xs font-normal"> {item.eventRegistration?.participants[0].user.department} {item.eventRegistration?.participants[0].user.year_of_study}yr </span> </span>
+                ? <span>{item.eventRegistration?.participants[0].user.name} <span className="text-gray-500 text-xs font-normal"> {item.eventRegistration?.participants[0].user.department}{item.eventRegistration?.participants[0].user.college}-{item.eventRegistration?.participants[0].user.year_of_study}yr </span> </span>
                 : item.eventRegistration.group_name}
             </div>
           );
