@@ -45,7 +45,7 @@ function Combobox({ label, name, value, onChange, options, disabled, renderOptio
                             {options.map((item) => (
                                 <CommandItem
                                     key={item.value}
-                                    value={item.value}
+                                    value={item.label}
                                     onSelect={() => {
                                         onChange(item.value);
                                         setOpen(false)

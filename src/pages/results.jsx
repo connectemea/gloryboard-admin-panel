@@ -8,12 +8,21 @@ import { useDeleteResult } from "@/services/mutation/resultMutations ";
 import ResultViewModal from "@/components/modals/view/resultViewModal";
 import ResultAdd from "@/components/modals/resultAdd";
 import { Button } from "@/components/ui/button";
-import { Plus, Eye } from "lucide-react";
+import { Plus, Eye, Pencil } from "lucide-react";
 import autoAnimate from '@formkit/auto-animate'
 
 function Results() {
     const [view, setView] = useState(true);
     const parent = useRef(null)
+    const [editMode, setEditMode] = useState(false);
+    const [initialData, setInitialData] = useState({});
+
+    useEffect(() => {
+        if (view === true) {
+            setInitialData({});
+            setEditMode(false);
+        }
+    }, [view])
 
     useEffect(() => {
         parent.current && autoAnimate(parent.current)
@@ -30,6 +39,12 @@ function Results() {
     }
 
 
+    const handleClick = (data) => {
+        setEditMode(true);
+        setInitialData(data);
+        setView(false);
+    }
+
     const columns = [
         {
             accessorKey: "name",
@@ -44,7 +59,10 @@ function Results() {
             cell: ({ row }) => (
                 <div className="flex space-x-2">
                     <ResultViewModal data={row.original} />
-                    <ResultModal editMode={true} initialData={row.original} />
+                    <Button variant="outline" className="w-8 h-8" size="icon" onClick={() => handleClick(row.original)}>
+                        <Pencil />
+                    </Button>
+                    {/* <ResultAdd  editMode={true} initialData={row.original} /> */}
                     <DeleteModal
                         onDelete={() => {
                             deleteResult(row.original._id);
@@ -81,7 +99,7 @@ function Results() {
                 {view ? (
                     <DataTable data={data} columns={columns} />
                 ) : (
-                    <ResultAdd eventsData={data} />
+                    <ResultAdd initialData={initialData} editMode={editMode} eventsData={data} handleCancel={handleViewChange} />
                 )}
             </div>
         </div >
