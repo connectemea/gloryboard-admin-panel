@@ -34,7 +34,7 @@ function ResultViewModal({ data = {} }) {
           <DialogTitle>{data.event?.name}</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-
+    {console.log(data.winningRegistrations)}
         {data.winningRegistrations.map((item, index) => {
           return (
             <div className="flex " key={index}>
@@ -45,7 +45,7 @@ function ResultViewModal({ data = {} }) {
               </span>
               {!data.event?.event_type.is_group == true
                 ? <span>{item.eventRegistration?.participants[0].user.name} <span className="text-gray-500 text-xs font-normal"> {item.eventRegistration?.participants[0].user.department}{item.eventRegistration?.participants[0].user.college}-{item.eventRegistration?.participants[0].user.year_of_study}yr </span> </span>
-                : item.eventRegistration.group_name}
+                : item.eventRegistration?.participants[0].user?.college}
             </div>
           );
         })}
