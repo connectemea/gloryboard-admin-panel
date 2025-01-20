@@ -85,7 +85,7 @@ function EventRegistration() {
 
                     {auth?.user.user_type !== 'admin' && (
                         <>
-                            <EventRegModal editMode={true} initialData={row.original} />
+                            {/* <EventRegModal editMode={true} initialData={row.original} /> */}
                             <DeleteModal
                                 onDelete={() => {
                                     deleteEventReg(row.original._id);
