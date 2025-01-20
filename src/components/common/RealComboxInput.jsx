@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover"
 
 
-function Combobox({ label, name, value, onChange, options, disabled }) {
+function Combobox({ label, name, value, onChange, options, disabled, renderOption, }) {
     const [open, setOpen] = React.useState(false)
 
     return (
@@ -32,24 +32,25 @@ function Combobox({ label, name, value, onChange, options, disabled }) {
                 >
                     {value
                         ? options.find((item) => item.value === value)?.label
-                        : "Select item..."}
+                        : `Select ${label}`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="min-w-[330px] max-w-[330px] sm:max-w-[500px] sm:min-w-[500px] w-full lg:max-w-[600px] p-0 lg:min-w-[600px]">
+            <PopoverContent className="w-full max-w-[330px] sm:max-w-[500px]  lg:max-w-[600px] p-0 ">
                 <Command>
-                    <CommandInput placeholder="Search ..." />
+                    <CommandInput placeholder={`Seach ${label}...`} />
                     <CommandList>
                         <CommandEmpty>No item found.</CommandEmpty>
                         <CommandGroup>
                             {options.map((item) => (
                                 <CommandItem
                                     key={item.value}
-                                    value={item.value}
+                                    value={item.label}
                                     onSelect={() => {
                                         onChange(item.value);
                                         setOpen(false)
                                     }}
+                                    disabled={item?.disabled}
                                 >
                                     <Check
                                         className={cn(
@@ -57,7 +58,7 @@ function Combobox({ label, name, value, onChange, options, disabled }) {
                                             value === item.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {item.label}
+                                    {renderOption ? renderOption(item) : item.label}
                                 </CommandItem>
                             ))}
                         </CommandGroup>

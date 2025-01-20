@@ -37,7 +37,6 @@ import classname from "classnames";
 import autoAnimate from '@formkit/auto-animate'
 
 const EventRegModal = ({ editMode = false, initialData = {} }) => {
-  // console.log(initialData);
   const { isOpen, openModal, closeModal } = useModel();
   const [open, setOpen] = useState(false)
   const [openParticipants, setOpenParticipants] = useState(false);
@@ -82,7 +81,6 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
 
   const participants = participantsData?.users
 
-  console.log(participants);
   const {
     data: events,
     isLoading: eventIsLoading,
@@ -123,7 +121,7 @@ const EventRegModal = ({ editMode = false, initialData = {} }) => {
         const formattedParticipants = initialData?.participants.map((participant) => ({
           user: participant._id,  // Adjusting the structure here
         }));
-        // console.log(formattedParticipants);
+
         formik.setFieldValue("participants", formattedParticipants);
       }
 

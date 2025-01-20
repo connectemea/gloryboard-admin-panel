@@ -96,7 +96,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
 
     const getEventOptions = (data) => {
         return data.map(item => ({
-            label: item.name,
+            label: item?.name,
             value: item._id,
             disabled: false
         }));
@@ -105,7 +105,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
     const getNameEventReg = (id) => {
         const foundItem = eventRegsOptions?.find(item => item._id === id);
         return foundItem?.event.event_type.is_group === false
-            ? foundItem?.participants[0].user.name
+            ? foundItem?.participants[0].user?.name
             : foundItem?.group_name;
     };
 
@@ -118,7 +118,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
             if (editMode) {
                 const existingIds = formik.values.winningRegistrations.map(reg => reg.eventRegistration);
                 const filteredRegs = allEventRegs.filter(reg => !existingIds.includes(reg._id));
-                console.log(filteredRegs);
+                // console.log(filteredRegs);
                 setFilteredEventRegs(filteredRegs);
             } else {
                 setFilteredEventRegs(allEventRegs);
@@ -190,7 +190,7 @@ function ResultModal({ eventsData, editMode = false, initialData = {} }) {
                 prev.filter(option => option._id !== selectedEventReg._id)
             );
         } else {
-            console.log("Duplicate");
+    
             toast.error("Registration already selected");
         }
 

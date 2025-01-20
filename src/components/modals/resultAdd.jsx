@@ -15,7 +15,7 @@ import { useCreateResult, useUpdateResult } from "@/services/mutation/resultMuta
 import { Separator } from "../ui/separator";
 import Combobox from "../common/RealComboxInput";
 
-function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
+function ResultAdd({ eventsData, editMode = false, initialData = {}, handleCancel }) {
     const { isOpen, openModal, closeModal } = useModel();
     const [PublishedEvent, setPublishedEvent] = useState([]);
     const [selectedEventReg, setSelectedEventReg] = useState(null);
@@ -31,15 +31,16 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     const { mutate: updateResult } = useUpdateResult();
 
     useEffect(() => {
-        if (editMode && initialData.event) {
+        if (editMode && initialData?.event) {
             getEventRegsByEvent(initialData.event._id);
 
             // Map winning registrations
+            // console.log(initialData.winningRegistrations);
             const mappedWinningRegs = initialData.winningRegistrations.map(reg => ({
                 eventRegistration: reg.eventRegistration._id,
                 position: reg.position
             }));
-
+            // console.log(initialData);
             formik.setValues({
                 event: initialData.event._id,
                 winningRegistrations: mappedWinningRegs
@@ -52,6 +53,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             const mappedEvents = eventsData.map(event => ({
                 label: event?.event?.name,
                 value: event?.event?._id,
+                disabled: false
             }));
             setPublishedEvent(mappedEvents);
         }
@@ -70,20 +72,11 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             } else {
                 createResult(values);
             }
-            handleCloseDialog();
+            handleCancel();
         },
     });
 
-    const handleCloseDialog = () => {
-        if (!editMode) {
-            setSelectedEventReg(null);
-            setSelectedPosition(null);
-            setEventRegsOptions([]);
-            setFilteredEventRegs([]);
-            formik.resetForm();
-        }
-        closeModal();
-    };
+
 
     const getEventOptions = (data) => {
         return data.map(item => ({
@@ -94,10 +87,20 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     };
 
     const getNameEventReg = (id) => {
-        const foundItem = eventRegsOptions?.find(item => item._id === id);
-        return foundItem?.event.event_type.is_group === false
-            ? foundItem?.participants[0].user.name
-            : foundItem?.group_name;
+        // console.log(id);
+        const foundItem = eventRegsOptions?.find(item => item.value === id);
+        // console.log(eventRegsOptions);
+        // console.log(foundItem);
+        return foundItem?.label
+    };
+
+    const getCollegeName = (id) => {
+        const foundItem = eventRegsOptions?.find(item => item.value === id);
+        return foundItem?.college
+    };
+    const getYearName = (id) => {
+        const foundItem = eventRegsOptions?.find(item => item.value === id);
+        return foundItem?.year_of_study
     };
 
     const getEventRegsByEvent = async (eventId) => {
@@ -105,17 +108,32 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
             setEventRegsLoading(true);
             const response = await axiosInstance.get(`/org/event-registration/event/${eventId}`);
             const allEventRegs = response.data.data;
+            // console.log(allEventRegs);
 
+            // Formatting the data as { value, label }
+            const formattedEventRegs = allEventRegs.map(reg => ({
+                value: reg._id,
+                label: reg.event.event_type.is_group
+                    ? reg.participants[0]?.user?.collegeId?.name
+                    : reg.participants[0]?.user?.name,
+                is_group: reg.event.event_type.is_group,
+                college: reg.participants[0]?.user?.collegeId?.name,
+                year_of_study: reg.participants[0]?.user?.year_of_study,
+                disabled: false
+            }));
+
+            // console.log(formattedEventRegs);
             if (editMode) {
                 const existingIds = formik.values.winningRegistrations.map(reg => reg.eventRegistration);
-                const filteredRegs = allEventRegs.filter(reg => !existingIds.includes(reg._id));
-                console.log(filteredRegs);
+                // console.log(existingIds);
+                const filteredRegs = formattedEventRegs.filter(reg => !existingIds.includes(reg.value));
                 setFilteredEventRegs(filteredRegs);
             } else {
-                setFilteredEventRegs(allEventRegs);
+                setFilteredEventRegs(formattedEventRegs);
             }
+            // console.log(formattedEventRegs);
+            setEventRegsOptions(formattedEventRegs);
 
-            setEventRegsOptions(allEventRegs);
             if (!allEventRegs.length) {
                 toast.info("No event registrations found");
             }
@@ -127,23 +145,22 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     };
 
     const customRenderEventReg = (option) => {
-        const isGroupEvent = option?.event?.event_type?.is_group === false;
-        const participant = option?.participants?.[0]?.user;
+        const isGroupEvent = option.is_group;
         return (
             <div className="flex items-center space-x-2">
                 <span className="font-bold">
-                    {isGroupEvent ? (
+                    {!isGroupEvent ? (
                         <span>
-                            {participant?.name || 'No Name'}
-                            {/* <span className="text-gray-500 text-xs font-normal ml-2">
-                                {console.log(participant) || 'No Department'}
-                            </span> */}
+                            {option?.label || 'No Name'}
                             <span className="text-gray-500 text-xs font-normal ml-2">
-                                {participant?.year_of_study + 'year' || 'No Year'}
+                                {option?.college || 'No Department'}
+                            </span>
+                            <span className="text-gray-500 text-xs font-normal ml-2">
+                                {option?.year_of_study + 'year' || 'No Year'}
                             </span>
                         </span>
                     ) : (
-                        option?.group_name || 'No Group Name'
+                        option?.label || 'No Group Name'
                     )}
                 </span>
             </div>
@@ -167,21 +184,28 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
         }
 
         const currentArray = formik.values.winningRegistrations || [];
+        // console.log(currentArray);
+
+        // Check if selected registration is already added
         const isDuplicate = currentArray.some(
-            item => item.eventRegistration === selectedEventReg._id
+            item => item.eventRegistration === selectedEventReg
         );
 
         if (!isDuplicate) {
             formik.setFieldValue("winningRegistrations", [
                 ...currentArray,
-                { eventRegistration: selectedEventReg._id, position: selectedPosition }
+                { eventRegistration: selectedEventReg, position: selectedPosition }
             ]);
 
             setFilteredEventRegs(prev =>
-                prev.filter(option => option._id !== selectedEventReg._id)
+                prev.map(option =>
+                    option.value === selectedEventReg
+                        ? { ...option, disabled: true }
+                        : option
+                )
             );
         } else {
-            console.log("Duplicate");
+            // console.log("Duplicate");
             toast.error("Registration already selected");
         }
 
@@ -189,23 +213,29 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
         setSelectedPosition(null);
     };
 
+
     const handleDeleteWinningRegistration = (participant, index) => {
         const updatedParticipants = formik.values.winningRegistrations.filter(
             (_, i) => i !== index
         );
         formik.setFieldValue("winningRegistrations", updatedParticipants);
 
+        // Find the removed option in eventRegsOptions
         const removedOption = eventRegsOptions.find(
-            option => option._id === participant.eventRegistration
+            option => option.value === participant.eventRegistration
         );
 
-        if (
-            removedOption &&
-            !filteredEventRegs.some(option => option._id === removedOption._id)
-        ) {
-            setFilteredEventRegs(prev => [...prev, removedOption]);
+        if (removedOption) {
+            setFilteredEventRegs(prev =>
+                prev.map(option =>
+                    option.value === removedOption.value
+                        ? { ...option, disabled: false }
+                        : option
+                )
+            );
         }
     };
+
 
     const removeAllParticipants = () => {
         formik.setFieldValue("winningRegistrations", []);
@@ -213,7 +243,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
     }
 
     return (
-        <div className="border rounded-md py-10">
+        <div className="border rounded-md py-10 px-6">
             <section className="max-w-[800px] m-auto h-[calc(100vh-250px)] rounded-md overflow-auto">
 
                 <h1 className="font-bold text-lg">
@@ -250,12 +280,13 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
 
                     {!EvetRegsLoading && filteredEventRegs.length > 0 && (
                         <div className="flex space-x-2 items-end">
-                            <SelectInput2
+                            <Combobox
                                 label="Event Registration"
                                 name="event_reg"
                                 value={selectedEventReg}
-                                onChange={(e) => setSelectedEventReg(e.target.value)}
-                                valueKey="_id"
+                                onChange={(value) => {
+                                    setSelectedEventReg(value);
+                                }}
                                 renderOption={customRenderEventReg}
                                 options={filteredEventRegs}
                             />
@@ -291,8 +322,10 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                             className="flex items-center w-full justify-between border p-2 rounded-md"
                         >
                             <div className="space-x-2">
+                                <span className="font-bold">{getPositionName(participant.position)}</span>
                                 <span>{getNameEventReg(participant.eventRegistration)}</span>
-                                <span>{getPositionName(participant.position)}</span>
+                                <span className="text-gray-300 text-xs">{getCollegeName(participant.eventRegistration)}</span>
+                                <span className="text-gray-300 text-xs">{`${getYearName(participant.eventRegistration)} yr`}</span>
                             </div>
                             <Button
                                 type="button"
@@ -314,7 +347,7 @@ function ResultAdd({ eventsData, editMode = false, initialData = {} }) {
                         >
                             {editMode ? "Update" : "Submit"}
                         </Button>
-                        <Button variant="ghost" type="button" onClick={handleCloseDialog}>
+                        <Button variant="ghost" type="button" onClick={() => handleCancel()}>
                             Cancel
                         </Button>
                     </div>
