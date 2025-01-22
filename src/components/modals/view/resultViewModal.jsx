@@ -13,7 +13,6 @@ import { Award, Eye } from "lucide-react";
 
 function ResultViewModal({ data = {} }) {
   const { isOpen, openModal, closeModal } = useModel();
-  console.log(data);
   const handleCloseDialog = () => {
     // formik.resetForm();
     closeModal();
