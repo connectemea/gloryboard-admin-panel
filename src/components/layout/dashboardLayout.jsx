@@ -27,12 +27,12 @@ const routes = [
         role: "admin",
         icon: Star
     },
-    // {
-    //     title: "Score Table",
-    //     url: "/score-table",
-    //     role: "admin",
-    //     icon: Telescope
-    // },
+    {
+        title: "Score Table",
+        url: "/score-table",
+        role: "admin",
+        icon: Telescope
+    },
     {
         title: "College",
         url: "/college",
