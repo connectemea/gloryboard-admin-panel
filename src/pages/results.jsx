@@ -10,10 +10,12 @@ import ResultAdd from "@/components/modals/resultAdd";
 import { Button } from "@/components/ui/button";
 import { Plus, Eye, Pencil } from "lucide-react";
 import autoAnimate from '@formkit/auto-animate'
+import { Input } from "@/components/ui/input";
 
-function Results() {
+const Results = () => {
     const [view, setView] = useState(true);
-    const parent = useRef(null)
+    const [searchQuery, setSearchQuery] = useState('');
+    const parent = useRef(null);
     const [editMode, setEditMode] = useState(false);
     const [initialData, setInitialData] = useState({});
 
@@ -22,14 +24,16 @@ function Results() {
             setInitialData({});
             setEditMode(false);
         }
-    }, [view])
+    }, [view]);
 
     useEffect(() => {
-        parent.current && autoAnimate(parent.current)
-    }, [parent])
+        parent.current && autoAnimate(parent.current);
+    }, [parent]);
 
     const { data, isLoading, error } = useGetResults();
+
     const { mutate: deleteResult } = useDeleteResult();
+
     if (isLoading) {
         return <TableSkeleton />;
     }
@@ -38,12 +42,16 @@ function Results() {
         return <div className="px-6">Error fetching data</div>;
     }
 
-
     const handleClick = (data) => {
         setEditMode(true);
         setInitialData(data);
         setView(false);
-    }
+    };
+
+    // Filter data based on search query
+    const filteredData = data.filter((item) => 
+        item.event?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const columns = [
         {
@@ -62,7 +70,6 @@ function Results() {
                     <Button variant="outline" className="w-8 h-8" size="icon" onClick={() => handleClick(row.original)}>
                         <Pencil />
                     </Button>
-                    {/* <ResultAdd  editMode={true} initialData={row.original} /> */}
                     <DeleteModal
                         onDelete={() => {
                             deleteResult(row.original._id);
@@ -75,35 +82,48 @@ function Results() {
 
     const handleViewChange = () => {
         setView(!view);
-    }
+    };
 
     return (
-        <div className="px-4 flex flex-col " ref={parent}>
+        <div className="px-4 flex flex-col" ref={parent}>
             <div className="flex justify-between pb-6" ref={parent}>
                 <h2 className="text-2xl font-bold">Results</h2>
-                {/* <ResultModal eventsData={data} /> */}
-                <Button onClick={handleViewChange} ref={parent} >
+                <Button onClick={handleViewChange} ref={parent}>
                     {view ? (
                         <>
-                            <Plus className="mr-1" />  Result
+                            <Plus className="mr-1" /> Result
                         </>
                     ) : (
                         <>
-                            <Eye className="mr-1" />  Results
+                            <Eye className="mr-1" /> Results
                         </>
                     )}
                 </Button>
-
             </div>
             <div ref={parent}>
                 {view ? (
-                    <DataTable data={data} columns={columns} />
+                    <>
+                        <div className="mb-4">
+                            <Input
+                                placeholder="Search by event name..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="max-w-sm"
+                            />
+                        </div>
+                        <DataTable disableSearch data={filteredData} columns={columns} />
+                    </>
                 ) : (
-                    <ResultAdd initialData={initialData} editMode={editMode} eventsData={data} handleCancel={handleViewChange} />
+                    <ResultAdd 
+                        initialData={initialData} 
+                        editMode={editMode} 
+                        eventsData={data} 
+                        handleCancel={handleViewChange} 
+                    />
                 )}
             </div>
-        </div >
+        </div>
     );
-}
+};
 
 export default Results;

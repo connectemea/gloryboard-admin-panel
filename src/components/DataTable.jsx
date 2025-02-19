@@ -22,7 +22,7 @@ import { useContext } from "react";
 import bee from '@/assets/bee.gif';
 
 
-export default function DataTable({ data, columns }) {
+export default function DataTable({ data, columns, disableSearch = false }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState([]);
     const [pagination, setPagination] = useState({
@@ -51,15 +51,17 @@ export default function DataTable({ data, columns }) {
     return (
         <div className="w-full bg-[#0D1E26]/10 border text-gray-100 rounded-lg p-3 shadow-lg overflow-auto mb-6">
             {/* Global Search */}
-            <div className="mb-4">
-                <Input
-                    type="text"
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    placeholder="Search..."
-                    className="p-2 border rounded-md w-full sm:w-1/2 md:w-1/4"
-                />
-            </div>
+            {!disableSearch && (
+                <div className="mb-4">
+                    <Input
+                        type="text"
+                        value={globalFilter}
+                        onChange={(e) => setGlobalFilter(e.target.value)}
+                        placeholder="Search..."
+                        className="p-2 border rounded-md w-full sm:w-1/2 md:w-1/4"
+                    />
+                </div>
+            )}
 
             {/* Table Wrapper */}
             <div className="hidden md:block relative rounded-md border bg-background/50 border-[#0D1E26]/20 overflow-x-auto">
