@@ -76,7 +76,7 @@ export const participantValidationSchema = (editMode) =>
         year_of_study: Yup.string().required("Year is required"),
         dob: Yup.date()
             .required("Date of Birth is required")
-            .min(new Date("1999-07-01"), "Must be after July 1, 1999")
+            .min(new Date("2000-07-01"), "Must be on or after July 1, 2000 (maximum age of 25 years by July 1, 2025)")
             .max(new Date(), "Must be before today"),
         capId: Yup.string().required("Cap ID is required"),
     });
