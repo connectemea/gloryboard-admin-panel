@@ -1,6 +1,7 @@
 import DeleteModal from "@/components/common/DeleteModal";
 import DataTable from "@/components/DataTable";
 import CollegeModal from "@/components/modals/collegeModal";
+import DownloadParticipantCard from "@/components/participant-card/DownloadParticipantCard";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useDeleteCollege  } from '@/services/mutation/collegeMutations'
 import { useGetUsers } from "@/services/queries/userQueries";
@@ -33,6 +34,7 @@ function College() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex space-x-2">
+                    <DownloadParticipantCard id={row.original._id} name={row.original.name} type="college" />
                     <CollegeModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
