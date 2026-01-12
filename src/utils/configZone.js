@@ -6,8 +6,8 @@ export const getZoneDetails = () => {
     switch (zone.toUpperCase()) {
         case "C":
             return {
-                logo: "/assets/zone/C/logo.svg",
-                loginHead: "/assets/zone/C/login_head.svg",
+                logo: "/assets/zone/C/login_head.png",
+                loginHead: "/assets/zone/C/login_head.png",
                 theme: "/assets/zone/C/theme.css"
             }
         case "D":
