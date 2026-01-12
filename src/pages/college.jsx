@@ -4,12 +4,16 @@ import CollegeModal from "@/components/modals/collegeModal";
 import DownloadParticipantCard from "@/components/participant-card/DownloadParticipantCard";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useDeleteCollege  } from '@/services/mutation/collegeMutations'
+import { useGetConfig } from "@/services/queries/configQueries";
 import { useGetUsers } from "@/services/queries/userQueries";
+import { getConfigValue } from "@/utils/configUtils";
 import React from "react";
 
 function College() {
     const { data, isLoading, error } = useGetUsers();
     const { mutate: deleteUser } = useDeleteCollege();
+    const { data: configs } = useGetConfig();
+    
 
     if (isLoading) {
         return <TableSkeleton />;
@@ -34,7 +38,9 @@ function College() {
             enableSorting: false,
             cell: ({ row }) => (
                 <div className="flex space-x-2">
-                    <DownloadParticipantCard id={row.original._id} name={row.original.name} type="college" />
+                    {getConfigValue(configs, "participant card export") && (
+                        <DownloadParticipantCard id={row.original._id} name={row.original.name} />
+                    )}
                     <CollegeModal editMode={true} initialData={row.original} />
                     <DeleteModal
                         onDelete={() => {
