@@ -1,8 +1,5 @@
 import axiosInstance from '@/api/axiosInstance';
-import { AuthContext } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
-import { useContext } from 'react';
 
 export const useGetParticipants = (page=1, limit=10, gender, search ) => {
     return useQuery({
@@ -16,7 +13,15 @@ export const useGetParticipants = (page=1, limit=10, gender, search ) => {
                     search
                 }
             });
-            return data.data;
+            const participantsData = data.data;
+
+            return {
+                ...participantsData,
+                users: (participantsData?.users || []).map((user) => ({
+                    ...user,
+                    zone: user?.zone ?? "-"
+                }))
+            };
         },
     });
 };

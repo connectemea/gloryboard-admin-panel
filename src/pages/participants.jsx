@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ParticipantModal from "@/components/modals/participantModal";
 import { useGetParticipants } from "@/services/queries/participantQueries";
 import DeleteModal from "@/components/common/DeleteModal";
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 
 function Participants() {
+  const isInterZone = import.meta.env.VITE_ZONE?.toLowerCase() === "inter";
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedGender, setSelectedGender] = useState(null);
@@ -86,6 +87,16 @@ function Participants() {
     },
     { accessorKey: "year_of_study", header: "Year", enableSorting: false },
     // { accessorKey: "semster", header: "Year of Study", enableSorting: false },
+    ...(isInterZone
+      ? [
+          {
+            accessorKey: "zone",
+            header: "Zone",
+            enableSorting: false,
+            cell: (info) => String(info.getValue() || "-").toUpperCase()
+          }
+        ]
+      : []),
     { accessorKey: "phoneNumber", header: "Phone", enableSorting: false }
     // { accessorKey: "total_score", header: "Total Score" },
   ];
